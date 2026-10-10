@@ -140,6 +140,13 @@ img { max-width: 100%; display: block; }
   gap: 16px;
   align-items: start;
 }
+.layout-products {
+  display: grid;
+  grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+.filters, .summary { position: sticky; top: 84px; }
 .stack { display: grid; gap: 12px; }
 .row { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
 
@@ -187,6 +194,10 @@ img { max-width: 100%; display: block; }
 }
 @media (max-width: 860px) {
   .layout-two { grid-template-columns: 1fr; }
+  .layout-products { grid-template-columns: 1fr; }
+  .summary { position: static; }
+  .filters { position: static; grid-auto-flow: column; overflow-x: auto; justify-content: start; }
+  .filters > * { white-space: nowrap; }
 }
 @media (max-width: 640px) {
   .grid-products { grid-template-columns: repeat(2, minmax(0, 1fr)); }

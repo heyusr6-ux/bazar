@@ -100,7 +100,7 @@ export default function CheckoutPage() {
         </fieldset>
       </section>
 
-      <aside className="card stack" aria-label="Order summary" style={{ position: "sticky", top: 84 }}>
+      <aside className="card stack summary" aria-label="Order summary">
         <b style={{ fontSize: 16 }}>Order summary ({lines.length} items)</b>
         {lines.map((l) => (
           <div key={l.slug} className="row muted" style={{ fontSize: 14 }}>

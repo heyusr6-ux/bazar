@@ -66,7 +66,7 @@ export default function CartPage() {
         ))}
       </section>
 
-      <aside className="card stack" aria-label="Order summary" style={{ position: "sticky", top: 84 }}>
+      <aside className="card stack summary" aria-label="Order summary">
         <b style={{ fontSize: 16 }}>Order summary</b>
         <div className="row muted"><span>Subtotal</span><span>{formatTaka(subtotal)}</span></div>
         <div className="row muted"><span>Delivery</span><span>Calculated at checkout</span></div>

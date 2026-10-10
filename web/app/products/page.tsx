@@ -19,8 +19,8 @@ export default function ProductsPage({ searchParams }: { searchParams: SearchPar
   if (sort === "rating") list = [...list].sort((a, b) => b.rating - a.rating);
 
   return (
-    <div className="layout-two" style={{ gridTemplateColumns: "minmax(0, 220px) minmax(0, 1fr)" }}>
-      <aside className="card stack" aria-label="Filters" style={{ position: "sticky", top: 84 }}>
+    <div className="layout-products">
+      <aside className="card stack filters" aria-label="Filters">
         <b>Category</b>
         <a href="/products" className={category ? "muted" : ""}>All</a>
         {categories.map((c) => (
