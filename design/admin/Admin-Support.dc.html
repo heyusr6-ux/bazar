@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin - Support Tickets</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F3F5F4}
+*{box-sizing:border-box}
+.app{font-family:'Plus Jakarta Sans','Hind Siliguri',system-ui,sans-serif;color:#1A1F1E;font-size:14px;line-height:1.5;min-height:100vh;background:#F3F5F4}
+.shell{display:grid;grid-template-columns:236px minmax(0,1fr);min-height:100vh}
+.side{background:#132321;color:#CFDAD7;padding:18px 12px;display:flex;flex-direction:column;gap:2px}
+.side .brand{font-weight:800;font-size:17px;color:#fff;padding:6px 10px 16px}
+.side a{padding:9px 10px;border-radius:8px;color:inherit;text-decoration:none;display:flex;justify-content:space-between;align-items:center}
+.side a.on{background:#0F5F57;color:#fff;font-weight:700}
+.count{background:#E8833A;color:#fff;border-radius:999px;padding:0 7px;font-size:11px;font-weight:700}
+.top{background:#fff;border-bottom:1px solid #E1E6E4;padding:12px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.main{padding:20px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.card{background:#fff;border:1px solid #E1E6E4;border-radius:12px;padding:16px;min-width:0}
+.grid{display:grid;gap:12px}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g2{grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);align-items:start}
+.ctl{border:1px solid #D5DBD8;border-radius:8px;padding:8px 12px;background:#fff;min-height:40px;display:inline-flex;align-items:center;font:inherit}
+.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+.pill-r{background:#FDECEA;color:#B3261E}.pill-o{background:#FFF3E0;color:#B26A00}.pill-n{background:#EEF1F0;color:#4A524F}.pill-g{background:#E7F4EA;color:#2E7D32}
+.btn{min-height:44px;padding:0 14px;border-radius:8px;font:inherit;font-weight:700;border:1px solid #0F5F57;background:#0F5F57;color:#fff;cursor:pointer}
+.btn-line{background:#fff;color:#1A1F1E;border-color:#D5DBD8}
+.msg{border-radius:10px;padding:10px 12px;line-height:1.5}
+.muted{color:#4A524F}
+.ticket{padding:12px 14px;border-top:1px solid #EEF1F0;display:grid;gap:4px;text-align:left;width:100%;background:#fff;font:inherit;color:inherit;cursor:pointer;border-left:0;border-right:0;border-bottom:0}
+@media (max-width:1000px){.g2{grid-template-columns:1fr}}
+@media (max-width:900px){.shell{grid-template-columns:1fr}.side{flex-direction:row;overflow-x:auto;white-space:nowrap;padding:10px}.side .brand{display:none}.side a{flex:0 0 auto}.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.g4{grid-template-columns:1fr}.main{padding:14px}}
+</style>
+</helmet>
+<div class="app">
+<div class="shell">
+  <nav class="side" aria-label="Admin navigation">
+    <div class="brand">Bazaar BD <span style="font-size:11px;color:#E8833A">ADMIN</span></div>
+    <a href="#">Overview</a>
+    <a href="#">Users &amp; sellers</a>
+    <a href="#">Product moderation</a>
+    <a href="#">Orders</a>
+    <a href="#">Payments &amp; payouts</a>
+    <a href="#">Commissions &amp; rules</a>
+    <a class="on" href="#" aria-current="page">Support tickets <span class="count">27</span></a>
+    <a href="#">Reviews &amp; reports</a>
+    <a href="#">Analytics</a>
+    <a href="#">Roles &amp; permissions</a>
+  </nav>
+
+  <div style="min-width:0">
+    <header class="top">
+      <div class="muted" style="font-size:12px">Admin / Support</div>
+      <span class="pill pill-n" style="margin-left:auto">Support Agent</span>
+    </header>
+
+    <main class="main">
+      <h1 style="margin:0;font-size:24px;font-weight:800">Support tickets</h1>
+
+      <section class="grid g4">
+        <div class="card"><div class="muted">Open</div><div style="font-size:22px;font-weight:800">27</div></div>
+        <div class="card"><div class="muted">In progress</div><div style="font-size:22px;font-weight:800">14</div></div>
+        <div class="card"><div class="muted">Avg first response</div><div style="font-size:22px;font-weight:800">38 min</div><div style="color:#2E7D32;font-size:12px">Target 60 min</div></div>
+        <div class="card"><div class="muted">Breached SLA</div><div style="font-size:22px;font-weight:800;color:#B3261E">5</div></div>
+      </section>
+
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <label style="flex:1;min-width:220px"><span class="muted" style="font-size:12px">Search ticket ID, order no., user</span><input style="width:100%;min-height:40px;border:1px solid #D5DBD8;border-radius:8px;padding:0 10px;font:inherit;background:#fff" placeholder="Search"></label>
+        <button class="ctl" type="button" style="align-self:flex-end">Status: open ▾</button>
+        <button class="ctl" type="button" style="align-self:flex-end">Priority: any ▾</button>
+        <button class="ctl" type="button" style="align-self:flex-end">Assigned: me ▾</button>
+      </div>
+
+      <section class="grid g2">
+        <div class="card" style="padding:0;overflow:hidden">
+          <div style="padding:12px 14px;font-weight:700">Queue</div>
+          <button class="ticket" type="button" style="background:#F7FBFA"><span><span class="pill pill-r">Urgent</span> <b>TK-40917 · Parcel not delivered, COD disputed</b></span><span class="muted" style="font-size:12px">Buyer · BZ-260409-0907 · SLA breach in 12 min</span></button>
+          <button class="ticket" type="button"><span><span class="pill pill-o">High</span> <b>TK-40921 · Wrong size received</b></span><span class="muted" style="font-size:12px">Seller: Nakshi Store · waiting for seller (24h)</span></button>
+          <button class="ticket" type="button"><span><span class="pill pill-n">Normal</span> <b>TK-40925 · Cannot reset password</b></span><span class="muted" style="font-size:12px">Buyer · waiting for user reply</span></button>
+          <button class="ticket" type="button"><span><span class="pill pill-g">Resolved</span> <b>TK-40880 · Refund confirmed</b></span><span class="muted" style="font-size:12px">Closed 9 Oct</span></button>
+        </div>
+
+        <div class="card" style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><b style="font-size:16px">TK-40917 · Detail</b><span class="pill pill-o">In progress</span></div>
+          <div class="msg" style="background:#F7F9F8"><b>Rafiul I. (buyer):</b> Order is marked delivered, but I have not received it. COD amount was not collected.</div>
+          <div class="msg" style="background:#EEF4FB"><b>Seller (Mirpur Mobile Hub):</b> Courier says delivered. Proof of delivery requested.</div>
+          <div class="msg" style="background:#FFF8EE;border:1px solid #F3D9B5">Internal note (admins only): hold payout for this order until resolved.</div>
+          <label style="display:grid;gap:6px"><b>Reply to buyer</b><textarea rows="3" style="border:1px solid #D5DBD8;border-radius:10px;padding:10px;font:inherit" placeholder="Type a reply or use a canned response"></textarea></label>
+          <div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap">
+            <button class="btn btn-line" type="button">Escalate to dispute</button>
+            <button class="btn btn-line" type="button">Waiting for user</button>
+            <button class="btn" type="button">Send &amp; resolve</button>
+          </div>
+        </div>
+      </section>
+
+      <div class="card muted" style="border-style:dashed">Attachments, canned responses and categories are set in Settings. Messages are not sent to real email or SMS in this prototype.</div>
+    </main>
+  </div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1000}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seller Dashboard</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F6F7F4}
+*{box-sizing:border-box}
+a{color:inherit;text-decoration:none}
+.app{font-family:'Plus Jakarta Sans','Hind Siliguri',system-ui,sans-serif;color:#1A1F1E;font-size:14px;line-height:1.5;min-height:100vh;background:#F6F7F4}
+.shell{display:grid;grid-template-columns:230px minmax(0,1fr);min-height:100vh}
+.side{background:#fff;border-right:1px solid #E3E7E4;padding:18px 12px;display:flex;flex-direction:column;gap:2px}
+.side a{padding:9px 10px;border-radius:8px;display:flex;justify-content:space-between;align-items:center}
+.side a.on{background:#E7F0EE;color:#0F5F57;font-weight:700}
+.count{background:#E8833A;color:#fff;border-radius:999px;padding:0 7px;font-size:11px;font-weight:700}
+.top{background:#fff;border-bottom:1px solid #E3E7E4;padding:12px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.main{padding:20px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.card{background:#fff;border:1px solid #E3E7E4;border-radius:14px;padding:16px;min-width:0}
+.grid{display:grid;gap:12px}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g2{grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);align-items:start}
+.split{display:flex;height:22px;border-radius:999px;overflow:hidden;margin:10px 0}
+.legend{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;color:#4A524F;font-size:13px}
+.muted{color:#4A524F}
+.alert{border-left:3px solid;padding:8px 12px;border-radius:6px}
+.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+.tbl{overflow-x:auto}
+.tbl table{width:100%;border-collapse:collapse;min-width:440px}
+.tbl td{padding:10px 14px;border-top:1px solid #EEF1F0}
+@media (max-width:1000px){.g2{grid-template-columns:1fr}.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:860px){.shell{grid-template-columns:1fr}.side{flex-direction:row;overflow-x:auto;white-space:nowrap;border-right:0;border-bottom:1px solid #E3E7E4;padding:8px}.side a{flex:0 0 auto}.side .sbrand,.side .sshop{display:none}}
+@media (max-width:560px){.g4{grid-template-columns:1fr}.legend{grid-template-columns:repeat(2,minmax(0,1fr))}.main{padding:14px}}
+</style>
+</helmet>
+<div class="app">
+<div class="shell">
+  <nav class="side" aria-label="Seller navigation">
+    <div class="sbrand" style="font-weight:800;font-size:17px;color:#0F5F57;padding:6px 10px 4px">Bazaar<span style="color:#E8833A">BD</span></div>
+    <div class="sshop" style="padding:0 10px 14px;color:#4A524F;font-size:13px">Nakshi Store · ✓ Verified</div>
+    <a class="on" href="#" aria-current="page">Overview</a>
+    <a href="#">Products</a>
+    <a href="#">Orders <span class="count">7</span></a>
+    <a href="#">Returns &amp; disputes</a>
+    <a href="#">Finance</a>
+    <a href="#">Store settings</a>
+    <a href="#">Marketing &amp; coupons</a>
+    <a href="#">Reviews</a>
+    <a href="#">Messages</a>
+    <a href="#">Seller help</a>
+  </nav>
+
+  <div style="min-width:0">
+    <header class="top">
+      <h1 style="margin:0;font-size:18px;font-weight:800">Seller overview</h1>
+      <button type="button" class="pill" style="margin-left:auto;border:1px solid #D5DBD8;background:#fff;padding:8px 12px;font:inherit;cursor:pointer">Last 30 days ▾</button>
+      <span class="pill" style="background:#E7F0EE;color:#0F5F57;padding:6px 12px">Store: Active</span>
+    </header>
+
+    <main class="main">
+      <section class="grid g4" aria-label="Key numbers">
+        <div class="card"><div class="muted">Gross sales</div><div style="font-size:22px;font-weight:800">৳ 2,40,000</div><div style="color:#2E7D32;font-size:12px">▲ 9% vs previous</div></div>
+        <div class="card"><div class="muted">Total orders</div><div style="font-size:22px;font-weight:800">186</div><div class="muted" style="font-size:12px">Pending 7 · Completed 161 · Cancelled 4</div></div>
+        <div class="card"><div class="muted">Net earnings</div><div style="font-size:22px;font-weight:800">৳ 2,17,800</div><div class="muted" style="font-size:12px">After fees and refunds</div></div>
+        <div class="card"><div class="muted">Available to withdraw</div><div style="font-size:22px;font-weight:800">৳ 84,300</div><div style="color:#B26A00;font-size:12px">Pending ৳ 1,12,400 (not yet withdrawable)</div></div>
+      </section>
+
+      <section class="card">
+        <b>Where your money goes (30 days)</b>
+        <div class="split" role="img" aria-label="Net earnings 91%, commission 4%, refunds 3%, fees 2%">
+          <div style="width:91%;background:#0F5F57"></div><div style="width:4%;background:#E8833A"></div><div style="width:3%;background:#B3261E"></div><div style="width:2%;background:#6B7370"></div>
+        </div>
+        <div class="legend">
+          <div><b style="color:#0F5F57">Gross</b><br>৳ 2,40,000</div>
+          <div><b style="color:#E8833A">Commission</b><br>− ৳ 18,000</div>
+          <div><b style="color:#B3261E">Refunds</b><br>− ৳ 4,200</div>
+          <div><b>Discounts</b><br>− ৳ 6,100 (you fund)</div>
+          <div><b style="color:#0F5F57">Net</b><br>৳ 2,17,800</div>
+        </div>
+      </section>
+
+      <section class="grid g2">
+        <div class="card">
+          <b>Sales trend</b>
+          <svg viewBox="0 0 600 180" width="100%" height="auto" role="img" aria-label="Sales trend line, last 30 days" style="display:block;margin-top:8px">
+            <polyline fill="none" stroke="#0F5F57" stroke-width="2.5" points="10,140 60,120 110,128 160,100 210,108 260,84 310,92 360,70 410,80 460,58 510,64 560,40 590,46"/>
+            <line x1="0" y1="170" x2="600" y2="170" stroke="#D5DBD8"/>
+          </svg>
+        </div>
+        <div class="card" style="display:grid;gap:8px">
+          <b>Low-stock alerts</b>
+          <div class="alert" style="border-color:#B3261E;background:#FDF3F2">Cotton saree (blue) · 2 left</div>
+          <div class="alert" style="border-color:#B26A00;background:#FFF8EE">Jamdani scarf · 5 left</div>
+          <b style="margin-top:6px">Account health</b>
+          <div class="muted" style="display:grid;gap:4px">
+            <div>Order defect rate: <b style="color:#2E7D32">1.2%</b> (limit 3%)</div>
+            <div>Late shipments: <b style="color:#2E7D32">2.0%</b></div>
+            <div>Average rating: <b>4.8 ★</b> (212 reviews)</div>
+            <div>Warnings: <b>0</b></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" style="padding:0;overflow:hidden">
+        <div style="padding:12px 16px;font-weight:700">Recent orders</div>
+        <div class="tbl">
+          <table>
+            <tbody>
+              <tr><td><b>BZ-260410-1182</b> · Nakshi Store part · ৳ 1,820</td><td><span class="pill" style="background:#E8F1FB;color:#1F5FA8">Ready to ship</span></td></tr>
+              <tr><td><b>BZ-260410-1140</b> · 2 items · ৳ 4,600</td><td><span class="pill" style="background:#FFF3E0;color:#B26A00">Processing</span></td></tr>
+              <tr><td><b>BZ-260409-0877</b> · 1 item · ৳ 2,450</td><td><span class="pill" style="background:#E7F4EA;color:#2E7D32">Delivered</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1400}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin - Payouts & Business Rules</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F3F5F4}
+*{box-sizing:border-box}
+.app{font-family:'Plus Jakarta Sans','Hind Siliguri',system-ui,sans-serif;color:#1A1F1E;font-size:14px;line-height:1.5;min-height:100vh;background:#F3F5F4}
+.shell{display:grid;grid-template-columns:236px minmax(0,1fr);min-height:100vh}
+.side{background:#132321;color:#CFDAD7;padding:18px 12px;display:flex;flex-direction:column;gap:2px}
+.side .brand{font-weight:800;font-size:17px;color:#fff;padding:6px 10px 16px}
+.side a{padding:9px 10px;border-radius:8px;color:inherit;text-decoration:none;display:flex;justify-content:space-between;align-items:center}
+.side a.on{background:#0F5F57;color:#fff;font-weight:700}
+.top{background:#fff;border-bottom:1px solid #E1E6E4;padding:12px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.main{padding:20px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.card{background:#fff;border:1px solid #E1E6E4;border-radius:12px;padding:16px;min-width:0}
+.grid{display:grid;gap:12px}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.tbl{background:#fff;border:1px solid #E1E6E4;border-radius:12px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:820px}
+th,td{padding:10px 14px;text-align:left;border-top:1px solid #EEF1F0;vertical-align:top}
+th{background:#F7F9F8;color:#4A524F;font-weight:600}
+.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+.pill-g{background:#E7F4EA;color:#2E7D32}.pill-o{background:#FFF3E0;color:#B26A00}.pill-r{background:#FDECEA;color:#B3261E}.pill-b{background:#E8F1FB;color:#1F5FA8}
+.btn{min-height:44px;padding:0 16px;border-radius:10px;font:inherit;font-weight:700;border:1px solid #0F5F57;background:#0F5F57;color:#fff;cursor:pointer}
+.btn-line{background:#fff;color:#1A1F1E;border-color:#D5DBD8}
+.muted{color:#4A524F}
+.kv{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px dashed #EEF1F0}
+.note{background:#FFF3E0;border:1px solid #F3D9B5;border-radius:10px;padding:12px 14px}
+@media (max-width:1000px){.g4{grid-template-columns:repeat(2,minmax(0,1fr))}.g2{grid-template-columns:1fr}}
+@media (max-width:900px){.shell{grid-template-columns:1fr}.side{flex-direction:row;overflow-x:auto;white-space:nowrap;padding:10px}.side .brand{display:none}.side a{flex:0 0 auto}}
+@media (max-width:560px){.g4{grid-template-columns:1fr}.main{padding:14px}}
+</style>
+</helmet>
+<div class="app">
+<div class="shell">
+  <nav class="side" aria-label="Admin navigation">
+    <div class="brand">Bazaar BD <span style="font-size:11px;color:#E8833A">ADMIN</span></div>
+    <a href="#">Overview</a>
+    <a href="#">Users &amp; sellers</a>
+    <a href="#">Product moderation</a>
+    <a href="#">Orders</a>
+    <a class="on" href="#" aria-current="page">Payments &amp; payouts</a>
+    <a href="#">Commissions &amp; rules</a>
+    <a href="#">Support tickets</a>
+    <a href="#">Analytics</a>
+    <a href="#">Roles &amp; permissions</a>
+  </nav>
+
+  <div style="min-width:0">
+    <header class="top">
+      <div class="muted" style="font-size:12px">Admin / Finance / Payouts</div>
+      <span class="pill pill-g" style="margin-left:auto">Finance Manager</span>
+    </header>
+
+    <main class="main">
+      <h1 style="margin:0;font-size:24px;font-weight:800">Payouts &amp; business rules</h1>
+      <div class="note"><b style="color:#B26A00">Not connected:</b> bKash, Nagad and bank payout APIs are not integrated. Approvals here record intent only. No money moves from this screen.</div>
+
+      <section class="grid g4">
+        <div class="card"><div class="muted">Payout queue (awaiting approval)</div><div style="font-size:22px;font-weight:800">৳ 4.1 L</div><div class="muted" style="font-size:12px">14 requests</div></div>
+        <div class="card"><div class="muted">Held (disputed funds)</div><div style="font-size:22px;font-weight:800">৳ 1.6 L</div><div style="color:#B3261E;font-size:12px">Not withdrawable</div></div>
+        <div class="card"><div class="muted">Failed payouts</div><div style="font-size:22px;font-weight:800">2</div><div style="color:#B3261E;font-size:12px">Retry or check bank details</div></div>
+        <div class="card"><div class="muted">Reconciliation gap</div><div style="font-size:22px;font-weight:800">৳ 0</div><div style="color:#2E7D32;font-size:12px">Ledger matches gateway log (mock)</div></div>
+      </section>
+
+      <div class="tbl">
+        <table>
+          <thead><tr><th>Seller</th><th>Gross sales</th><th>Commission</th><th>Refund deductions</th><th>Net payable</th><th>Method (masked)</th><th>Status</th><th><span class="muted">Action</span></th></tr></thead>
+          <tbody>
+            <tr><td><b>Nakshi Store</b></td><td>৳ 2,40,000</td><td>৳ 18,000</td><td>৳ 4,200</td><td><b>৳ 2,17,800</b></td><td>bKash •••4471</td><td><span class="pill pill-o">Pending approval</span></td><td><a href="#" style="color:#0F5F57;font-weight:700">Review</a></td></tr>
+            <tr><td><b>Shahin Store Ltd.</b></td><td>৳ 1,20,000</td><td>৳ 9,000</td><td>৳ 12,500</td><td><b>৳ 98,500</b></td><td>Bank •••2290</td><td><span class="pill pill-r">Held: dispute</span></td><td><span class="muted">Locked</span></td></tr>
+            <tr><td><b>Mirpur Mobile Hub</b></td><td>৳ 3,10,000</td><td>৳ 15,500</td><td>৳ 0</td><td><b>৳ 2,94,500</b></td><td>Nagad •••0816</td><td><span class="pill pill-b">Failed · retry</span></td><td><a href="#" style="color:#0F5F57;font-weight:700">Details</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <section class="grid g2">
+        <div class="card">
+          <b style="font-size:16px">Commission rules</b>
+          <div style="margin-top:8px">
+            <div class="kv"><span>Default commission</span><b>8% of commissionable amount</b></div>
+            <div class="kv"><span>Category override</span><b>Groceries 7% · Electronics 5%</b></div>
+            <div class="kv"><span>Seller override</span><b>Nakshi Store 6% (to 31 Dec 2026)</b></div>
+            <div class="kv"><span>Minimum withdrawal</span><b>৳ 500</b></div>
+            <div class="kv"><span>Settlement</span><b>7 days after delivery</b></div>
+            <div class="kv"><span>Delivery fee payer</span><b>Buyer (per area rule)</b></div>
+          </div>
+          <p class="muted" style="font-size:12px;margin:10px 0 12px">Changes take effect from a chosen date and never rewrite past orders. Every change is logged.</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end"><button class="btn btn-line" type="button">View history</button><button class="btn" type="button">Edit rule (needs approval)</button></div>
+        </div>
+        <div class="card">
+          <b style="font-size:16px">Payment methods</b>
+          <div style="margin-top:8px">
+            <div class="kv"><span>Cash on delivery</span><span class="pill pill-g">Enabled</span></div>
+            <div class="kv"><span>Bank transfer (manual)</span><span class="pill pill-g">Enabled</span></div>
+            <div class="kv"><span>bKash gateway</span><span class="pill pill-n">Pending configuration</span></div>
+            <div class="kv"><span>Nagad gateway</span><span class="pill pill-n">Not connected</span></div>
+            <div class="kv"><span>Gateway API key</span><span style="font-family:monospace" class="muted">•••• •••• 9F2C (masked)</span></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1000}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

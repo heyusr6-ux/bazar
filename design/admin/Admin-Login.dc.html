@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin Sign-in</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#132321}
+*{box-sizing:border-box}
+.page{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#E8EFED;background:#132321;font-size:14px;line-height:1.5;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px 16px}
+.panel{width:100%;max-width:420px;background:#1B2F2C;border:1px solid #2C4642;border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:14px}
+.in{min-height:46px;border:1px solid #3A5A55;border-radius:10px;padding:0 12px;background:#132321;color:#E8EFED;font:inherit;width:100%}
+.otp{display:flex;gap:6px;justify-content:space-between}
+.otp span{flex:1;max-width:48px;min-height:48px;border:1px solid #3A5A55;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;background:#132321}
+.btn{min-height:48px;border-radius:10px;border:0;background:#E8833A;color:#132321;font:inherit;font-weight:800;cursor:pointer;width:100%}
+.btn-line{background:transparent;color:#E8833A;border:1px solid #E8833A}
+.muted{color:#A9BDB8}
+</style>
+</helmet>
+<div class="page">
+  <section class="panel" aria-label="Admin sign in">
+    <div style="font-size:18px;font-weight:800;color:#fff">Bazaar BD <span style="font-size:12px;color:#E8833A;letter-spacing:.08em">ADMIN CONSOLE</span></div>
+    <div style="background:#2A1D18;border:1px solid #6B3E2A;border-radius:10px;padding:10px 12px;color:#F3C9A6;font-size:12px">Restricted area. Access is logged. Admin accounts cannot be created from this screen.</div>
+
+    <form onsubmit="return false" style="display:grid;gap:12px">
+      <label style="display:grid;gap:6px"><b>Admin email</b><input class="in" type="email" autocomplete="username" placeholder="admin@bazaarbd.example"></label>
+      <label style="display:grid;gap:6px"><b>Password</b><input class="in" type="password" autocomplete="current-password" placeholder="Password"></label>
+      <button class="btn" type="submit">Continue</button>
+    </form>
+
+    <div style="border-top:1px solid #2C4642;padding-top:14px;display:grid;gap:10px">
+      <b>Two-factor verification</b>
+      <div class="muted">Enter the 6-digit code from your authenticator app. Backup codes are in Security settings.</div>
+      <div class="otp" aria-label="One-time code"><span>4</span><span>2</span><span>9</span><span></span><span></span><span></span></div>
+      <div class="muted" style="font-size:12px">Code expires in 00:24 · 2FA app not connected in this prototype</div>
+      <button class="btn btn-line" type="button">Verify</button>
+    </div>
+
+    <div role="alert" style="background:#3A1F1C;color:#FFB4AB;border-radius:10px;padding:10px 12px;font-size:12px">Session expired after 10 minutes of inactivity. Sign in again.</div>
+    <div class="muted" style="font-size:12px;text-align:center">Forgot password? Contact the Super Admin. Self-service reset is off for admin accounts.</div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1000}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

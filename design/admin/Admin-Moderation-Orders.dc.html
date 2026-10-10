@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin - Moderation & Orders</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F3F5F4}
+*{box-sizing:border-box}
+.app{font-family:'Plus Jakarta Sans','Hind Siliguri',system-ui,sans-serif;color:#1A1F1E;font-size:14px;line-height:1.5;min-height:100vh;background:#F3F5F4}
+.shell{display:grid;grid-template-columns:236px minmax(0,1fr);min-height:100vh}
+.side{background:#132321;color:#CFDAD7;padding:18px 12px;display:flex;flex-direction:column;gap:2px}
+.side .brand{font-weight:800;font-size:17px;color:#fff;padding:6px 10px 16px}
+.side a{padding:9px 10px;border-radius:8px;color:inherit;text-decoration:none;display:flex;justify-content:space-between;align-items:center}
+.side a.on{background:#0F5F57;color:#fff;font-weight:700}
+.count{background:#E8833A;color:#fff;border-radius:999px;padding:0 7px;font-size:11px;font-weight:700}
+.top{background:#fff;border-bottom:1px solid #E1E6E4;padding:12px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.main{padding:20px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.card{background:#fff;border:1px solid #E1E6E4;border-radius:12px;padding:16px;min-width:0}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.tabs{display:flex;gap:4px;border-bottom:1px solid #E1E6E4;overflow-x:auto;white-space:nowrap}
+.tabs a{padding:10px 12px;color:#4A524F;text-decoration:none;font-weight:600}
+.tabs a.on{color:#0F5F57;border-bottom:2px solid #0F5F57}
+.tbl{background:#fff;border:1px solid #E1E6E4;border-radius:12px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:760px}
+th,td{padding:10px 14px;text-align:left;border-top:1px solid #EEF1F0;vertical-align:top}
+th{background:#F7F9F8;color:#4A524F;font-weight:600}
+.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+.pill-g{background:#E7F4EA;color:#2E7D32}.pill-o{background:#FFF3E0;color:#B26A00}.pill-r{background:#FDECEA;color:#B3261E}.pill-b{background:#E8F1FB;color:#1F5FA8}.pill-n{background:#EEF1F0;color:#4A524F}
+.ctl{border:1px solid #D5DBD8;border-radius:8px;padding:8px 12px;background:#fff;min-height:40px;display:inline-flex;align-items:center;font:inherit}
+.btn{min-height:44px;padding:0 16px;border-radius:10px;font:inherit;font-weight:700;border:1px solid #0F5F57;background:#0F5F57;color:#fff;cursor:pointer}
+.btn-line{background:#fff;color:#1A1F1E;border-color:#D5DBD8}
+.btn-ok{background:#2E7D32;border-color:#2E7D32}
+.btn-danger{background:#fff;color:#B3261E;border-color:#B3261E}
+.muted{color:#4A524F}
+.thumbs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.thumbs div{height:86px;background:#E9EFEC;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#6B7370;font-size:12px}
+.note{background:#FFF8EE;border:1px solid #F3D9B5;border-radius:10px;padding:10px 14px;color:#4A524F}
+@media (max-width:1000px){.g2{grid-template-columns:1fr}}
+@media (max-width:900px){.shell{grid-template-columns:1fr}.side{flex-direction:row;overflow-x:auto;white-space:nowrap;padding:10px}.side .brand{display:none}.side a{flex:0 0 auto}}
+@media (max-width:560px){.main{padding:14px}}
+</style>
+</helmet>
+<div class="app">
+<div class="shell">
+  <nav class="side" aria-label="Admin navigation">
+    <div class="brand">Bazaar BD <span style="font-size:11px;color:#E8833A">ADMIN</span></div>
+    <a href="#">Overview</a>
+    <a href="#">Users &amp; sellers</a>
+    <a class="on" href="#" aria-current="page">Product moderation <span class="count">38</span></a>
+    <a href="#">Orders <span class="count">214</span></a>
+    <a href="#">Payments &amp; payouts</a>
+    <a href="#">Commissions &amp; rules</a>
+    <a href="#">Support tickets</a>
+    <a href="#">Reviews &amp; reports</a>
+  </nav>
+
+  <div style="min-width:0">
+    <header class="top">
+      <div class="muted" style="font-size:12px">Admin / Moderation</div>
+      <span class="pill pill-b" style="margin-left:auto">Product Moderator</span>
+    </header>
+
+    <main class="main">
+      <h1 style="margin:0;font-size:24px;font-weight:800">Product moderation</h1>
+      <nav class="tabs" aria-label="Queue">
+        <a class="on" href="#">Pending (38)</a>
+        <a href="#">Changes requested (9)</a>
+        <a href="#">Rejected (57)</a>
+        <a href="#">Reported (11)</a>
+      </nav>
+
+      <section class="grid g2">
+        <div class="tbl" style="min-width:0">
+          <div style="padding:10px 14px;border-bottom:1px solid #EEF1F0;display:flex;gap:8px;flex-wrap:wrap">
+            <label style="flex:1;min-width:180px"><span class="muted" style="font-size:12px">Search listing or seller</span><input style="width:100%;min-height:40px;border:1px solid #D5DBD8;border-radius:8px;padding:0 10px;font:inherit" placeholder="Search"></label>
+          </div>
+          <div style="padding:12px 14px;border-bottom:1px solid #EEF1F0;background:#F7FBFA"><b>Organic honey, 500 g</b><div class="muted">Sylhet Organics · Groceries · 2h ago</div><span class="pill pill-o" style="margin-top:6px">Pending review</span></div>
+          <div style="padding:12px 14px;border-bottom:1px solid #EEF1F0"><b>Used Samsung Galaxy A24</b><div class="muted">Mirpur Mobile Hub · Electronics · 5h ago</div><span class="pill pill-r" style="margin-top:6px">Flag: IMEI missing</span></div>
+          <div style="padding:12px 14px"><b>Replica sneakers (unverified brand)</b><div class="muted">Unknown seller · Fashion · reported ×3</div><span class="pill pill-r" style="margin-top:6px">Check prohibited items</span></div>
+        </div>
+
+        <div class="card" style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px"><b style="font-size:16px">Review: Organic honey, 500 g</b><span class="muted">1 of 38</span></div>
+          <div class="thumbs"><div>Image 1</div><div>Image 2</div><div>Image 3</div></div>
+          <p class="muted" style="margin:0">Price ৳ 680 · Stock 3 · Condition: New<br>Auto-checks: prohibited words ✓ · duplicate SKU ✓ · image quality ⚠ (blurred)</p>
+          <label style="display:grid;gap:6px"><b>Rejection reason (shown to seller)</b><select style="min-height:44px;border:1px solid #D5DBD8;border-radius:8px;padding:0 10px;font:inherit;background:#fff"><option>Select a reason</option><option>Image quality</option><option>Prohibited item</option><option>Incorrect category</option></select></label>
+          <label style="display:grid;gap:6px"><b>Internal moderation note</b><textarea rows="2" style="border:1px solid #D5DBD8;border-radius:8px;padding:10px;font:inherit" placeholder="Visible to admins only"></textarea></label>
+          <div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap">
+            <button class="btn btn-line" type="button">Request changes</button>
+            <button class="btn btn-danger" type="button">Reject</button>
+            <button class="btn btn-ok" type="button">Approve &amp; publish</button>
+          </div>
+        </div>
+      </section>
+
+      <h2 style="margin:8px 0 0;font-size:18px;font-weight:700">Global orders</h2>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <label style="flex:1;min-width:200px"><span class="muted" style="font-size:12px">Order no., buyer or seller</span><input style="width:100%;min-height:40px;border:1px solid #D5DBD8;border-radius:8px;padding:0 10px;font:inherit;background:#fff" placeholder="Search"></label>
+        <button class="ctl" type="button" style="align-self:flex-end">Payment: any ▾</button>
+        <button class="ctl" type="button" style="align-self:flex-end">Shipping: any ▾</button>
+        <button class="ctl" type="button" style="align-self:flex-end">Status: disputed ▾</button>
+      </div>
+      <div class="tbl">
+        <table>
+          <thead><tr><th>Order</th><th>Buyer</th><th>Seller suborders</th><th>Payment</th><th>Status</th><th style="text-align:right">Total</th></tr></thead>
+          <tbody>
+            <tr><td><b>BZ-260410-1182</b><div class="muted" style="font-size:12px">10 Oct, 09:14</div></td><td>Rafiul I.</td><td>Nakshi Store (Shipped)<br>Sylhet Organics (Processing)</td><td><span class="pill pill-g">Paid · bKash</span></td><td><span class="pill pill-b">Partly shipped</span></td><td style="text-align:right">৳ 3,140</td></tr>
+            <tr><td><b>BZ-260409-0907</b><div class="muted" style="font-size:12px">9 Oct, 18:02</div></td><td>Nusrat J.</td><td>Mirpur Mobile Hub</td><td><span class="pill pill-o">COD · awaiting collection</span></td><td><span class="pill pill-r">Disputed</span></td><td style="text-align:right">৳ 14,500</td></tr>
+            <tr><td><b>BZ-260408-0455</b><div class="muted" style="font-size:12px">8 Oct, 11:37</div></td><td>Tanvir H.</td><td>Chattogram Home</td><td><span class="pill pill-r">Failed · retry pending</span></td><td><span class="pill pill-n">Awaiting payment</span></td><td style="text-align:right">৳ 1,890</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note">Refund on BZ-260409-0907 stays "Pending provider confirmation" until the payment provider confirms. Disputed funds are not released.</div>
+    </main>
+  </div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1000}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

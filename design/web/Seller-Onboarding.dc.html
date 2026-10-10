@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seller - Onboarding & KYC</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F6F7F4}
+*{box-sizing:border-box}
+.app{font-family:'Plus Jakarta Sans','Hind Siliguri',system-ui,sans-serif;color:#1A1F1E;font-size:14px;line-height:1.5;min-height:100vh;background:#F6F7F4}
+.hdr{background:#fff;border-bottom:1px solid #E3E7E4;padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{font-size:20px;font-weight:800;color:#0F5F57}.logo span{color:#E8833A}
+.wrap{max-width:900px;margin:0 auto;padding:18px 16px 28px;display:grid;gap:14px}
+.card{background:#fff;border:1px solid #E3E7E4;border-radius:14px;padding:18px;display:grid;gap:12px;min-width:0}
+.muted{color:#4A524F}
+.steps{display:flex;gap:6px;flex-wrap:wrap}
+.step{padding:6px 12px;border-radius:999px;background:#EEF1F0;color:#4A524F;font-weight:600;font-size:13px}
+.step.done{background:#0F5F57;color:#fff}.step.now{background:#E7F0EE;color:#0F5F57;border:1px solid #0F5F57}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.in{min-height:44px;border:1px solid #D5DBD8;border-radius:10px;padding:0 12px;font:inherit;width:100%;background:#fff}
+.lbl{display:grid;gap:6px;font-weight:600}
+.up{border:1px dashed #C5CCC9;border-radius:10px;padding:14px;text-align:center;color:#4A524F;font-size:13px;display:grid;gap:4px;justify-items:center}
+.btn{min-height:44px;padding:0 16px;border-radius:10px;font:inherit;font-weight:700;border:1px solid #0F5F57;background:#0F5F57;color:#fff;cursor:pointer}
+.btn-line{background:#fff;color:#0F5F57}
+.note{background:#FFF8EE;border:1px solid #F3D9B5;border-radius:10px;padding:10px 12px;color:#4A524F;font-size:13px}
+.pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.actions{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+@media (max-width:560px){.two{grid-template-columns:1fr}.wrap{padding:14px}}
+</style>
+</helmet>
+<div class="app">
+  <header class="hdr">
+    <div class="logo">Bazaar<span>BD</span></div>
+    <div style="font-weight:700">Seller onboarding</div>
+    <span class="pill" style="margin-left:auto;background:#FFF3E0;color:#B26A00">Status: Documents under review</span>
+  </header>
+  <main class="wrap">
+    <nav class="steps" aria-label="Onboarding progress">
+      <span class="step done">1 · Account ✓</span><span class="step done">2 · Business info ✓</span><span class="step now" aria-current="step">3 · Documents</span><span class="step">4 · Payout account</span><span class="step">5 · Review</span>
+    </nav>
+
+    <section class="card" aria-labelledby="docs-h">
+      <h1 id="docs-h" style="margin:0;font-size:18px">Verification documents</h1>
+      <div class="muted">Your shop goes live only after the platform admin verifies these. Files are stored encrypted and only admins can view them.</div>
+      <div class="two">
+        <div class="card" style="box-shadow:none">
+          <b>Trade licence (Trade/Shop)</b>
+          <span class="pill" style="background:#E7F4EA;color:#2E7D32;justify-self:start">Uploaded · Approved</span>
+          <div class="muted" style="font-size:12px">trade-licence-2026.pdf · 1.1 MB</div>
+        </div>
+        <div class="card" style="box-shadow:none">
+          <b>National ID (NID) — front and back</b>
+          <span class="pill" style="background:#FFF3E0;color:#B26A00;justify-self:start">Under review</span>
+          <div class="muted" style="font-size:12px">Name on NID must match the payout account name.</div>
+        </div>
+        <div class="card" style="box-shadow:none">
+          <b>TIN certificate (optional for small sellers)</b>
+          <div class="up"><span>Drop PDF or JPG here</span><span style="font-size:12px">Max 5 MB</span></div>
+          <button type="button" class="btn btn-line" style="justify-self:start">Choose file</button>
+        </div>
+        <div class="card" style="box-shadow:none">
+          <b>Shop owner selfie with NID</b>
+          <div class="up"><span>Clear face and NID visible</span><span style="font-size:12px">JPG or PNG, max 5 MB</span></div>
+          <button type="button" class="btn btn-line" style="justify-self:start">Choose file</button>
+        </div>
+      </div>
+      <div class="note">Rules: NID must be readable, not cropped. Documents expired before submit are rejected. Rejected documents show the reason and can be re-uploaded.</div>
+      <div class="actions">
+        <button type="button" class="btn btn-line">Save and continue later</button>
+        <button type="button" class="btn">Continue to payout account</button>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="rej-h">
+      <h2 id="rej-h" style="margin:0;font-size:15px">Example: document rejected</h2>
+      <div role="status" style="background:#FDECEA;border:1px solid #F5C2BD;border-radius:10px;padding:10px 12px;color:#B3261E">Selfie rejected: face not clearly visible. Please upload a new photo.</div>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

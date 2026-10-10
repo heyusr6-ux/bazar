@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin - Seller KYC Queue</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F3F5F4}
+*{box-sizing:border-box}
+.app{font-family:'Plus Jakarta Sans','Hind Siliguri',system-ui,sans-serif;color:#1A1F1E;font-size:14px;line-height:1.5;min-height:100vh;background:#F3F5F4}
+.shell{display:grid;grid-template-columns:236px minmax(0,1fr);min-height:100vh}
+.side{background:#132321;color:#D7E3DF;padding:18px 12px;display:flex;flex-direction:column;gap:2px}
+.side a{padding:9px 10px;border-radius:8px;min-height:40px;display:flex;align-items:center;color:#D7E3DF}
+.side a.on{background:#1F3A36;color:#fff;font-weight:700}
+.top{background:#fff;border-bottom:1px solid #E3E7E4;padding:12px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.main{padding:18px 20px;display:grid;gap:14px;min-width:0}
+.muted{color:#4A524F}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.chip{min-height:38px;padding:0 12px;border-radius:999px;border:1px solid #D5DBD8;background:#fff;font:inherit;font-weight:600;cursor:pointer}
+.chip.on{background:#132321;color:#fff;border-color:#132321}
+.tbl{overflow-x:auto;background:#fff;border:1px solid #E3E7E4;border-radius:14px}
+table{width:100%;border-collapse:collapse;min-width:760px}
+th,td{padding:10px 14px;text-align:left;border-top:1px solid #EEF1F0;vertical-align:top}
+th{background:#F7F9F8;color:#4A524F;font-weight:600}
+.pill{display:inline-block;padding:3px 9px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.btn{min-height:36px;padding:0 12px;border-radius:8px;font:inherit;font-weight:700;border:1px solid #0F5F57;background:#0F5F57;color:#fff;cursor:pointer}
+.btn-line{background:#fff;color:#0F5F57}
+.btn-d{background:#fff;color:#B3261E;border-color:#B3261E}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.card{background:#fff;border:1px solid #E3E7E4;border-radius:14px;padding:16px;display:grid;gap:8px;min-width:0}
+.review{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.doc{border:1px dashed #C5CCC9;border-radius:10px;min-height:120px;display:grid;place-items:center;color:#4A524F;font-size:13px;background:#FBFCFB}
+.note{background:#FFF8EE;border:1px solid #F3D9B5;border-radius:10px;padding:10px 12px;color:#4A524F;font-size:13px}
+.ta{border:1px solid #D5DBD8;border-radius:10px;padding:10px 12px;font:inherit;width:100%;min-height:80px;background:#fff}
+.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+@media (max-width:900px){.shell{grid-template-columns:1fr}.side{flex-direction:row;overflow-x:auto;white-space:nowrap;padding:8px}.side a{flex:0 0 auto}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.review{grid-template-columns:1fr}.main{padding:14px}.stats{grid-template-columns:1fr}}
+</style>
+</helmet>
+<div class="app">
+<div class="shell">
+  <nav class="side" aria-label="Admin navigation">
+    <div style="font-weight:800;font-size:17px;color:#fff;padding:6px 10px 14px">Bazaar<span style="color:#E8833A">BD</span> <span class="muted" style="color:#9FB5AF;font-size:12px">Admin</span></div>
+    <a href="#">Overview</a>
+    <a class="on" href="#" aria-current="page">Seller KYC</a>
+    <a href="#">Users &amp; sellers</a>
+    <a href="#">Moderation &amp; orders</a>
+    <a href="#">Payouts</a>
+    <a href="#">Support</a>
+    <a href="#">Roles &amp; audit</a>
+  </nav>
+  <div style="min-width:0">
+    <header class="top"><h1 style="margin:0;font-size:18px;font-weight:800">Seller KYC queue</h1><span class="pill" style="margin-left:auto;background:#FFF3E0;color:#B26A00">SLA: 2 working days</span></header>
+    <main class="main">
+      <section class="stats" aria-label="Queue summary">
+        <div class="card"><span class="muted">Waiting</span><b style="font-size:22px">14</b></div>
+        <div class="card"><span class="muted">Over SLA</span><b style="font-size:22px;color:#B3261E">3</b></div>
+        <div class="card"><span class="muted">Approved today</span><b style="font-size:22px;color:#2E7D32">6</b></div>
+        <div class="card"><span class="muted">Rejected today</span><b style="font-size:22px">1</b></div>
+      </section>
+
+      <div class="tabs" role="group" aria-label="Filter">
+        <button type="button" class="chip on" aria-pressed="true">All (14)</button>
+        <button type="button" class="chip" aria-pressed="false">Over SLA (3)</button>
+        <button type="button" class="chip" aria-pressed="false">Re-submitted</button>
+        <button type="button" class="chip" aria-pressed="false">Name mismatch</button>
+      </div>
+
+      <div class="tbl">
+        <table>
+          <caption style="text-align:left;padding:12px 14px;font-weight:700">Pending verification</caption>
+          <thead><tr><th>Seller</th><th>Submitted</th><th>Documents</th><th>Flags</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><b>Mirpur Mobile Hub</b><div class="muted" style="font-size:12px">Mirpur, Dhaka</div></td><td>6 Oct</td><td>4 of 4</td><td><span class="pill" style="background:#FDECEA;color:#B3261E">Over SLA</span></td><td><span class="pill" style="background:#FFF3E0;color:#B26A00">In review</span></td><td><button class="btn" type="button">Open</button></td></tr>
+            <tr><td><b>Sylhet Organics</b><div class="muted" style="font-size:12px">Sylhet</div></td><td>9 Oct</td><td>3 of 4</td><td><span class="pill" style="background:#FFF3E0;color:#B26A00">Missing TIN (optional)</span></td><td><span class="pill" style="background:#EEF1F0;color:#4A524F">Waiting</span></td><td><button class="btn" type="button">Open</button></td></tr>
+            <tr><td><b>Nakshi Store</b><div class="muted" style="font-size:12px">Dhanmondi, Dhaka</div></td><td>10 Oct</td><td>4 of 4</td><td><span class="pill" style="background:#FDECEA;color:#B3261E">Name mismatch</span></td><td><span class="pill" style="background:#EEF1F0;color:#4A524F">Waiting</span></td><td><button class="btn" type="button">Open</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <section class="card" aria-labelledby="rv-h" style="gap:12px">
+        <h2 id="rv-h" style="margin:0;font-size:15px">Review: Nakshi Store</h2>
+        <div class="review">
+          <div class="doc">NID front (image)</div>
+          <div class="doc">NID back (image)</div>
+        </div>
+        <div class="note"><b>Name mismatch:</b> NID name "Rafiul Islam" does not match the bKash account name "R. Islam". Ask the seller to correct the payout account before approving.</div>
+        <label style="display:grid;gap:6px;font-weight:600">Reason (required for reject or send-back)<textarea class="ta" placeholder="e.g. NID photo is cropped. Please re-upload the full card."></textarea></label>
+        <div class="actions">
+          <button type="button" class="btn btn-d">Reject</button>
+          <button type="button" class="btn btn-line">Send back for fix</button>
+          <button type="button" class="btn">Approve seller</button>
+        </div>
+        <div class="muted" style="font-size:12px">Every decision is written to the audit log with your name, time and reason. Approval makes the shop visible to buyers.</div>
+      </section>
+    </main>
+  </div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1400}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin - Users & Sellers</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F3F5F4}
+*{box-sizing:border-box}
+.app{font-family:'Plus Jakarta Sans','Hind Siliguri',system-ui,sans-serif;color:#1A1F1E;font-size:14px;line-height:1.5;min-height:100vh;background:#F3F5F4}
+.shell{display:grid;grid-template-columns:236px minmax(0,1fr);min-height:100vh}
+.side{background:#132321;color:#CFDAD7;padding:18px 12px;display:flex;flex-direction:column;gap:2px}
+.side .brand{font-weight:800;font-size:17px;color:#fff;padding:6px 10px 16px}
+.side a{padding:9px 10px;border-radius:8px;color:inherit;text-decoration:none;display:flex;justify-content:space-between;align-items:center}
+.side a.on{background:#0F5F57;color:#fff;font-weight:700}
+.count{background:#E8833A;color:#fff;border-radius:999px;padding:0 7px;font-size:11px;font-weight:700}
+.top{background:#fff;border-bottom:1px solid #E1E6E4;padding:12px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.main{padding:20px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.card{background:#fff;border:1px solid #E1E6E4;border-radius:12px;padding:16px;min-width:0}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.tabs{display:flex;gap:4px;border-bottom:1px solid #E1E6E4;overflow-x:auto;white-space:nowrap}
+.tabs a{padding:10px 12px;color:#4A524F;text-decoration:none;font-weight:600}
+.tabs a.on{color:#0F5F57;border-bottom:2px solid #0F5F57}
+.tbl{background:#fff;border:1px solid #E1E6E4;border-radius:12px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:720px}
+th,td{padding:10px 14px;text-align:left;border-top:1px solid #EEF1F0;vertical-align:top}
+th{background:#F7F9F8;color:#4A524F;font-weight:600}
+.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+.pill-g{background:#E7F4EA;color:#2E7D32}.pill-o{background:#FFF3E0;color:#B26A00}.pill-r{background:#FDECEA;color:#B3261E}
+.ctl{border:1px solid #D5DBD8;border-radius:8px;padding:8px 12px;background:#fff;min-height:40px;display:inline-flex;align-items:center;font:inherit}
+.btn{min-height:44px;padding:0 16px;border-radius:10px;font:inherit;font-weight:700;border:1px solid #0F5F57;background:#0F5F57;color:#fff;cursor:pointer}
+.btn-line{background:#fff;color:#1A1F1E;border-color:#D5DBD8}
+.btn-danger{background:#fff;color:#B3261E;border-color:#B3261E}
+.muted{color:#4A524F}
+@media (max-width:1000px){.g2{grid-template-columns:1fr}}
+@media (max-width:900px){.shell{grid-template-columns:1fr}.side{flex-direction:row;overflow-x:auto;white-space:nowrap;padding:10px}.side .brand{display:none}.side a{flex:0 0 auto}}
+@media (max-width:560px){.main{padding:14px}}
+</style>
+</helmet>
+<div class="app">
+<div class="shell">
+  <nav class="side" aria-label="Admin navigation">
+    <div class="brand">Bazaar BD <span style="font-size:11px;color:#E8833A">ADMIN</span></div>
+    <a href="#">Overview</a>
+    <a class="on" href="#" aria-current="page">Users &amp; sellers</a>
+    <a href="#">Product moderation</a>
+    <a href="#">Orders</a>
+    <a href="#">Payments &amp; payouts</a>
+    <a href="#">Commissions &amp; rules</a>
+    <a href="#">Support tickets <span class="count">27</span></a>
+    <a href="#">Reviews &amp; reports</a>
+    <a href="#">Roles &amp; permissions</a>
+  </nav>
+
+  <div style="min-width:0">
+    <header class="top">
+      <div class="muted" style="font-size:12px">Admin / Users</div>
+      <span class="pill pill-r" style="margin-left:auto">Super Admin</span>
+    </header>
+
+    <main class="main">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+        <h1 style="margin:0;font-size:24px;font-weight:800">Users &amp; sellers</h1>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-line" type="button">Export CSV</button><button class="btn" type="button">+ Add admin</button></div>
+      </div>
+
+      <nav class="tabs" aria-label="User segments">
+        <a class="on" href="#">All users (84,210)</a>
+        <a href="#">Sellers (1,932)</a>
+        <a href="#">Seller applications (12)</a>
+        <a href="#">Reported (19)</a>
+        <a href="#">Deletion requests (4)</a>
+      </nav>
+
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <label style="flex:1;min-width:220px;height:40px;border:1px solid #D5DBD8;border-radius:8px;background:#fff;display:flex;align-items:center;padding:0 12px;color:#6B7370">Search name, email, phone, ID</label>
+        <button class="ctl" type="button">Status: Any ▾</button>
+        <button class="ctl" type="button">Role: Any ▾</button>
+        <button class="ctl" type="button">Joined: 30 days ▾</button>
+      </div>
+
+      <div class="tbl">
+        <table>
+          <caption style="text-align:left;padding:10px 14px;color:#4A524F">Showing 1–4 of 84,210</caption>
+          <thead><tr><th>User</th><th>Roles</th><th>Contact (masked)</th><th>Status</th><th>Verification</th><th>Orders / disputes</th><th>Joined</th><th><span class="muted">Action</span></th></tr></thead>
+          <tbody>
+            <tr><td><b>Rafiul Islam</b><div class="muted" style="font-size:12px">U-10482</div></td><td>Buyer, Seller</td><td>+8801•••••412<br>r••••@gmail.com</td><td><span class="pill pill-g">Active</span></td><td>Phone ✓ Email ✓</td><td>12 / 0</td><td>Mar 2026</td><td><a href="#" style="color:#0F5F57;font-weight:700">View</a></td></tr>
+            <tr><td><b>Nusrat Jahan</b><div class="muted" style="font-size:12px">U-10517</div></td><td>Buyer</td><td>+8801•••••908</td><td><span class="pill pill-o">Withdrawals restricted</span></td><td>Phone ✓ Email ✗</td><td>3 / 1 open</td><td>Jul 2026</td><td><a href="#" style="color:#0F5F57;font-weight:700">View</a></td></tr>
+            <tr><td><b>Shahin Store Ltd.</b><div class="muted" style="font-size:12px">Seller S-0231</div></td><td>Seller</td><td>+8801•••••170</td><td><span class="pill pill-r">Selling suspended</span></td><td>KYC: documents needed</td><td>240 / 6</td><td>Nov 2025</td><td><a href="#" style="color:#0F5F57;font-weight:700">View</a></td></tr>
+            <tr><td><b>Mirpur Mobile Hub</b><div class="muted" style="font-size:12px">Seller S-0118 · Verified</div></td><td>Seller</td><td>+8802•••••334</td><td><span class="pill pill-g">Active</span></td><td>KYC ✓ Trade licence ✓</td><td>1,020 / 14</td><td>Feb 2025</td><td><a href="#" style="color:#0F5F57;font-weight:700">View</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <section class="grid g2">
+        <div class="card">
+          <b>User detail · Nusrat Jahan (U-10517)</b>
+          <form style="margin-top:12px;display:grid;gap:12px" onsubmit="return false">
+            <label style="display:grid;gap:6px"><b>Action</b><select style="min-height:44px;border:1px solid #D5DBD8;border-radius:8px;padding:0 10px;font:inherit;background:#fff"><option>Restrict withdrawals</option><option>Suspend account</option><option>Reactivate</option></select></label>
+            <label style="display:grid;gap:6px"><b>Reason (required)</b><select style="min-height:44px;border:1px solid #D5DBD8;border-radius:8px;padding:0 10px;font:inherit;background:#fff"><option>Select a reason</option><option>Chargeback risk</option><option>Policy violation</option></select></label>
+            <label style="display:grid;gap:6px"><b>Internal note (admins only)</b><textarea rows="3" style="border:1px solid #D5DBD8;border-radius:8px;padding:10px;font:inherit" placeholder="Add a note"></textarea></label>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end"><button class="btn btn-danger" type="button">Suspend account…</button><button class="btn" type="button">Save action</button></div>
+          </form>
+        </div>
+        <div class="card" role="dialog" aria-labelledby="dlg-t">
+          <div class="muted" style="font-size:12px">Confirmation dialog (preview)</div>
+          <div id="dlg-t" style="font-weight:800;font-size:16px;margin-top:6px">Suspend Shahin Store Ltd.?</div>
+          <p class="muted" style="line-height:1.6">Selling stops immediately. Open orders stay visible to the seller. Pending payouts are held. This action is written to the audit log.</p>
+          <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap"><button class="btn btn-line" type="button">Cancel</button><button class="btn btn-danger" type="button" style="background:#B3261E;color:#fff">Suspend seller</button></div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1000}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

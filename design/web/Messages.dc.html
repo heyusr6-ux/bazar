@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Buyer-Seller Messages</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F6F7F4}
+*{box-sizing:border-box}
+a{color:inherit;text-decoration:none}
+.app{font-family:'Plus Jakarta Sans','Hind Siliguri',system-ui,sans-serif;color:#1A1F1E;font-size:14px;line-height:1.5;min-height:100vh;background:#F6F7F4;display:flex;flex-direction:column}
+.hdr{background:#fff;border-bottom:1px solid #E3E7E4;padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{font-size:20px;font-weight:800;color:#0F5F57}.logo span{color:#E8833A}
+.muted{color:#4A524F}
+.split{flex:1;display:grid;grid-template-columns:minmax(260px,320px) minmax(0,1fr);min-height:0}
+.list{background:#fff;border-right:1px solid #E3E7E4;display:flex;flex-direction:column;min-height:0}
+.conv{padding:12px 14px;border-bottom:1px solid #EEF1F0;display:grid;gap:4px;min-height:44px}
+.conv.on{background:#F7FBFA}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.pill{display:inline-block;border-radius:999px;font-size:12px;font-weight:600;padding:2px 9px}
+.chip{min-height:36px;padding:0 12px;border-radius:999px;border:1px solid #D5DBD8;background:#fff;font:inherit;font-weight:600;cursor:pointer;color:#1A1F1E;display:inline-flex;align-items:center}
+.chip.on{background:#0F5F57;border-color:#0F5F57;color:#fff}
+.in{min-height:44px;border:1px solid #D5DBD8;border-radius:10px;padding:0 12px;font:inherit;width:100%;background:#fff}
+.btn{min-height:44px;padding:0 16px;border-radius:10px;font:inherit;font-weight:700;border:1px solid #0F5F57;background:#0F5F57;color:#fff;cursor:pointer}
+.btn-line{background:#fff;color:#0F5F57}
+.chat{display:flex;flex-direction:column;min-height:0;min-width:0}
+.bubble{max-width:78%;padding:10px 14px;border-radius:14px;overflow-wrap:anywhere}
+.in-b{align-self:flex-start;background:#fff;border:1px solid #E3E7E4;border-radius:14px 14px 14px 4px}
+.out-b{align-self:flex-end;background:#0F5F57;color:#fff;border-radius:14px 14px 4px 14px}
+.thread{flex:1;padding:16px;display:flex;flex-direction:column;gap:12px;background:#F6F7F4;overflow:auto;min-height:360px;height:560px}
+.composer{background:#fff;border-top:1px solid #E3E7E4;padding:12px 14px;display:flex;gap:8px;align-items:center}
+@media (max-width:860px){
+  .split{grid-template-columns:1fr}
+  .list{border-right:0;border-bottom:1px solid #E3E7E4;max-height:300px}
+  .list-body{overflow-y:auto;max-height:230px}
+  .thread{height:auto;min-height:380px}
+  .bubble{max-width:88%}
+}
+@media (max-width:560px){
+  .hdr{padding:10px 14px}
+  .thread{padding:12px;min-height:320px}
+  .composer{padding:10px}
+  .composer .btn{min-width:72px;padding:0 12px}
+  .bubble{max-width:92%}
+}
+</style>
+</helmet>
+<div class="app">
+  <header class="hdr">
+    <div class="logo">Bazaar<span>BD</span></div>
+    <nav class="muted" aria-label="Breadcrumb" style="font-size:13px">My account › Messages</nav>
+  </header>
+
+  <div class="split">
+    <aside class="list" aria-label="Conversations">
+      <div style="padding:12px 14px;border-bottom:1px solid #EEF1F0;display:grid;gap:10px">
+        <label style="display:grid;gap:6px"><span class="muted" style="font-size:12px">Search conversations</span><input class="in" type="search" placeholder="Search by shop or order"></label>
+        <div style="display:flex;gap:6px;flex-wrap:wrap" role="group" aria-label="Filter">
+          <button type="button" class="chip on" aria-pressed="true">All</button>
+          <button type="button" class="chip" aria-pressed="false">Unread (3)</button>
+          <button type="button" class="chip" aria-pressed="false">Orders</button>
+        </div>
+      </div>
+      <div class="list-body">
+        <button type="button" class="conv on" style="width:100%;text-align:left;background:#F7FBFA;border:0;font:inherit;color:inherit;cursor:pointer">
+          <div class="row"><b>Nakshi Store</b><span style="background:#0F5F57;color:#fff;border-radius:999px;padding:0 7px;font-size:11px">2</span></div>
+          <div class="muted" style="font-size:13px">Yes, the blue one is in stock. Shall I pack it today?</div>
+          <div class="muted" style="font-size:12px">Re: Handloom cotton saree · 10:12</div>
+        </button>
+        <button type="button" class="conv" style="width:100%;text-align:left;background:#fff;border:0;border-top:1px solid #EEF1F0;font:inherit;color:inherit;cursor:pointer">
+          <div class="row"><b>Mirpur Mobile Hub</b><span class="muted" style="font-size:12px">Yesterday</span></div>
+          <div class="muted" style="font-size:13px">Courier says delivered. Proof attached.</div>
+          <div style="color:#B3261E;font-size:12px">Dispute open · BZ-260409-0907</div>
+        </button>
+        <button type="button" class="conv" style="width:100%;text-align:left;background:#fff;border:0;border-top:1px solid #EEF1F0;font:inherit;color:inherit;cursor:pointer">
+          <div class="row"><b>Sylhet Organics</b><span class="muted" style="font-size:12px">Mon</span></div>
+          <div class="muted" style="font-size:13px">Thanks for your order!</div>
+        </button>
+      </div>
+    </aside>
+
+    <section class="chat" aria-label="Chat">
+      <div class="row" style="padding:12px 16px;background:#fff;border-bottom:1px solid #E3E7E4;flex-wrap:wrap">
+        <div><b style="font-size:15px">Nakshi Store</b> <span class="pill" style="background:#E7F0EE;color:#0F5F57">✓ Verified</span></div>
+        <div style="display:flex;gap:8px">
+          <button type="button" class="btn btn-line" style="min-height:36px;padding:0 10px">Report</button>
+          <button type="button" class="btn btn-line" style="min-height:36px;padding:0 10px">Block</button>
+        </div>
+      </div>
+
+      <div class="thread" role="log" aria-label="Messages">
+        <div class="muted" style="align-self:center;font-size:12px;text-align:center">Conversation about: Handloom cotton saree (Indigo) · ৳ 2,450</div>
+        <div class="bubble in-b">Hi, is the indigo saree still in stock? Can it be delivered by 12 Oct?</div>
+        <div class="bubble out-b">Yes, 14 pieces in stock. Delivery 2–3 days within Dhaka.</div>
+        <div class="bubble in-b">Yes, the blue one is in stock. Shall I pack it today?</div>
+        <div class="bubble in-b" style="display:flex;gap:8px;align-items:center;padding:8px">
+          <span style="width:56px;height:56px;background:#E9EFEC;border-radius:8px;flex:0 0 56px"></span>
+          <span class="muted" style="font-size:12px">Image attachment · 1.2 MB · scanned</span>
+        </div>
+        <div class="muted" style="align-self:center;background:#FFF8EE;border:1px solid #F3D9B5;border-radius:10px;padding:8px 12px;font-size:12px;text-align:center;max-width:100%">Do not share card numbers or OTP codes in chat. Platform staff will never ask for them.</div>
+      </div>
+
+      <form class="composer" onsubmit="return false">
+        <button type="button" class="btn btn-line" aria-label="Attach image" style="min-width:44px;padding:0">+</button>
+        <label style="flex:1;min-width:0"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Write a message</span><input class="in" type="text" placeholder="Write a message…"></label>
+        <button type="submit" class="btn">Send</button>
+      </form>
+      <div class="muted" style="background:#fff;padding:0 14px 12px;font-size:12px">Real-time chat is not connected in this prototype. Messages shown are mock data. Attachments are limited to images, max 5 MB.</div>
+    </section>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

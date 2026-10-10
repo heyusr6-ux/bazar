@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin - Roles & Permissions</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F3F5F4}
+*{box-sizing:border-box}
+.app{font-family:'Plus Jakarta Sans','Hind Siliguri',system-ui,sans-serif;color:#1A1F1E;font-size:14px;line-height:1.5;min-height:100vh;background:#F3F5F4}
+.shell{display:grid;grid-template-columns:236px minmax(0,1fr);min-height:100vh}
+.side{background:#132321;color:#CFDAD7;padding:18px 12px;display:flex;flex-direction:column;gap:2px}
+.side .brand{font-weight:800;font-size:17px;color:#fff;padding:6px 10px 16px}
+.side a{padding:9px 10px;border-radius:8px;color:inherit;text-decoration:none;display:flex;justify-content:space-between;align-items:center}
+.side a.on{background:#0F5F57;color:#fff;font-weight:700}
+.top{background:#fff;border-bottom:1px solid #E1E6E4;padding:12px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.main{padding:20px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.card{background:#fff;border:1px solid #E1E6E4;border-radius:12px;padding:16px;min-width:0}
+.grid{display:grid;gap:12px}
+.g6{grid-template-columns:repeat(6,minmax(0,1fr))}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.tbl{background:#fff;border:1px solid #E1E6E4;border-radius:12px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:720px}
+th,td{padding:9px 14px;text-align:left;border-top:1px solid #EEF1F0}
+th{background:#F7F9F8;color:#4A524F;font-weight:600}
+td.c,th.c{text-align:center}
+.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+.pill-r{background:#FDECEA;color:#B3261E}.pill-n{background:#EEF1F0;color:#4A524F}
+.btn{min-height:44px;padding:0 16px;border-radius:10px;font:inherit;font-weight:700;border:1px solid #0F5F57;background:#0F5F57;color:#fff;cursor:pointer}
+.btn-line{background:#fff;color:#1A1F1E;border-color:#D5DBD8}
+.role{border:1px solid #E1E6E4;border-radius:12px;padding:12px;background:#fff;text-align:left;font:inherit;cursor:pointer;color:inherit;min-width:0}
+.role.on{border:2px solid #0F5F57}
+.toggle{display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:44px}
+.sw{width:40px;height:22px;border-radius:999px;display:inline-block;flex-shrink:0}
+.muted{color:#4A524F}
+@media (max-width:1100px){.g6{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:900px){.shell{grid-template-columns:1fr}.side{flex-direction:row;overflow-x:auto;white-space:nowrap;padding:10px}.side .brand{display:none}.side a{flex:0 0 auto}.g2{grid-template-columns:1fr}}
+@media (max-width:560px){.g6{grid-template-columns:repeat(2,minmax(0,1fr))}.main{padding:14px}}
+</style>
+</helmet>
+<div class="app">
+<div class="shell">
+  <nav class="side" aria-label="Admin navigation">
+    <div class="brand">Bazaar BD <span style="font-size:11px;color:#E8833A">ADMIN</span></div>
+    <a href="#">Overview</a>
+    <a href="#">Users &amp; sellers</a>
+    <a href="#">Product moderation</a>
+    <a href="#">Orders</a>
+    <a href="#">Payments &amp; payouts</a>
+    <a href="#">Commissions &amp; rules</a>
+    <a href="#">Support tickets</a>
+    <a href="#">Analytics</a>
+    <a class="on" href="#" aria-current="page">Roles &amp; permissions</a>
+    <a href="#">System &amp; security</a>
+  </nav>
+
+  <div style="min-width:0">
+    <header class="top">
+      <div class="muted" style="font-size:12px">Admin / Settings / Roles</div>
+      <span class="pill pill-r" style="margin-left:auto">Super Admin</span>
+    </header>
+
+    <main class="main">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px">
+        <div>
+          <h1 style="margin:0;font-size:24px;font-weight:800">Roles &amp; permissions</h1>
+          <p class="muted" style="margin:4px 0 0">Least privilege by default. Every change needs a reason and is written to the audit log.</p>
+        </div>
+        <button class="btn" type="button">+ New admin account</button>
+      </div>
+
+      <section class="grid g6" aria-label="Roles">
+        <button class="role on" type="button"><b>Super Admin</b><div class="muted" style="font-size:12px">2 accounts · full access</div></button>
+        <button class="role" type="button"><b>Operations</b><div class="muted" style="font-size:12px">3 accounts</div></button>
+        <button class="role" type="button"><b>Product Moderator</b><div class="muted" style="font-size:12px">5 accounts</div></button>
+        <button class="role" type="button"><b>Support Agent</b><div class="muted" style="font-size:12px">9 accounts</div></button>
+        <button class="role" type="button"><b>Finance Manager</b><div class="muted" style="font-size:12px">2 accounts</div></button>
+        <button class="role" type="button"><b>Marketing</b><div class="muted" style="font-size:12px">1 account</div></button>
+      </section>
+
+      <div class="tbl">
+        <table>
+          <caption style="text-align:left;padding:10px 14px;color:#4A524F">Permission matrix (● allowed · ◐ needs second approval · – not allowed)</caption>
+          <thead><tr><th>Permission area</th><th class="c">Super</th><th class="c">Ops</th><th class="c">Moderator</th><th class="c">Support</th><th class="c">Finance</th><th class="c">Marketing</th></tr></thead>
+          <tbody>
+            <tr><td>View users (masked contact)</td><td class="c">●</td><td class="c">●</td><td class="c">–</td><td class="c">●</td><td class="c">–</td><td class="c">–</td></tr>
+            <tr><td>Suspend / reactivate accounts</td><td class="c">●</td><td class="c">●</td><td class="c">–</td><td class="c">–</td><td class="c">–</td><td class="c">–</td></tr>
+            <tr><td>Approve / reject products</td><td class="c">●</td><td class="c">●</td><td class="c">●</td><td class="c">–</td><td class="c">–</td><td class="c">–</td></tr>
+            <tr><td>Create refund request</td><td class="c">●</td><td class="c">●</td><td class="c">–</td><td class="c">●</td><td class="c">–</td><td class="c">–</td></tr>
+            <tr><td>Approve refunds &amp; payouts</td><td class="c">●</td><td class="c">–</td><td class="c">–</td><td class="c">–</td><td class="c">●</td><td class="c">–</td></tr>
+            <tr><td>Edit commission &amp; business rules</td><td class="c">●</td><td class="c">–</td><td class="c">–</td><td class="c">–</td><td class="c">◐</td><td class="c">–</td></tr>
+            <tr><td>Manage promotions &amp; banners</td><td class="c">●</td><td class="c">●</td><td class="c">–</td><td class="c">–</td><td class="c">–</td><td class="c">●</td></tr>
+            <tr><td>Manage admin accounts &amp; roles</td><td class="c">●</td><td class="c">–</td><td class="c">–</td><td class="c">–</td><td class="c">–</td><td class="c">–</td></tr>
+            <tr><td>Export financial CSV</td><td class="c">●</td><td class="c">–</td><td class="c">–</td><td class="c">–</td><td class="c">●</td><td class="c">–</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="muted" style="font-size:12px;margin:0">Matrix is illustrative. Access is enforced on the server; UI hiding is only a convenience.</p>
+
+      <section class="grid g2">
+        <form class="card" style="display:grid;gap:12px" onsubmit="return false">
+          <b>Edit role: Support Agent</b>
+          <label class="toggle"><span>Can view order details</span><span class="sw" style="background:#0F5F57" aria-hidden="true"></span></label>
+          <label class="toggle"><span>Can see full buyer phone</span><span class="sw" style="background:#D5DBD8" aria-hidden="true"></span></label>
+          <label class="toggle"><span>Can issue refunds up to ৳ 500</span><span class="sw" style="background:#D5DBD8" aria-hidden="true"></span></label>
+          <label style="display:grid;gap:6px"><b>Reason for change (required)</b><textarea rows="2" style="border:1px solid #D5DBD8;border-radius:8px;padding:8px 10px;font:inherit" placeholder="Describe why access changes"></textarea></label>
+          <div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap"><button class="btn btn-line" type="button">Cancel</button><button class="btn" type="button">Save (second approval needed)</button></div>
+        </form>
+        <div class="card" style="display:grid;gap:8px">
+          <b>Audit log (latest)</b>
+          <div class="muted">10:41 · Super Admin A · Changed role: Finance Manager · reason: payout cover</div>
+          <div class="muted">09:12 · Ops B · Suspended seller S-0231 · reason: policy review</div>
+          <div class="muted">Yesterday · Super Admin A · Created account: support.agent7</div>
+          <div style="color:#B3261E;font-size:12px">Two-factor authentication is required for all admin accounts.</div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1000}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

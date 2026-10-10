@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Order Detail & Tracking</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F6F7F4}
+*{box-sizing:border-box}
+.app{font-family:'Plus Jakarta Sans','Hind Siliguri',system-ui,sans-serif;color:#1A1F1E;font-size:14px;line-height:1.5;min-height:100vh;background:#F6F7F4}
+.hdr{background:#fff;border-bottom:1px solid #E3E7E4;padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{font-size:20px;font-weight:800;color:#0F5F57}.logo span{color:#E8833A}
+.wrap{max-width:1200px;margin:0 auto;padding:16px;display:flex;flex-direction:column;gap:14px}
+.card{background:#fff;border:1px solid #E3E7E4;border-radius:14px;min-width:0}
+.hd{padding:12px 16px;border-bottom:1px solid #EEF1F0;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.btn{min-height:44px;padding:0 14px;border-radius:10px;font:inherit;font-weight:700;border:1px solid #D5DBD8;background:#fff;color:#1A1F1E;cursor:pointer}
+.btn-p{background:#0F5F57;border-color:#0F5F57;color:#fff}
+.btn-d{color:#B3261E;border-color:#B3261E}
+.layout{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:14px;align-items:start}
+.muted{color:#4A524F}
+.line{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;align-items:center;padding:12px 16px}
+.img{width:56px;height:56px;background:#E9EFEC;border-radius:10px}
+.tl{display:grid;gap:12px;border-left:2px solid #0F5F57;padding-left:14px;margin:14px 16px 16px}
+.kv{display:flex;justify-content:space-between;gap:10px}
+@media (max-width:900px){.layout{grid-template-columns:1fr}}
+</style>
+</helmet>
+<div class="app">
+  <header class="hdr">
+    <div class="logo">Bazaar<span>BD</span></div>
+    <nav class="muted" aria-label="Breadcrumb" style="font-size:13px">My account › Orders › BZ-260410-1182</nav>
+  </header>
+
+  <main class="wrap">
+    <section class="card" style="padding:16px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start">
+      <div>
+        <div class="muted">Order number</div>
+        <div style="font-size:20px;font-weight:800">BZ-260410-1182</div>
+        <div class="muted" style="margin-top:4px">Placed 10 Oct 2026, 09:14 · 2 seller shipments</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <span class="pill" style="background:#E8F1FB;color:#1F5FA8;font-size:13px">Partly shipped</span>
+        <button type="button" class="btn">Download invoice</button>
+        <button type="button" class="btn btn-d">Cancel order</button>
+      </div>
+    </section>
+
+    <section class="layout">
+      <div style="display:grid;gap:12px;min-width:0">
+        <div class="card">
+          <div class="hd"><b>Shipment 1 · Nakshi Store</b><span class="pill" style="background:#E7F4EA;color:#2E7D32">Shipped</span></div>
+          <div class="line"><div class="img"></div><div><b>Handloom cotton saree, Indigo</b><div class="muted">Qty 1 · ৳ 2,450</div></div></div>
+          <div class="muted" style="padding:0 16px 14px;font-size:13px">Courier: not connected · Tracking number (entered by seller): <b style="color:#1A1F1E">DH-44187</b></div>
+        </div>
+        <div class="card">
+          <div class="hd"><b>Shipment 2 · Sylhet Organics</b><span class="pill" style="background:#FFF3E0;color:#B26A00">Processing</span></div>
+          <div class="line"><div class="img"></div><div><b>Organic honey, 500 g</b><div class="muted">Qty 1 · ৳ 680</div></div></div>
+        </div>
+        <div class="card" style="padding:16px;display:grid;gap:10px">
+          <b>Refund &amp; return</b>
+          <div class="muted" style="line-height:1.6">Return window: 7 days after delivery. Items must be unused with tags. Refunds are paid to the original method after the seller confirms and the payment provider confirms the outcome.</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn btn-p">Request return</button><button type="button" class="btn">Open dispute</button></div>
+        </div>
+      </div>
+
+      <div style="display:grid;gap:12px;min-width:0">
+        <div class="card">
+          <div class="hd"><b>Timeline · Shipment 1</b></div>
+          <div class="tl">
+            <div><b>Order placed</b><div class="muted" style="font-size:12px">10 Oct · 09:14</div></div>
+            <div><b>Payment: cash on delivery, pending</b><div class="muted" style="font-size:12px">Collected on delivery</div></div>
+            <div><b>Seller confirmed</b><div class="muted" style="font-size:12px">10 Oct · 11:02</div></div>
+            <div><b>Shipped</b><div class="muted" style="font-size:12px">10 Oct · 16:40</div></div>
+            <div style="color:#6B7370"><b>Out for delivery</b><div style="font-size:12px">Expected 12–13 Oct</div></div>
+            <div style="color:#6B7370"><b>Delivered</b></div>
+          </div>
+        </div>
+        <div class="card" style="padding:16px;display:grid;gap:8px">
+          <b>Payment &amp; totals</b>
+          <div class="kv muted"><span>Items</span><span>৳ 3,130</span></div>
+          <div class="kv muted"><span>Delivery</span><span>৳ 60</span></div>
+          <div class="kv" style="font-weight:800;border-top:1px solid #EEF1F0;padding-top:8px"><span>Total</span><span>৳ 3,190</span></div>
+          <div class="muted" style="font-size:12px">Address: House 12, Road 7, Dhanmondi, Dhaka 1207</div>
+        </div>
+        <div style="background:#FFF8EE;border:1px solid #F3D9B5;border-radius:12px;padding:12px 14px;color:#4A524F;font-size:13px">Delivery status is updated by the seller. Live courier tracking is not connected yet.</div>
+      </div>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1400}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

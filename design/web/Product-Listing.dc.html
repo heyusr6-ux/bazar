@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Product Listing</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F6F7F4}
+*{box-sizing:border-box}
+a{color:inherit;text-decoration:none}
+.app{font-family:'Plus Jakarta Sans','Hind Siliguri',system-ui,sans-serif;color:#1A1F1E;font-size:14px;line-height:1.5;min-height:100vh;background:#F6F7F4}
+.hdr{background:#fff;border-bottom:1px solid #E3E7E4;padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{font-size:20px;font-weight:800;color:#0F5F57}.logo span{color:#E8833A}
+.search{flex:1 1 240px;min-height:44px;border:1px solid #D5DBD8;border-radius:12px;display:flex;align-items:center;padding:0 14px;color:#6B7370;background:#fff}
+.layout{max-width:1240px;margin:0 auto;padding:16px;display:grid;grid-template-columns:260px minmax(0,1fr);gap:20px;align-items:start}
+.card{background:#fff;border:1px solid #E3E7E4;border-radius:16px;padding:16px;min-width:0}
+.filters{position:sticky;top:12px;display:flex;flex-direction:column;gap:14px}
+fieldset{border:0;padding:0;margin:0;display:grid;gap:6px;min-width:0}
+legend{font-weight:700;margin-bottom:6px}
+label.opt{display:flex;gap:8px;align-items:center;min-height:32px}
+.chip{display:inline-flex;align-items:center;gap:6px;background:#E7F0EE;color:#0F5F57;border-radius:999px;padding:6px 12px;font-weight:600;font-size:13px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(3,minmax(0,1fr))}
+.pcard{background:#fff;border:1px solid #E3E7E4;border-radius:14px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.pimg{height:150px;background:#E9EFEC;display:flex;align-items:center;justify-content:center;color:#6B7370;font-size:12px}
+.pbody{padding:12px;display:flex;flex-direction:column;gap:4px}
+.muted{color:#4A524F;font-size:13px}
+.btn{min-height:44px;padding:0 14px;border-radius:12px;border:1px solid #D5DBD8;background:#fff;font:inherit;font-weight:600;color:#1A1F1E;cursor:pointer}
+.btn-p{background:#0F5F57;border-color:#0F5F57;color:#fff}
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.mfilter{display:none}
+@media (max-width:900px){.layout{grid-template-columns:1fr}.filters{position:static}.dfilter{display:none}.mfilter{display:block}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.grid{gap:10px}.pimg{height:120px}}
+</style>
+</helmet>
+<div class="app">
+  <header class="hdr">
+    <div class="logo">Bazaar<span>BD</span></div>
+    <label class="search"><span>Search products · পণ্য খুঁজুন</span></label>
+    <nav aria-label="Account" style="display:flex;gap:12px;font-weight:600;flex-wrap:wrap"><a href="#">Sign in</a><a href="#">Wishlist</a><a href="#">Cart (2)</a></nav>
+  </header>
+
+  <div class="layout">
+    <aside class="card filters dfilter" aria-label="Filters">
+      <div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:16px">Filters</b><button type="button" class="btn" style="min-height:36px;border:0;background:transparent;color:#0F5F57;font-weight:700;padding:0">Clear all</button></div>
+      <fieldset><legend>Price (৳)</legend><div style="display:flex;gap:8px"><input aria-label="Minimum price" placeholder="Min" style="flex:1;min-height:40px;border:1px solid #D5DBD8;border-radius:8px;padding:0 10px;font:inherit;min-width:0"><input aria-label="Maximum price" placeholder="Max" style="flex:1;min-height:40px;border:1px solid #D5DBD8;border-radius:8px;padding:0 10px;font:inherit;min-width:0"></div></fieldset>
+      <fieldset><legend>Condition</legend><label class="opt"><input type="checkbox" checked> New</label><label class="opt"><input type="checkbox"> Used – like new</label><label class="opt"><input type="checkbox"> Used – good</label></fieldset>
+      <fieldset><legend>Brand</legend><label class="opt"><input type="checkbox" checked> Samsung</label><label class="opt"><input type="checkbox"> Xiaomi</label><label class="opt"><input type="checkbox"> Realme</label><label class="opt"><input type="checkbox"> Walton</label></fieldset>
+      <fieldset><legend>Rating</legend><label class="opt"><input type="radio" name="r"> 4★ &amp; up</label><label class="opt"><input type="radio" name="r"> 3★ &amp; up</label></fieldset>
+      <fieldset><legend>Delivery</legend><label class="opt"><input type="checkbox"> Free delivery</label><label class="opt"><input type="checkbox"> Cash on delivery</label><label class="opt"><input type="checkbox"> Dhaka same-day</label></fieldset>
+      <label class="opt"><input type="checkbox" checked> In stock only</label>
+    </aside>
+
+    <main style="display:flex;flex-direction:column;gap:14px;min-width:0">
+      <div class="toolbar">
+        <div><h1 style="margin:0;font-size:22px;font-weight:800">Mobile phones</h1><div class="muted">1,284 results · 3 filters applied</div></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn mfilter" type="button">Filters</button>
+          <button class="btn" type="button" aria-label="Sort">Sort: Relevance ▾</button>
+          <button class="btn btn-p" type="button" aria-pressed="true">Grid</button>
+          <button class="btn" type="button" aria-pressed="false">List</button>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span class="chip">Brand: Samsung ✕</span><span class="chip">Condition: New ✕</span><span class="chip">Price: ৳ 10k–25k ✕</span>
+      </div>
+
+      <div class="grid">
+        <article class="pcard"><div class="pimg">Product image</div><div class="pbody"><b>Samsung Galaxy A24, 128 GB</b><span class="muted">Mirpur Mobile Hub · ★ 4.5 (88)</span><span><b>৳ 18,990</b> <s class="muted">৳ 21,500</s></span><span style="color:#2E7D32;font-size:12px;font-weight:600">In stock · Free delivery</span></div></article>
+        <article class="pcard"><div class="pimg">Product image</div><div class="pbody"><b>Redmi Note 13, 256 GB</b><span class="muted">Dhaka Gadget Point · ★ 4.7 (141)</span><span><b>৳ 22,400</b></span><span style="color:#2E7D32;font-size:12px;font-weight:600">In stock · Cash on delivery</span></div></article>
+        <article class="pcard"><div class="pimg">Product image</div><div class="pbody"><b>Realme C67, 128 GB</b><span class="muted">Sylhet Electronics · ★ 4.3 (57)</span><span><b>৳ 13,200</b></span><span style="color:#B26A00;font-size:12px;font-weight:600">Low stock · 2 left</span></div></article>
+      </div>
+
+      <nav aria-label="Pagination" style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;color:#4A524F">
+        <button class="btn" type="button">‹ Prev</button><button class="btn btn-p" type="button">1</button><button class="btn" type="button">2</button><button class="btn" type="button">3</button><span style="align-self:center">…</span><button class="btn" type="button">43</button><button class="btn" type="button">Next ›</button>
+      </nav>
+      <button class="btn" type="button" style="width:100%">Load more</button>
+
+      <div class="card" style="border-style:dashed;color:#4A524F">Empty state (preview): "No products match these filters. Try removing a filter or clearing all." <button class="btn" type="button" style="margin-top:10px">Clear all filters</button></div>
+    </main>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1400}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seller - Returns & Coupons</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F6F7F4}
+*{box-sizing:border-box}
+.app{font-family:'Plus Jakarta Sans','Hind Siliguri',system-ui,sans-serif;color:#1A1F1E;font-size:14px;line-height:1.5;min-height:100vh;background:#F6F7F4}
+.shell{display:grid;grid-template-columns:220px minmax(0,1fr);min-height:100vh}
+.side{background:#fff;border-right:1px solid #E3E7E4;padding:18px 12px;display:flex;flex-direction:column;gap:2px}
+.side a{padding:9px 10px;border-radius:8px;min-height:40px;display:flex;align-items:center}
+.side a.on{background:#E7F0EE;color:#0F5F57;font-weight:700}
+.top{background:#fff;border-bottom:1px solid #E3E7E4;padding:12px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.main{padding:18px 20px;display:grid;gap:14px;min-width:0}
+.card{background:#fff;border:1px solid #E3E7E4;border-radius:14px;padding:16px;display:grid;gap:10px;min-width:0}
+.tbl{overflow-x:auto;background:#fff;border:1px solid #E3E7E4;border-radius:14px}
+table{width:100%;border-collapse:collapse;min-width:640px}
+th,td{padding:10px 14px;text-align:left;border-top:1px solid #EEF1F0;vertical-align:top}
+th{background:#F7F9F8;color:#4A524F;font-weight:600}
+.pill{display:inline-block;padding:3px 9px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.btn{min-height:40px;padding:0 12px;border-radius:10px;font:inherit;font-weight:700;border:1px solid #0F5F57;background:#0F5F57;color:#fff;cursor:pointer}
+.btn-line{background:#fff;color:#0F5F57}
+.in{min-height:44px;border:1px solid #D5DBD8;border-radius:10px;padding:0 12px;font:inherit;width:100%;background:#fff}
+.lbl{display:grid;gap:6px;font-weight:600}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.muted{color:#4A524F}
+.note{background:#FFF8EE;border:1px solid #F3D9B5;border-radius:10px;padding:10px 12px;color:#4A524F;font-size:13px}
+@media (max-width:860px){.shell{grid-template-columns:1fr}.side{flex-direction:row;overflow-x:auto;white-space:nowrap;border-right:0;border-bottom:1px solid #E3E7E4;padding:8px}.side a{flex:0 0 auto}}
+@media (max-width:560px){.two{grid-template-columns:1fr}.main{padding:14px}}
+</style>
+</helmet>
+<div class="app">
+<div class="shell">
+  <nav class="side" aria-label="Seller navigation">
+    <div style="font-weight:800;font-size:17px;color:#0F5F57;padding:6px 10px 14px">Bazaar<span style="color:#E8833A">BD</span></div>
+    <a href="#">Overview</a>
+    <a href="#">Products</a>
+    <a href="#">Orders</a>
+    <a class="on" href="#" aria-current="page">Returns &amp; disputes</a>
+    <a href="#">Finance</a>
+    <a href="#">Store settings</a>
+    <a href="#">Marketing &amp; coupons</a>
+  </nav>
+  <div style="min-width:0">
+    <header class="top"><h1 style="margin:0;font-size:18px;font-weight:800">Returns &amp; disputes</h1></header>
+    <main class="main">
+      <div class="tbl">
+        <table>
+          <caption style="text-align:left;padding:12px 14px;font-weight:700">Open requests</caption>
+          <thead><tr><th>Order</th><th>Item</th><th>Reason</th><th>Requested</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td>BZ-260405-0612</td><td>Block print kurti, M</td><td>Wrong size</td><td>9 Oct</td><td><span class="pill" style="background:#FFF3E0;color:#B26A00">Awaiting your decision</span></td><td><button class="btn" type="button">Review</button></td></tr>
+            <tr><td>BZ-260320-0288</td><td>Jamdani scarf</td><td>Damaged</td><td>3 Oct</td><td><span class="pill" style="background:#E8F1FB;color:#1F5FA8">Item received, refund pending</span></td><td><button class="btn btn-line" type="button">View</button></td></tr>
+            <tr><td>BZ-260409-0907</td><td>Handwoven gamcha</td><td>Dispute (buyer)</td><td>10 Oct</td><td><span class="pill" style="background:#FDECEA;color:#B3261E">Dispute · admin reviewing</span></td><td><button class="btn btn-line" type="button">Add evidence</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="note">You can accept or reject a return within 2 working days. A rejection needs a reason; the buyer can then open a dispute that the platform admin decides.</div>
+
+      <section class="card" aria-labelledby="cp-h">
+        <h2 id="cp-h" style="margin:0;font-size:16px">Create seller coupon</h2>
+        <div class="two">
+          <label class="lbl">Coupon code<input class="in" value="NAKSHI10"></label>
+          <label class="lbl">Discount<select class="in"><option>Percent (10%)</option><option>Fixed amount (৳)</option></select></label>
+          <label class="lbl">Minimum order (৳)<input class="in" value="1,500"></label>
+          <label class="lbl">Valid until<input class="in" type="date" value="2026-10-31"></label>
+        </div>
+        <div class="muted" style="font-size:13px">Discount cost is funded by you. The platform rule caps your discount at 30%. Coupons cannot stack with platform campaigns unless admin allows it.</div>
+        <div role="alert" style="color:#B3261E;font-size:13px">Example: "Discount above 30% is not allowed for sellers."</div>
+        <div style="display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap"><button class="btn btn-line" type="button">Cancel</button><button class="btn" type="button">Create coupon</button></div>
+      </section>
+    </main>
+  </div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

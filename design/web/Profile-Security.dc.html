@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Profile & Security</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F6F7F4}
+*{box-sizing:border-box}
+a{color:inherit;text-decoration:none}
+.app{font-family:'Plus Jakarta Sans','Hind Siliguri',system-ui,sans-serif;color:#1A1F1E;font-size:14px;line-height:1.5;min-height:100vh;background:#F6F7F4}
+.hdr{background:#fff;border-bottom:1px solid #E3E7E4;padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{font-size:20px;font-weight:800;color:#0F5F57}.logo span{color:#E8833A}
+.shell{display:grid;grid-template-columns:220px minmax(0,1fr);max-width:1200px;margin:0 auto;gap:16px;padding:16px;align-items:start}
+.side{background:#fff;border:1px solid #E3E7E4;border-radius:14px;padding:10px;display:grid;gap:2px}
+.side a{padding:10px;border-radius:8px;min-height:40px;display:flex;align-items:center}
+.side a.on{background:#E7F0EE;color:#0F5F57;font-weight:700}
+.main{display:grid;gap:14px;min-width:0}
+.card{background:#fff;border:1px solid #E3E7E4;border-radius:14px;padding:18px;display:grid;gap:12px;min-width:0}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.in{min-height:44px;border:1px solid #D5DBD8;border-radius:10px;padding:0 12px;font:inherit;width:100%;background:#fff}
+.lbl{display:grid;gap:6px;font-weight:600}
+.muted{color:#4A524F}
+.sw{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;min-height:44px}
+.btn{min-height:44px;padding:0 16px;border-radius:10px;font:inherit;font-weight:700;border:1px solid #0F5F57;background:#0F5F57;color:#fff;cursor:pointer}
+.btn-line{background:#fff;color:#0F5F57}
+.btn-d{background:#fff;color:#B3261E;border-color:#B3261E}
+.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700;background:#E7F4EA;color:#2E7D32}
+.dev{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;border-top:1px solid #EEF1F0;padding-top:10px}
+.note{background:#FFF8EE;border:1px solid #F3D9B5;border-radius:10px;padding:10px 12px;color:#4A524F;font-size:13px}
+.actions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+@media (max-width:860px){.shell{grid-template-columns:1fr}.side{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}}
+@media (max-width:560px){.two{grid-template-columns:1fr}.shell{padding:12px}.dev{grid-template-columns:1fr}}
+</style>
+</helmet>
+<div class="app">
+  <header class="hdr">
+    <div class="logo">Bazaar<span>BD</span></div>
+    <nav class="muted" aria-label="Breadcrumb" style="font-size:13px">My account › Profile & security</nav>
+  </header>
+  <div class="shell">
+    <nav class="side" aria-label="Account navigation">
+      <a href="#">Overview</a>
+      <a href="#">Orders</a>
+      <a href="#">Wishlist</a>
+      <a href="#">Addresses</a>
+      <a href="#">Notifications</a>
+      <a class="on" href="#" aria-current="page">Profile &amp; security</a>
+    </nav>
+
+    <main class="main">
+      <section class="card" aria-labelledby="pf-h">
+        <h1 id="pf-h" style="margin:0;font-size:18px">Profile</h1>
+        <div class="two">
+          <label class="lbl">Full name<input class="in" value="Rafiul Islam"></label>
+          <label class="lbl">Mobile number (verified)<input class="in" value="01712•••••" readonly aria-describedby="mob-n"></label>
+          <label class="lbl">Email<input class="in" type="email" value="rafiul•••@gmail.com"></label>
+          <label class="lbl">Date of birth (optional)<input class="in" type="date"></label>
+        </div>
+        <div id="mob-n" class="muted" style="font-size:12px">To change your mobile number, enter an OTP sent to the new number.</div>
+        <div class="actions"><button type="button" class="btn btn-line">Discard</button><button type="button" class="btn">Save profile</button></div>
+      </section>
+
+      <section class="card" aria-labelledby="pw-h">
+        <h2 id="pw-h" style="margin:0;font-size:16px">Password</h2>
+        <div class="two">
+          <label class="lbl">Current password<input class="in" type="password" autocomplete="current-password"></label>
+          <label class="lbl">New password<input class="in" type="password" autocomplete="new-password" aria-describedby="pw-rule"></label>
+        </div>
+        <div id="pw-rule" class="muted" style="font-size:13px">Minimum 8 characters, with a letter and a number. You will be signed out of other devices.</div>
+        <div class="actions"><button type="button" class="btn">Update password</button></div>
+      </section>
+
+      <section class="card" aria-labelledby="tf-h">
+        <h2 id="tf-h" style="margin:0;font-size:16px">Two-step verification</h2>
+        <div class="sw"><div><b>OTP at sign-in</b><div class="muted" style="font-size:13px">Recommended for sellers and admins. A code is sent to your mobile.</div></div><span class="pill">On</span></div>
+        <div class="note">Admin accounts must use two-step verification and cannot turn it off.</div>
+      </section>
+
+      <section class="card" aria-labelledby="dev-h">
+        <h2 id="dev-h" style="margin:0;font-size:16px">Signed-in devices</h2>
+        <div class="dev"><div><b>Chrome on Windows · Dhaka</b><div class="muted" style="font-size:12px">Active now · this device</div></div><span class="pill">Current</span></div>
+        <div class="dev"><div><b>Android app · Mirpur</b><div class="muted" style="font-size:12px">Last active 9 Oct</div></div><button type="button" class="btn btn-d">Sign out</button></div>
+        <div class="actions"><button type="button" class="btn btn-d">Sign out of all other devices</button></div>
+      </section>
+
+      <section class="card" aria-labelledby="mk-h">
+        <h2 id="mk-h" style="margin:0;font-size:16px">Preferences</h2>
+        <div class="sw"><span>Offer and campaign alerts</span><label><input type="checkbox" checked> On</label></div>
+        <div class="sw"><span>Newsletter</span><label><input type="checkbox"> On</label></div>
+        <div class="sw"><span>Delete my account</span><button type="button" class="btn btn-d">Request deletion</button></div>
+        <div class="muted" style="font-size:12px">Deleting your account keeps order and payment records as required by law. Personal details are removed after the retention period.</div>
+      </section>
+    </main>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Admin - Moderation & Orders</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F3F5F4}
+</style>
+</helmet>
+<div style="box-sizing:border-box;width:100%;height:1400px;display:flex;font-family:'Plus Jakarta Sans','Hind Siliguri',system-ui,sans-serif;color:#1A1F1E;font-size:13px;background:#F3F5F4">
+  <aside aria-label="Admin navigation" style="width:220px;background:#132321;color:#CFDAD7;padding:20px 12px;display:flex;flex-direction:column;gap:4px;flex-shrink:0">
+    <div style="font-weight:800;font-size:17px;color:#fff;padding:6px 10px 18px">Bazaar BD <span style="font-size:11px;color:#E8833A">ADMIN</span></div>
+    <div style="padding:8px 10px">Overview</div>
+    <div style="padding:8px 10px">Users</div>
+    <div style="padding:8px 10px">Sellers</div>
+    <div style="padding:8px 10px;border-radius:8px;background:#0F5F57;color:#fff;font-weight:600">Product moderation</div>
+    <div style="padding:8px 10px;border-radius:8px;background:#1E3B38;color:#fff">Orders <span style="float:right;background:#E8833A;color:#fff;border-radius:999px;padding:0 7px;font-size:11px">214</span></div>
+    <div style="padding:8px 10px">Payments & payouts</div>
+    <div style="padding:8px 10px">Commissions & rules</div>
+    <div style="padding:8px 10px">Reviews & reports</div>
+    <div style="padding:8px 10px">Support tickets</div>
+  </aside>
+
+  <div style="flex:1;display:flex;flex-direction:column;min-width:0">
+    <header style="background:#fff;border-bottom:1px solid #E1E6E4;padding:12px 24px;display:flex;align-items:center;gap:12px">
+      <div style="font-size:12px;color:#6B7370">Admin / Moderation</div>
+      <span style="margin-left:auto;background:#EEF4FB;color:#1F5FA8;border-radius:999px;padding:4px 10px;font-weight:600">Role: Product Moderator</span>
+    </header>
+
+    <main style="padding:20px 24px;display:flex;flex-direction:column;gap:14px">
+      <h1 style="margin:0;font-size:24px;font-weight:800">Product moderation queue</h1>
+
+      <div style="display:flex;gap:6px;border-bottom:1px solid #E1E6E4;font-weight:600">
+        <span style="padding:10px 12px;border-bottom:2px solid #0F5F57;color:#0F5F57">Pending (38)</span>
+        <span style="padding:10px 12px;color:#4A524F">Changes requested (9)</span>
+        <span style="padding:10px 12px;color:#4A524F">Rejected (57)</span>
+        <span style="padding:10px 12px;color:#4A524F">Reported listings (11)</span>
+      </div>
+
+      <section style="display:grid;grid-template-columns:1fr 1.1fr;gap:12px">
+        <div style="background:#fff;border:1px solid #E1E6E4;border-radius:12px;overflow:hidden">
+          <div style="padding:10px 14px;border-bottom:1px solid #EEF1F0;display:flex;gap:8px;align-items:center"><input aria-label="Search queue" placeholder="Search listing or seller" style="flex:1;height:34px;border:1px solid #D5DBD8;border-radius:8px;padding:0 10px;font:inherit"><span style="border:1px solid #D5DBD8;border-radius:8px;padding:7px 10px">Category ▾</span></div>
+          <div style="padding:12px 14px;border-bottom:1px solid #EEF1F0;background:#F7FBFA"><b>Organic honey, 500 g</b><div style="color:#4A524F;margin-top:2px">Sylhet Organics · Groceries · Submitted 2h ago</div><span style="display:inline-block;margin-top:6px;background:#FFF3E0;color:#B26A00;padding:2px 8px;border-radius:999px;font-size:12px">Pending review</span></div>
+          <div style="padding:12px 14px;border-bottom:1px solid #EEF1F0"><b>Used Samsung Galaxy A24</b><div style="color:#4A524F;margin-top:2px">Mirpur Mobile Hub · Electronics · Submitted 5h ago</div><span style="display:inline-block;margin-top:6px;background:#FDECEA;color:#B3261E;padding:2px 8px;border-radius:999px;font-size:12px">Flag: IMEI missing</span></div>
+          <div style="padding:12px 14px"><b>Replica sneakers (unverified brand)</b><div style="color:#4A524F;margin-top:2px">Unknown seller · Fashion · Reported ×3</div><span style="display:inline-block;margin-top:6px;background:#FDECEA;color:#B3261E;padding:2px 8px;border-radius:999px;font-size:12px">Prohibited? Review</span></div>
+        </div>
+
+        <div style="background:#fff;border:1px solid #E1E6E4;border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;justify-content:space-between"><b style="font-size:16px">Review: Organic honey, 500 g</b><span style="color:#4A524F">Queue 1 of 38</span></div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px"><div style="height:90px;background:#E9EFEC;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#6B7370">Image 1</div><div style="height:90px;background:#E9EFEC;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#6B7370">Image 2</div><div style="height:90px;background:#E9EFEC;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#6B7370">Image 3</div></div>
+          <div style="color:#4A524F;line-height:1.5">Price ৳ 680 · Stock 3 · Condition: New · Auto-checks: prohibited words ✓, duplicate SKU ✓, image quality ⚠ (blur)</div>
+          <label style="color:#1A1F1E">Rejection reason (shown to seller)<span style="display:block;border:1px solid #D5DBD8;border-radius:8px;padding:8px 10px;margin-top:4px;color:#6B7370">Select reason ▾ — Image quality, Prohibited item, Incorrect category…</span></label>
+          <label style="color:#1A1F1E">Internal moderation note<span style="display:block;border:1px solid #D5DBD8;border-radius:8px;padding:8px 10px;margin-top:4px;color:#6B7370">Visible to admins only</span></label>
+          <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:auto">
+            <span style="border:1px solid #D5DBD8;border-radius:8px;padding:9px 14px;background:#fff">Request changes</span>
+            <span style="border:1px solid #B3261E;color:#B3261E;border-radius:8px;padding:9px 14px">Reject</span>
+            <span style="background:#2E7D32;color:#fff;border-radius:8px;padding:9px 14px;font-weight:600">Approve & publish</span>
+          </div>
+        </div>
+      </section>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px"><h2 style="margin:0;font-size:18px;font-weight:700">Global orders</h2><span style="border:1px solid #D5DBD8;border-radius:8px;padding:8px 12px;background:#fff">Export CSV</span></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <label style="flex:1;min-width:260px;height:36px;border:1px solid #D5DBD8;border-radius:8px;background:#fff;display:flex;align-items:center;padding:0 12px;color:#6B7370">Order no., buyer, seller</label>
+        <span style="border:1px solid #D5DBD8;border-radius:8px;padding:8px 12px;background:#fff">Payment: Any ▾</span>
+        <span style="border:1px solid #D5DBD8;border-radius:8px;padding:8px 12px;background:#fff">Shipping: Any ▾</span>
+        <span style="border:1px solid #D5DBD8;border-radius:8px;padding:8px 12px;background:#fff">Status: Disputed ▾</span>
+      </div>
+      <div style="background:#fff;border:1px solid #E1E6E4;border-radius:12px;overflow:hidden">
+        <table style="width:100%;border-collapse:collapse;font-size:13px">
+          <thead style="background:#F7F9F8;text-align:left;color:#4A524F"><tr><th style="padding:10px 14px">Order</th><th>Buyer</th><th>Sellers (suborders)</th><th>Payment</th><th>Status</th><th style="text-align:right;padding-right:14px">Total</th></tr></thead>
+          <tbody>
+            <tr style="border-top:1px solid #EEF1F0"><td style="padding:10px 14px"><b>BZ-260410-1182</b><br><span style="color:#6B7370">10 Oct, 09:14</span></td><td>Rafiul I.</td><td>2 suborders: Nakshi Store (Shipped), Sylhet Organics (Processing)</td><td><span style="background:#E7F4EA;color:#2E7D32;padding:3px 8px;border-radius:999px">Paid · bKash (ref •••4471)</span></td><td><span style="background:#E8F1FB;color:#1F5FA8;padding:3px 8px;border-radius:999px">Partly shipped</span></td><td style="text-align:right;padding-right:14px">৳ 3,140</td></tr>
+            <tr style="border-top:1px solid #EEF1F0"><td style="padding:10px 14px"><b>BZ-260409-0907</b><br><span style="color:#6B7370">9 Oct, 18:02</span></td><td>Nusrat J.</td><td>Mirpur Mobile Hub</td><td><span style="background:#FFF3E0;color:#B26A00;padding:3px 8px;border-radius:999px">COD · Awaiting collection</span></td><td><span style="background:#FDECEA;color:#B3261E;padding:3px 8px;border-radius:999px">Disputed</span></td><td style="text-align:right;padding-right:14px">৳ 14,500</td></tr>
+            <tr style="border-top:1px solid #EEF1F0"><td style="padding:10px 14px"><b>BZ-260408-0455</b><br><span style="color:#6B7370">8 Oct, 11:37</span></td><td>Tanvir H.</td><td>Chattogram Home</td><td><span style="background:#FDECEA;color:#B3261E;padding:3px 8px;border-radius:999px">Failed · retry pending</span></td><td><span style="background:#EEF1F0;color:#4A524F;padding:3px 8px;border-radius:999px">Awaiting payment</span></td><td style="text-align:right;padding-right:14px">৳ 1,890</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="background:#FFF8EE;border:1px solid #F3D9B5;border-radius:10px;padding:10px 14px;color:#4A524F">Refund on BZ-260409-0907 stays "Pending provider confirmation" until the payment provider confirms. Funds are not released while disputed.</div>
+    </main>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1400}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

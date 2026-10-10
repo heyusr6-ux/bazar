@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>404 - Page not found</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F6F7F4}
+*{box-sizing:border-box}
+a{color:inherit;text-decoration:none}
+.app{font-family:'Plus Jakarta Sans','Hind Siliguri',system-ui,sans-serif;color:#1A1F1E;font-size:14px;line-height:1.5;min-height:100vh;background:#F6F7F4;display:flex;flex-direction:column}
+.hdr{background:#fff;border-bottom:1px solid #E3E7E4;padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{font-size:20px;font-weight:800;color:#0F5F57}.logo span{color:#E8833A}
+.main{flex:1;display:grid;place-items:center;padding:24px 16px}
+.box{max-width:560px;width:100%;background:#fff;border:1px solid #E3E7E4;border-radius:16px;padding:28px;display:grid;gap:14px;text-align:center;justify-items:center}
+.code{font-size:56px;font-weight:800;color:#0F5F57;line-height:1}
+.muted{color:#4A524F}
+.search{display:flex;gap:8px;width:100%;flex-wrap:wrap}
+.in{min-height:44px;border:1px solid #D5DBD8;border-radius:10px;padding:0 12px;font:inherit;flex:1 1 220px;min-width:0;background:#fff}
+.btn{min-height:44px;padding:0 16px;border-radius:10px;font:inherit;font-weight:700;border:1px solid #0F5F57;background:#0F5F57;color:#fff;cursor:pointer}
+.btn-line{background:#fff;color:#0F5F57}
+.links{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.sug{width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.sug div{height:90px;background:#E9EFEC;border-radius:10px}
+@media (max-width:560px){.sug{grid-template-columns:repeat(2,minmax(0,1fr))}.box{padding:20px}.code{font-size:44px}}
+</style>
+</helmet>
+<div class="app">
+  <header class="hdr"><div class="logo">Bazaar<span>BD</span></div></header>
+  <main class="main">
+    <section class="box" aria-labelledby="nf-h">
+      <div class="code" aria-hidden="true">404</div>
+      <h1 id="nf-h" style="margin:0;font-size:20px">This page was not found</h1>
+      <p class="muted" style="margin:0">The link may be broken, or the product may have been removed. Try searching or go back to the homepage.</p>
+      <form class="search" role="search" onsubmit="return false">
+        <label style="display:flex;flex:1 1 220px;min-width:0"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Search products</span><input class="in" type="search" placeholder="Search products"></label>
+        <button type="submit" class="btn">Search</button>
+      </form>
+      <div class="links">
+        <button type="button" class="btn btn-line">Back to homepage</button>
+        <button type="button" class="btn btn-line">Browse categories</button>
+      </div>
+      <div class="muted" style="font-size:13px;margin-top:6px">You may like</div>
+      <div class="sug" aria-hidden="true"><div></div><div></div><div></div></div>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

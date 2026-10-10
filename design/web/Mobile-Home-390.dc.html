@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mobile Homepage (390px)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#E9EDEB}
+*{box-sizing:border-box}
+.phone{width:390px;margin:0 auto;background:#F6F7F4;font-family:'Plus Jakarta Sans','Hind Siliguri',system-ui,sans-serif;color:#1A1F1E;font-size:14px;line-height:1.45;min-height:844px;display:flex;flex-direction:column;overflow:hidden}
+.muted{color:#4A524F}
+.top{background:#fff;padding:10px 16px;display:grid;gap:10px;border-bottom:1px solid #E3E7E4}
+.row{display:flex;align-items:center;gap:10px}
+.logo{font-size:18px;font-weight:800;color:#0F5F57;margin-right:auto}.logo span{color:#E8833A}
+.in{min-height:42px;border:1px solid #D5DBD8;border-radius:12px;padding:0 12px;font:inherit;width:100%;background:#F7F9F8}
+.icon{min-width:44px;min-height:44px;border:1px solid #D5DBD8;border-radius:12px;background:#fff;font:inherit;font-weight:700;color:#0F5F57;cursor:pointer}
+.hero{margin:12px 16px 0;height:160px;border-radius:14px;background:linear-gradient(135deg,#0F5F57,#1F8A7F);color:#fff;padding:14px;display:flex;flex-direction:column;justify-content:flex-end;gap:4px}
+.cats{display:flex;gap:8px;overflow-x:auto;padding:12px 16px;scrollbar-width:none}
+.cat{flex:0 0 auto;min-height:44px;padding:0 14px;border-radius:999px;background:#fff;border:1px solid #D5DBD8;font:inherit;font-weight:600;color:#1A1F1E;cursor:pointer}
+.sec{padding:4px 16px 8px;display:flex;justify-content:space-between;align-items:center}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:0 16px 16px}
+.card{background:#fff;border:1px solid #E3E7E4;border-radius:14px;padding:8px;display:grid;gap:4px;min-width:0}
+.card .img{height:120px;background:#E9EFEC;border-radius:10px}
+.price{color:#0F5F57;font-weight:800}
+.tabbar{margin-top:auto;background:#fff;border-top:1px solid #E3E7E4;display:grid;grid-template-columns:repeat(4,1fr);position:sticky;bottom:0}
+.tabbar a{min-height:56px;display:grid;place-items:center;font-size:12px;font-weight:600;color:#4A524F}
+.tabbar a.on{color:#0F5F57}
+.cta{margin:0 16px 12px;min-height:48px;border:0;border-radius:12px;background:#E8833A;color:#fff;font:inherit;font-weight:800;cursor:pointer}
+</style>
+</helmet>
+<div class="phone" role="document" aria-label="Mobile homepage, 390 pixels wide">
+  <header class="top">
+    <div class="row">
+      <div class="logo">Bazaar<span>BD</span></div>
+      <button type="button" class="icon" aria-label="Wishlist">♡</button>
+      <button type="button" class="icon" aria-label="Cart, 2 items">Cart 2</button>
+    </div>
+    <label class="row" style="gap:8px"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Search products</span><input class="in" type="search" placeholder="Search products, shops"></label>
+  </header>
+
+  <section class="hero" aria-label="Campaign">
+    <span style="font-size:12px;opacity:.9">Eid campaign · ends 15 Oct</span>
+    <b style="font-size:20px;line-height:1.2">Up to 30% off handloom</b>
+  </section>
+
+  <nav class="cats" aria-label="Categories">
+    <button type="button" class="cat">Fashion</button>
+    <button type="button" class="cat">Electronics</button>
+    <button type="button" class="cat">Home</button>
+    <button type="button" class="cat">Beauty</button>
+    <button type="button" class="cat">Grocery</button>
+  </nav>
+
+  <div class="sec"><b style="font-size:16px">Trending now</b><a href="#" style="color:#0F5F57;font-weight:700;min-height:44px;display:flex;align-items:center">See all</a></div>
+  <section class="grid" aria-label="Products">
+    <a class="card" href="#"><div class="img"></div><b style="font-size:13px">Handloom cotton saree</b><span class="price">৳ 2,450</span><span class="muted" style="font-size:12px">★ 4.8 · Nakshi Store</span></a>
+    <a class="card" href="#"><div class="img"></div><b style="font-size:13px">Jamdani scarf</b><span class="price">৳ 1,150</span><span class="muted" style="font-size:12px">★ 4.6 · Nakshi Store</span></a>
+  </section>
+
+  <button type="button" class="cta">Shop Eid collection</button>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="#" class="on" aria-current="page">Home</a>
+    <a href="#">Categories</a>
+    <a href="#">Orders</a>
+    <a href="#">Account</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

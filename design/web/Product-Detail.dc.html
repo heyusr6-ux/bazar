@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Product Detail</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F6F7F4}
+*{box-sizing:border-box}
+a{color:inherit;text-decoration:none}
+.app{font-family:'Plus Jakarta Sans','Hind Siliguri',system-ui,sans-serif;color:#1A1F1E;font-size:14px;line-height:1.5;min-height:100vh;background:#F6F7F4}
+.hdr{background:#fff;border-bottom:1px solid #E3E7E4;padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{font-size:20px;font-weight:800;color:#0F5F57}.logo span{color:#E8833A}
+.search{flex:1 1 240px;min-height:44px;border:1px solid #D5DBD8;border-radius:12px;display:flex;align-items:center;padding:0 14px;color:#6B7370;background:#fff}
+.wrap{max-width:1200px;margin:0 auto;padding:14px 16px;display:flex;flex-direction:column;gap:20px}
+.top{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:24px;align-items:start}
+.card{background:#fff;border:1px solid #E3E7E4;border-radius:16px;padding:18px;min-width:0}
+.gal{height:min(460px,70vw);background:#E9EFEC;border-radius:16px;display:flex;align-items:center;justify-content:center;color:#6B7370}
+.thumbs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:10px}
+.thumbs div{height:64px;background:#E9EFEC;border-radius:10px}
+.btn{min-height:48px;padding:0 16px;border-radius:12px;font:inherit;font-weight:700;border:1px solid #D5DBD8;background:#fff;color:#1A1F1E;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
+.btn-a{background:#E8833A;border-color:#E8833A;color:#fff}
+.btn-p{background:#0F5F57;border-color:#0F5F57;color:#fff}
+.acts{display:grid;grid-template-columns:auto minmax(0,1fr) minmax(0,1fr) auto;gap:10px}
+.muted{color:#4A524F}
+.tabs{display:flex;gap:18px;border-bottom:1px solid #EEF1F0;font-weight:700;overflow-x:auto;white-space:nowrap}
+.tabs a{padding-bottom:10px}
+.tabs a.on{color:#0F5F57;border-bottom:2px solid #0F5F57}
+.specs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;color:#4A524F}
+.rel{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.rel div{background:#fff;border:1px solid #E3E7E4;border-radius:14px;min-height:150px;padding:12px;color:#4A524F}
+@media (max-width:860px){.top{grid-template-columns:1fr}.rel{grid-template-columns:repeat(2,minmax(0,1fr))}.bot{grid-template-columns:1fr!important}}
+@media (max-width:460px){.acts{grid-template-columns:1fr 1fr}.acts .wish{grid-column:1/-1}}
+</style>
+</helmet>
+<div class="app">
+  <header class="hdr">
+    <div class="logo">Bazaar<span>BD</span></div>
+    <label class="search"><span>Search products · পণ্য খুঁজুন</span></label>
+    <nav aria-label="Account" style="display:flex;gap:12px;font-weight:600;flex-wrap:wrap"><a href="#">Sign in</a><a href="#">Wishlist</a><a href="#">Cart (2)</a></nav>
+  </header>
+
+  <main class="wrap">
+    <nav aria-label="Breadcrumb" class="muted" style="font-size:13px">Home › Fashion › Women › Sarees</nav>
+
+    <section class="top">
+      <div>
+        <div class="gal" role="img" aria-label="Main product image">Main image · tap to zoom</div>
+        <div class="thumbs"><div style="border:2px solid #0F5F57"></div><div></div><div></div><div></div><div></div></div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;gap:6px;flex-wrap:wrap"><span class="pill" style="background:#E7F4EA;color:#2E7D32;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:600">New</span><span style="background:#E8F1FB;color:#1F5FA8;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:600">Handloom</span></div>
+        <h1 style="margin:0;font-size:clamp(20px,3vw,24px);font-weight:800;line-height:1.3">Handloom cotton saree with Dhakai jamdani border</h1>
+        <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap"><span style="font-size:28px;font-weight:800">৳ 2,450</span><s class="muted">৳ 3,200</s><span style="color:#2E7D32;font-weight:700">23% off</span></div>
+        <div style="color:#2E7D32;font-weight:600">In stock · 14 available</div>
+        <div class="muted">Colour: <b style="color:#1A1F1E">Indigo</b> (choose) · Size: Free</div>
+
+        <div class="card" style="display:grid;gap:8px;padding:14px">
+          <div><b>Deliver to</b> Dhanmondi, Dhaka 1207 · <a href="#" style="color:#0F5F57;font-weight:700">Change</a></div>
+          <div>Estimated delivery <b>12–14 Oct</b> · Shipping ৳ 60 (free over ৳ 999 in Dhaka)</div>
+          <div>Payment: bKash · Nagad · card · cash on delivery <span style="color:#B26A00">(gateways not connected in this design)</span></div>
+          <div>Returns: 7 days after delivery, unused, with tags · <a href="#" style="color:#0F5F57;font-weight:700">Policy</a></div>
+        </div>
+
+        <div class="acts">
+          <div style="display:flex;align-items:center;border:1px solid #D5DBD8;border-radius:12px;min-height:48px"><button type="button" class="btn" style="min-height:46px;border:0" aria-label="Decrease quantity">−</button><span style="padding:0 10px;font-weight:700">1</span><button type="button" class="btn" style="min-height:46px;border:0" aria-label="Increase quantity">+</button></div>
+          <button type="button" class="btn btn-a">Add to cart</button>
+          <button type="button" class="btn btn-p">Buy now</button>
+          <button type="button" class="btn wish" aria-label="Add to wishlist">♡</button>
+        </div>
+
+        <div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:14px">
+          <div><b>Nakshi Store</b> <span style="background:#E7F0EE;color:#0F5F57;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:700">✓ Verified</span><div class="muted">★ 4.8 · 3,200 sales · Dhaka</div></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn" style="min-height:40px;border-color:#0F5F57;color:#0F5F57">Chat seller</button><a class="btn" style="min-height:40px" href="#">Visit store</a></div>
+        </div>
+        <div class="muted" style="font-size:13px">Check return window and seller rating before paying. <a href="#" style="color:#B3261E;font-weight:700">Report listing</a></div>
+      </div>
+    </section>
+
+    <section class="bot" style="display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:20px;align-items:start">
+      <div class="card" style="display:grid;gap:12px">
+        <nav class="tabs" aria-label="Product info"><a class="on" href="#">Description</a><a href="#">Specifications</a><a href="#">Reviews (212)</a></nav>
+        <p style="margin:0;line-height:1.6;color:#4A524F">Pure cotton handloom saree from Dhaka weavers, 5.5 m with blouse piece. Hand-wash recommended.</p>
+        <div class="specs"><div>Material: 100% cotton</div><div>Brand: Nakshi Store</div><div>Length: 5.5 m</div><div>Origin: Bangladesh</div></div>
+      </div>
+      <div class="card" style="display:grid;gap:10px">
+        <b style="font-size:16px">Ratings</b>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span style="font-size:32px;font-weight:800">4.8</span><span class="muted">212 reviews · 96% recommend</span></div>
+        <div class="muted" style="display:grid;gap:4px"><div>5★ 80%</div><div>4★ 14%</div><div>3★ 3%</div></div>
+        <div style="border-top:1px solid #EEF1F0;padding-top:10px"><b>Rahima K.</b> ★★★★★ <span class="muted">"Exactly like the photo. Fabric is soft."</span><div style="margin-top:6px;color:#0F5F57;font-weight:700">Seller reply: Thank you, Rahima!</div></div>
+      </div>
+    </section>
+
+    <section>
+      <h2 style="margin:0 0 12px;font-size:18px;font-weight:700">More from Nakshi Store</h2>
+      <div class="rel">
+        <div>Product card · ৳ 1,850</div><div>Product card · ৳ 2,900</div><div>Product card · ৳ 1,200</div><div>Product card · ৳ 3,400</div>
+      </div>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1500}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

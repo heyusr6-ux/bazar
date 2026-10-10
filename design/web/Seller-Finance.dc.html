@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seller - Finance & Payouts</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F6F7F4}
+*{box-sizing:border-box}
+.app{font-family:'Plus Jakarta Sans','Hind Siliguri',system-ui,sans-serif;color:#1A1F1E;font-size:14px;line-height:1.5;min-height:100vh;background:#F6F7F4}
+.shell{display:grid;grid-template-columns:220px minmax(0,1fr);min-height:100vh}
+.side{background:#fff;border-right:1px solid #E3E7E4;padding:18px 12px;display:flex;flex-direction:column;gap:2px}
+.side a{padding:9px 10px;border-radius:8px}
+.side a.on{background:#E7F0EE;color:#0F5F57;font-weight:700}
+.top{background:#fff;border-bottom:1px solid #E3E7E4;padding:12px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.main{padding:18px 20px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.card{background:#fff;border:1px solid #E3E7E4;border-radius:14px;padding:16px;display:grid;gap:10px;min-width:0}
+.grid{display:grid;gap:12px}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
+.tbl{overflow-x:auto;background:#fff;border:1px solid #E3E7E4;border-radius:14px}
+table{width:100%;border-collapse:collapse;min-width:620px}
+th,td{padding:10px 14px;text-align:left;border-top:1px solid #EEF1F0}
+th{background:#F7F9F8;color:#4A524F;font-weight:600}
+.pill{display:inline-block;padding:3px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+.btn{min-height:44px;padding:0 14px;border-radius:10px;font:inherit;font-weight:700;border:1px solid #0F5F57;background:#0F5F57;color:#fff;cursor:pointer;width:100%}
+.btn-line{background:#fff;color:#0F5F57}
+.row{display:flex;justify-content:space-between;gap:10px}
+.muted{color:#4A524F}
+.in{min-height:44px;border:1px solid #D5DBD8;border-radius:10px;padding:0 12px;font:inherit;width:100%;background:#fff}
+.note{background:#FFF8EE;border:1px solid #F3D9B5;border-radius:10px;padding:10px 12px;color:#4A524F;font-size:13px;line-height:1.6}
+@media (max-width:1000px){.g4{grid-template-columns:repeat(2,minmax(0,1fr))}.g2{grid-template-columns:1fr}}
+@media (max-width:860px){.shell{grid-template-columns:1fr}.side{flex-direction:row;overflow-x:auto;white-space:nowrap;border-right:0;border-bottom:1px solid #E3E7E4;padding:8px}.side a{flex:0 0 auto}}
+@media (max-width:560px){.g4{grid-template-columns:1fr}.main{padding:14px}}
+</style>
+</helmet>
+<div class="app">
+<div class="shell">
+  <nav class="side" aria-label="Seller navigation">
+    <div style="font-weight:800;font-size:17px;color:#0F5F57;padding:6px 10px 14px">Bazaar<span style="color:#E8833A">BD</span></div>
+    <a href="#">Overview</a>
+    <a href="#">Products</a>
+    <a href="#">Orders</a>
+    <a href="#">Returns &amp; disputes</a>
+    <a class="on" href="#" aria-current="page">Finance</a>
+    <a href="#">Store settings</a>
+    <a href="#">Marketing &amp; coupons</a>
+  </nav>
+
+  <div style="min-width:0">
+    <header class="top">
+      <h1 style="margin:0;font-size:18px;font-weight:800">Finance &amp; payouts</h1>
+      <button type="button" class="btn btn-line" style="margin-left:auto;width:auto">Download statement</button>
+    </header>
+
+    <main class="main">
+      <section class="grid g4" aria-label="Balances">
+        <div class="card"><div class="muted">Available to withdraw</div><div style="font-size:22px;font-weight:800;color:#2E7D32">৳ 84,300</div><div class="muted" style="font-size:12px">Settled and past return window</div></div>
+        <div class="card"><div class="muted">Pending (not withdrawable)</div><div style="font-size:22px;font-weight:800;color:#B26A00">৳ 1,12,400</div><div class="muted" style="font-size:12px">Settles 7 days after delivery</div></div>
+        <div class="card"><div class="muted">Held (disputed)</div><div style="font-size:22px;font-weight:800;color:#B3261E">৳ 0</div><div class="muted" style="font-size:12px">No open disputes</div></div>
+        <div class="card"><div class="muted">Last payout</div><div style="font-size:22px;font-weight:800">৳ 42,000</div><div class="muted" style="font-size:12px">2 Oct · bKash •••4471</div></div>
+      </section>
+
+      <section class="grid g2">
+        <form class="card" onsubmit="return false">
+          <b style="font-size:15px">Request withdrawal</b>
+          <label style="display:grid;gap:6px">Amount (৳)<input class="in" value="84,300" aria-describedby="max-h"><span id="max-h" class="muted" style="font-size:12px">Maximum available</span></label>
+          <label style="display:grid;gap:6px">Method<select class="in"><option>bKash •••4471</option><option>Bank •••2290</option></select></label>
+          <div class="note">Minimum ৳ 500 · processing 2–3 working days · fee ৳ 10 per withdrawal. Payout is not connected in this design, so requests stay as "Pending approval".</div>
+          <button class="btn" type="submit">Request withdrawal</button>
+        </form>
+
+        <div class="card">
+          <b style="font-size:15px">Earnings breakdown (this month)</b>
+          <div class="row"><span>Gross sales</span><b>৳ 2,40,000</b></div>
+          <div class="row muted"><span>Platform commission (8%)</span><span>− ৳ 18,000</span></div>
+          <div class="row muted"><span>Refund deductions</span><span>− ৳ 4,200</span></div>
+          <div class="row muted"><span>Discounts you fund</span><span>− ৳ 6,100</span></div>
+          <div class="row muted"><span>Delivery (buyer-paid)</span><span>৳ 0</span></div>
+          <div class="row" style="font-weight:800;border-top:1px solid #EEF1F0;padding-top:8px"><span>Net earnings</span><span>৳ 2,17,800</span></div>
+        </div>
+      </section>
+
+      <section class="tbl" aria-label="Transactions">
+        <table>
+          <caption style="text-align:left;padding:12px 14px;font-weight:700">Transaction history</caption>
+          <thead><tr><th>Date</th><th>Type</th><th>Reference</th><th>Amount</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>10 Oct</td><td>Sale (NS-260410-1182A)</td><td>BZ-260410-1182</td><td>+ ৳ 2,254</td><td><span class="pill" style="background:#FFF3E0;color:#B26A00">Pending</span></td></tr>
+            <tr><td>8 Oct</td><td>Refund deduction</td><td>BZ-260405-0612</td><td>− ৳ 1,200</td><td><span class="pill" style="background:#E7F4EA;color:#2E7D32">Applied</span></td></tr>
+            <tr><td>2 Oct</td><td>Payout</td><td>PO-88021</td><td>− ৳ 42,000</td><td><span class="pill" style="background:#E7F4EA;color:#2E7D32">Paid</span></td></tr>
+          </tbody>
+        </table>
+      </section>
+      <p class="muted" style="font-size:12px;margin:0">Values are mock. Commission, settlement and fee rules are set by the platform admin.</p>
+    </main>
+  </div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1400}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

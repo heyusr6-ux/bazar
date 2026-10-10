@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin - Payout Approval</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F3F5F4}
+*{box-sizing:border-box}
+.app{font-family:'Plus Jakarta Sans','Hind Siliguri',system-ui,sans-serif;color:#1A1F1E;font-size:14px;line-height:1.5;min-height:100vh;background:#F3F5F4}
+.shell{display:grid;grid-template-columns:236px minmax(0,1fr);min-height:100vh}
+.side{background:#132321;color:#D7E3DF;padding:18px 12px;display:flex;flex-direction:column;gap:2px}
+.side a{padding:9px 10px;border-radius:8px;min-height:40px;display:flex;align-items:center;color:#D7E3DF}
+.side a.on{background:#1F3A36;color:#fff;font-weight:700}
+.top{background:#fff;border-bottom:1px solid #E3E7E4;padding:12px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.main{padding:18px 20px;display:grid;gap:14px;min-width:0}
+.muted{color:#4A524F}
+.tbl{overflow-x:auto;background:#fff;border:1px solid #E3E7E4;border-radius:14px}
+table{width:100%;border-collapse:collapse;min-width:820px}
+th,td{padding:10px 14px;text-align:left;border-top:1px solid #EEF1F0;vertical-align:top}
+th{background:#F7F9F8;color:#4A524F;font-weight:600}
+.pill{display:inline-block;padding:3px 9px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.btn{min-height:36px;padding:0 12px;border-radius:8px;font:inherit;font-weight:700;border:1px solid #0F5F57;background:#0F5F57;color:#fff;cursor:pointer}
+.btn-line{background:#fff;color:#0F5F57}
+.btn-d{background:#fff;color:#B3261E;border-color:#B3261E}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.card{background:#fff;border:1px solid #E3E7E4;border-radius:14px;padding:16px;display:grid;gap:8px;min-width:0}
+.note{background:#FFF8EE;border:1px solid #F3D9B5;border-radius:10px;padding:10px 12px;color:#4A524F;font-size:13px}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.in{min-height:40px;border:1px solid #D5DBD8;border-radius:8px;padding:0 10px;font:inherit;width:100%;background:#fff}
+.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+@media (max-width:900px){.shell{grid-template-columns:1fr}.side{flex-direction:row;overflow-x:auto;white-space:nowrap;padding:8px}.side a{flex:0 0 auto}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.two{grid-template-columns:1fr}.main{padding:14px}.stats{grid-template-columns:1fr}}
+</style>
+</helmet>
+<div class="app">
+<div class="shell">
+  <nav class="side" aria-label="Admin navigation">
+    <div style="font-weight:800;font-size:17px;color:#fff;padding:6px 10px 14px">Bazaar<span style="color:#E8833A">BD</span> <span style="color:#9FB5AF;font-size:12px">Admin</span></div>
+    <a href="#">Overview</a>
+    <a href="#">Seller KYC</a>
+    <a href="#">Users &amp; sellers</a>
+    <a href="#">Moderation &amp; orders</a>
+    <a class="on" href="#" aria-current="page">Payouts</a>
+    <a href="#">Support</a>
+    <a href="#">Roles &amp; audit</a>
+  </nav>
+  <div style="min-width:0">
+    <header class="top"><h1 style="margin:0;font-size:18px;font-weight:800">Payout approval</h1><button type="button" class="btn btn-line" style="margin-left:auto">Export batch CSV</button></header>
+    <main class="main">
+      <section class="stats" aria-label="Payout summary">
+        <div class="card"><span class="muted">Requested</span><b style="font-size:22px">৳ 3,42,000</b></div>
+        <div class="card"><span class="muted">Waiting approval</span><b style="font-size:22px;color:#B26A00">6</b></div>
+        <div class="card"><span class="muted">Held</span><b style="font-size:22px;color:#B3261E">1</b></div>
+        <div class="card"><span class="muted">Paid this week</span><b style="font-size:22px;color:#2E7D32">৳ 1,28,500</b></div>
+      </section>
+
+      <div class="tbl">
+        <table>
+          <caption style="text-align:left;padding:12px 14px;font-weight:700">Withdrawal requests</caption>
+          <thead><tr><th>Seller</th><th>Amount</th><th>Method</th><th>Available balance</th><th>Checks</th><th>Status</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><b>Nakshi Store</b><div class="muted" style="font-size:12px">Request 10 Oct · 09:40</div></td><td><b>৳ 84,300</b></td><td>bKash •••4471</td><td>৳ 84,300</td><td><span class="pill" style="background:#E7F4EA;color:#2E7D32">Name matches</span></td><td><span class="pill" style="background:#FFF3E0;color:#B26A00">Waiting</span></td><td><div class="actions"><button class="btn btn-d" type="button">Hold</button><button class="btn" type="button">Approve</button></div></td></tr>
+            <tr><td><b>Sylhet Organics</b><div class="muted" style="font-size:12px">Request 9 Oct</div></td><td><b>৳ 12,000</b></td><td>Bank •••2290</td><td>৳ 12,000</td><td><span class="pill" style="background:#FFF3E0;color:#B26A00">Bank verification pending</span></td><td><span class="pill" style="background:#EEF1F0;color:#4A524F">Blocked</span></td><td><div class="actions"><button class="btn btn-line" type="button">View</button></div></td></tr>
+            <tr><td><b>Mirpur Mobile Hub</b><div class="muted" style="font-size:12px">Request 8 Oct</div></td><td><b>৳ 6,500</b></td><td>bKash •••0093</td><td>৳ 6,500 · dispute open</td><td><span class="pill" style="background:#FDECEA;color:#B3261E">Dispute hold</span></td><td><span class="pill" style="background:#FDECEA;color:#B3261E">Held</span></td><td><div class="actions"><button class="btn btn-line" type="button">Review dispute</button></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <section class="card" aria-labelledby="ap-h" style="gap:12px">
+        <h2 id="ap-h" style="margin:0;font-size:15px">Approve: Nakshi Store · ৳ 84,300</h2>
+        <div class="two">
+          <div class="card" style="box-shadow:none"><span class="muted" style="font-size:12px">Fee</span><b>৳ 10 per withdrawal</b></div>
+          <div class="card" style="box-shadow:none"><span class="muted" style="font-size:12px">Net to seller</span><b>৳ 84,290</b></div>
+        </div>
+        <label style="display:grid;gap:6px;font-weight:600">Approval note (required for hold)<input class="in" placeholder="e.g. Verified against bank statement"></label>
+        <div class="note">Approval needs a second admin when the amount is above ৳ 50,000. Payment is sent by the payout provider only after the connection is set up. Until then this stays as "Approved, not sent".</div>
+        <div class="actions"><button type="button" class="btn btn-line">Cancel</button><button type="button" class="btn">Approve payout</button></div>
+      </section>
+    </main>
+  </div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1400}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

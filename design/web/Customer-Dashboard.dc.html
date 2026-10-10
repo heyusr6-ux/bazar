@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Customer Dashboard</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F6F7F4}
+*{box-sizing:border-box}
+a{color:inherit;text-decoration:none}
+.app{font-family:'Plus Jakarta Sans','Hind Siliguri',system-ui,sans-serif;color:#1A1F1E;font-size:14px;line-height:1.5;min-height:100vh;background:#F6F7F4}
+.shell{display:grid;grid-template-columns:230px minmax(0,1fr);min-height:100vh}
+.side{background:#fff;border-right:1px solid #E3E7E4;padding:18px 12px;display:flex;flex-direction:column;gap:2px}
+.side a{padding:9px 10px;border-radius:8px;display:flex;justify-content:space-between;align-items:center}
+.side a.on{background:#E7F0EE;color:#0F5F57;font-weight:700}
+.count{background:#E8833A;color:#fff;border-radius:999px;padding:0 7px;font-size:11px;font-weight:700}
+.top{background:#fff;border-bottom:1px solid #E3E7E4;padding:12px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.main{padding:20px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.card{background:#fff;border:1px solid #E3E7E4;border-radius:14px;padding:16px;min-width:0}
+.grid{display:grid;gap:12px}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g2{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);align-items:start}
+.track{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;text-align:center;font-size:12px;margin-top:14px}
+.track i{display:block;height:10px;border-radius:999px;margin-bottom:6px}
+.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+.muted{color:#4A524F}
+.row{padding:12px 16px;border-top:1px solid #EEF1F0;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.btn{min-height:44px;padding:0 16px;border-radius:10px;font:inherit;font-weight:700;border:1px solid #0F5F57;background:#0F5F57;color:#fff;cursor:pointer}
+@media (max-width:1000px){.g2{grid-template-columns:1fr}.g4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:860px){.shell{grid-template-columns:1fr}.side{flex-direction:row;overflow-x:auto;white-space:nowrap;border-right:0;border-bottom:1px solid #E3E7E4;padding:8px}.side a{flex:0 0 auto}}
+@media (max-width:560px){.g4{grid-template-columns:1fr}.main{padding:14px}.track{font-size:11px}}
+</style>
+</helmet>
+<div class="app">
+<div class="shell">
+  <nav class="side" aria-label="Account navigation">
+    <div style="display:flex;gap:10px;align-items:center;padding:6px 10px 14px"><span style="width:40px;height:40px;border-radius:50%;background:#E7F0EE"></span><div><b>Rafiul Islam</b><div class="muted" style="font-size:12px">Member since 2026</div></div></div>
+    <a class="on" href="#" aria-current="page">Overview</a>
+    <a href="#">My orders <span class="count">2</span></a>
+    <a href="#">Returns &amp; refunds</a>
+    <a href="#">Wishlist</a>
+    <a href="#">Cart</a>
+    <a href="#">Addresses</a>
+    <a href="#">Transactions</a>
+    <a href="#">My reviews</a>
+    <a href="#">Messages <span class="count" style="background:#0F5F57">3</span></a>
+    <a href="#">Notifications</a>
+    <a href="#">Support tickets</a>
+    <a href="#">Profile &amp; security</a>
+    <a href="#" style="color:#B3261E">Become a seller</a>
+  </nav>
+
+  <div style="min-width:0">
+    <header class="top">
+      <h1 style="margin:0;font-size:18px;font-weight:800">Hello, Rafiul</h1>
+      <label style="margin-left:auto;flex:0 1 300px;min-width:180px;min-height:40px;border:1px solid #D5DBD8;border-radius:10px;display:flex;align-items:center;padding:0 12px;color:#6B7370;background:#fff">Search orders</label>
+    </header>
+
+    <main class="main">
+      <section class="grid g4">
+        <div class="card"><div class="muted">Pending deliveries</div><div style="font-size:22px;font-weight:800">2</div></div>
+        <div class="card"><div class="muted">Spent this month</div><div style="font-size:22px;font-weight:800">৳ 8,740</div></div>
+        <div class="card"><div class="muted">Saved products</div><div style="font-size:22px;font-weight:800">11</div></div>
+        <div class="card"><div class="muted">Refund in progress</div><div style="font-size:22px;font-weight:800">৳ 1,200</div><div style="color:#B26A00;font-size:12px">Waiting for seller</div></div>
+      </section>
+
+      <section class="card">
+        <b style="font-size:16px">Track delivery · BZ-260410-1182</b>
+        <div class="track" aria-label="Delivery progress">
+          <div><i style="background:#0F5F57"></i>Placed</div>
+          <div><i style="background:#0F5F57"></i>Paid</div>
+          <div><i style="background:#0F5F57"></i>Shipped</div>
+          <div><i style="background:#E3E7E4"></i>Out for delivery</div>
+          <div><i style="background:#E3E7E4"></i>Delivered</div>
+        </div>
+        <p class="muted" style="margin:12px 0 0">Courier tracking is not connected. The seller updates status manually. Expected 12–14 Oct.</p>
+      </section>
+
+      <section class="grid g2">
+        <div class="card" style="padding:0;overflow:hidden">
+          <div style="padding:12px 16px;font-weight:700">Recent orders</div>
+          <div class="row"><span><b>BZ-260410-1182</b> · 2 sellers · ৳ 3,140</span><span class="pill" style="background:#E8F1FB;color:#1F5FA8">Partly shipped</span></div>
+          <div class="row"><span><b>BZ-260409-0907</b> · COD · ৳ 14,500</span><span class="pill" style="background:#FDECEA;color:#B3261E">Disputed</span></div>
+          <div class="row"><span><b>BZ-260402-0311</b> · ৳ 2,450</span><span class="pill" style="background:#E7F4EA;color:#2E7D32">Completed</span></div>
+        </div>
+        <div class="card" style="display:grid;gap:10px">
+          <b>Recommended for you</b>
+          <div class="muted">Organic honey, 500 g · ৳ 680</div>
+          <div class="muted">Stainless steel cookware, 5 pcs · ৳ 1,890</div>
+        </div>
+      </section>
+
+      <section class="card" style="border-style:dashed">
+        <b>Empty state (no orders yet)</b>
+        <p class="muted" style="margin:6px 0 10px">You have no orders yet.</p>
+        <button class="btn" type="button">Start shopping</button>
+      </section>
+    </main>
+  </div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1400}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

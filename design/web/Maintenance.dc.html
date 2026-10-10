@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scheduled maintenance</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F6F7F4}
+*{box-sizing:border-box}
+.app{font-family:'Plus Jakarta Sans','Hind Siliguri',system-ui,sans-serif;color:#1A1F1E;font-size:14px;line-height:1.5;min-height:100vh;background:#F6F7F4;display:flex;flex-direction:column}
+.hdr{background:#fff;border-bottom:1px solid #E3E7E4;padding:12px 16px}
+.logo{font-size:20px;font-weight:800;color:#0F5F57}.logo span{color:#E8833A}
+.main{flex:1;display:grid;place-items:center;padding:24px 16px}
+.box{max-width:600px;width:100%;background:#fff;border:1px solid #E3E7E4;border-radius:16px;padding:28px;display:grid;gap:14px;justify-items:center;text-align:center}
+.muted{color:#4A524F}
+.badge{background:#FFF3E0;color:#B26A00;border-radius:999px;padding:4px 12px;font-weight:700;font-size:13px}
+.facts{width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;text-align:left}
+.facts div{background:#F7F9F8;border:1px solid #E3E7E4;border-radius:12px;padding:12px;display:grid;gap:2px}
+.note{background:#FFF8EE;border:1px solid #F3D9B5;border-radius:10px;padding:10px 12px;color:#4A524F;font-size:13px;width:100%;text-align:left}
+.btn{min-height:44px;padding:0 16px;border-radius:10px;font:inherit;font-weight:700;border:1px solid #0F5F57;background:#fff;color:#0F5F57;cursor:pointer}
+@media (max-width:560px){.facts{grid-template-columns:1fr}.box{padding:20px}}
+</style>
+</helmet>
+<div class="app">
+  <header class="hdr"><div class="logo">Bazaar<span>BD</span></div></header>
+  <main class="main">
+    <section class="box" aria-labelledby="mt-h">
+      <span class="badge">Scheduled maintenance</span>
+      <h1 id="mt-h" style="margin:0;font-size:20px">We are updating Bazaar BD</h1>
+      <p class="muted" style="margin:0">Browsing and checkout are paused for a short time so we can make the site faster and safer.</p>
+      <div class="facts" aria-label="Maintenance details">
+        <div><span class="muted" style="font-size:12px">Starts</span><b>11 Oct, 01:00</b></div>
+        <div><span class="muted" style="font-size:12px">Expected back</span><b>11 Oct, 03:00</b></div>
+        <div><span class="muted" style="font-size:12px">Affects</span><b>Checkout, login</b></div>
+      </div>
+      <div class="note"><b>Your orders are safe.</b> Orders placed before maintenance are processed as normal. Payments that were pending will be checked after we return. Do not place the same order twice.</div>
+      <div class="note" style="background:#F7F9F8;border-color:#E3E7E4">Need help now? Call or email support. Contact details are placeholders in this design.</div>
+      <button type="button" class="btn">Check again</button>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

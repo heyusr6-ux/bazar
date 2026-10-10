@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Buyer - Reviews</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F6F7F4}
+*{box-sizing:border-box}
+.app{font-family:'Plus Jakarta Sans','Hind Siliguri',system-ui,sans-serif;color:#1A1F1E;font-size:14px;line-height:1.5;min-height:100vh;background:#F6F7F4}
+.hdr{background:#fff;border-bottom:1px solid #E3E7E4;padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{font-size:20px;font-weight:800;color:#0F5F57}.logo span{color:#E8833A}
+.wrap{max-width:900px;margin:0 auto;padding:16px;display:grid;gap:14px}
+.card{background:#fff;border:1px solid #E3E7E4;border-radius:14px;padding:18px;display:grid;gap:10px;min-width:0}
+.muted{color:#4A524F}
+.stars{color:#E8833A;letter-spacing:2px;font-weight:700}
+.in{min-height:44px;border:1px solid #D5DBD8;border-radius:10px;padding:0 12px;font:inherit;width:100%;background:#fff}
+.ta{border:1px solid #D5DBD8;border-radius:10px;padding:10px 12px;font:inherit;width:100%;min-height:100px;background:#fff}
+.btn{min-height:44px;padding:0 16px;border-radius:10px;font:inherit;font-weight:700;border:1px solid #0F5F57;background:#0F5F57;color:#fff;cursor:pointer}
+.btn-line{background:#fff;color:#0F5F57}
+.rev{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;border-top:1px solid #EEF1F0;padding-top:12px}
+.av{width:44px;height:44px;border-radius:50%;background:#E7F0EE;color:#0F5F57;display:flex;align-items:center;justify-content:center;font-weight:800}
+.ph{display:flex;gap:6px;flex-wrap:wrap}
+.ph span{width:64px;height:64px;background:#E9EFEC;border-radius:8px}
+.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700;background:#E7F4EA;color:#2E7D32;justify-self:start}
+.note{background:#FFF8EE;border:1px solid #F3D9B5;border-radius:10px;padding:10px 12px;color:#4A524F;font-size:13px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap}
+.chip{min-height:38px;padding:0 12px;border-radius:999px;border:1px solid #D5DBD8;background:#fff;font:inherit;font-weight:600;cursor:pointer}
+.chip.on{background:#0F5F57;color:#fff;border-color:#0F5F57}
+.row{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
+@media (max-width:560px){.wrap{padding:12px}.card{padding:14px}}
+</style>
+</helmet>
+<div class="app">
+  <header class="hdr">
+    <div class="logo">Bazaar<span>BD</span></div>
+    <nav class="muted" aria-label="Breadcrumb" style="font-size:13px">My account › Orders › Review</nav>
+  </header>
+  <main class="wrap">
+    <section class="card" aria-labelledby="w-h">
+      <h1 id="w-h" style="margin:0;font-size:18px">Write a review</h1>
+      <div class="row"><b>Block print cotton kurti, M</b><span class="muted" style="font-size:13px">Delivered 8 Oct</span></div>
+      <fieldset style="border:0;padding:0;margin:0;display:grid;gap:6px">
+        <legend style="font-weight:600;padding:0 0 6px">Your rating</legend>
+        <div class="tabs" role="radiogroup" aria-label="Stars">
+          <label class="chip"><input type="radio" name="s" value="1" style="position:absolute;opacity:0"> 1 ★</label>
+          <label class="chip"><input type="radio" name="s" value="2" style="position:absolute;opacity:0"> 2 ★</label>
+          <label class="chip"><input type="radio" name="s" value="3" style="position:absolute;opacity:0"> 3 ★</label>
+          <label class="chip on"><input type="radio" name="s" value="4" checked style="position:absolute;opacity:0"> 4 ★</label>
+          <label class="chip"><input type="radio" name="s" value="5" style="position:absolute;opacity:0"> 5 ★</label>
+        </div>
+      </fieldset>
+      <label style="display:grid;gap:6px;font-weight:600">Review title<input class="in" placeholder="Summarise in a few words"></label>
+      <label style="display:grid;gap:6px;font-weight:600">Your review<textarea class="ta" placeholder="Fit, fabric, delivery — what should other buyers know?"></textarea></label>
+      <label style="display:grid;gap:6px;font-weight:600">Photos (optional, up to 3)<input class="in" type="file" accept="image/*" multiple></label>
+      <div class="note">Reviews are published after a quick check for abuse or personal data. You can edit your review within 7 days. Sellers can reply but cannot remove reviews.</div>
+      <div class="row" style="justify-content:flex-end"><button type="button" class="btn btn-line">Cancel</button><button type="button" class="btn">Publish review</button></div>
+    </section>
+
+    <section class="card" aria-labelledby="l-h">
+      <div class="row"><h2 id="l-h" style="margin:0;font-size:16px">Reviews for Nakshi Store</h2><span class="muted" style="font-size:13px">4.7 average · 318 reviews</span></div>
+      <div class="tabs" role="group" aria-label="Filter reviews">
+        <button type="button" class="chip on" aria-pressed="true">All</button>
+        <button type="button" class="chip" aria-pressed="false">With photos</button>
+        <button type="button" class="chip" aria-pressed="false">5 ★</button>
+        <button type="button" class="chip" aria-pressed="false">Critical (1–2 ★)</button>
+      </div>
+      <article class="rev">
+        <div class="av" aria-hidden="true">SA</div>
+        <div style="display:grid;gap:6px;min-width:0">
+          <div class="row"><b>Sadia A.</b><span class="stars" aria-label="5 out of 5">★★★★★</span></div>
+          <span class="muted" style="font-size:12px">Verified purchase · 2 Oct</span>
+          <div>Fabric is soft and the colour is exactly as shown. Delivery in 2 days.</div>
+          <div class="ph" aria-label="Photos"><span></span><span></span></div>
+          <div style="background:#F7F9F8;border-radius:10px;padding:10px 12px;font-size:13px"><b>Seller reply:</b> Thank you for the feedback!</div>
+        </div>
+      </article>
+      <article class="rev">
+        <div class="av" aria-hidden="true">RI</div>
+        <div style="display:grid;gap:6px;min-width:0">
+          <div class="row"><b>Rafiul I.</b><span class="stars" aria-label="3 out of 5">★★★☆☆</span></div>
+          <span class="muted" style="font-size:12px">Verified purchase · 28 Sep</span>
+          <div>Good quality, but the size runs a bit small. Check the size chart.</div>
+        </div>
+      </article>
+      <article class="rev">
+        <div class="av" aria-hidden="true">MK</div>
+        <div style="display:grid;gap:6px;min-width:0">
+          <div class="row"><b>Mahmud K.</b><span class="stars" aria-label="1 out of 5">★☆☆☆☆</span></div>
+          <span class="pill" style="background:#FDECEA;color:#B3261E">Reported for review</span>
+          <div class="muted">This review is hidden while the platform checks it.</div>
+        </div>
+      </article>
+      <div class="row"><span class="muted" style="font-size:12px">Showing 3 of 318</span><button type="button" class="btn btn-line">Load more</button></div>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

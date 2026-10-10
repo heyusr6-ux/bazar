@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seller - Add Product</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F6F7F4}
+*{box-sizing:border-box}
+a{color:inherit;text-decoration:none}
+.app{font-family:'Plus Jakarta Sans','Hind Siliguri',system-ui,sans-serif;color:#1A1F1E;font-size:14px;line-height:1.5;min-height:100vh;background:#F6F7F4}
+.shell{display:grid;grid-template-columns:220px minmax(0,1fr);min-height:100vh}
+.side{background:#fff;border-right:1px solid #E3E7E4;padding:18px 12px;display:flex;flex-direction:column;gap:2px}
+.side a{padding:9px 10px;border-radius:8px}
+.side a.on{background:#E7F0EE;color:#0F5F57;font-weight:700}
+.top{background:#fff;border-bottom:1px solid #E3E7E4;padding:12px 20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.steps{display:flex;gap:8px;flex-wrap:wrap;padding:12px 20px;background:#fff;border-bottom:1px solid #E3E7E4;font-weight:600;font-size:13px}
+.step{padding:5px 12px;border-radius:999px;background:#EEF1F0;color:#4A524F}
+.step.done{background:#0F5F57;color:#fff}.step.now{background:#E7F0EE;color:#0F5F57}
+.main{padding:20px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:16px;align-items:start}
+.card{background:#fff;border:1px solid #E3E7E4;border-radius:14px;padding:18px;display:grid;gap:14px;min-width:0}
+.in{min-height:44px;border:1px solid #D5DBD8;border-radius:10px;padding:0 12px;font:inherit;width:100%;background:#fff}
+.ta{border:1px solid #D5DBD8;border-radius:10px;padding:10px 12px;font:inherit;width:100%;min-height:110px;background:#fff}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.btn{min-height:44px;padding:0 14px;border-radius:10px;font:inherit;font-weight:700;border:1px solid #0F5F57;background:#fff;color:#0F5F57;cursor:pointer}
+.btn-p{background:#0F5F57;color:#fff}
+.tbl{border:1px solid #E3E7E4;border-radius:10px;overflow-x:auto}
+.tr{display:grid;grid-template-columns:minmax(90px,1fr) minmax(110px,1fr) minmax(70px,.7fr) minmax(80px,.8fr);padding:9px 12px;min-width:380px;gap:8px}
+.drop{border:1px dashed #C5CCC9;border-radius:10px;padding:14px;text-align:center;color:#4A524F;font-size:13px}
+.thumbs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.thumbs div{height:76px;background:#E9EFEC;border-radius:8px}
+.muted{color:#4A524F}
+@media (max-width:980px){.main{grid-template-columns:1fr}}
+@media (max-width:860px){.shell{grid-template-columns:1fr}.side{flex-direction:row;overflow-x:auto;white-space:nowrap;border-right:0;border-bottom:1px solid #E3E7E4;padding:8px}.side a{flex:0 0 auto}}
+@media (max-width:560px){.two{grid-template-columns:1fr}.main{padding:14px}}
+</style>
+</helmet>
+<div class="app">
+<div class="shell">
+  <nav class="side" aria-label="Seller navigation">
+    <div style="font-weight:800;font-size:17px;color:#0F5F57;padding:6px 10px 14px">Bazaar<span style="color:#E8833A">BD</span></div>
+    <a href="#">Overview</a>
+    <a class="on" href="#" aria-current="page">Products</a>
+    <a href="#">Orders</a>
+    <a href="#">Finance</a>
+    <a href="#">Store settings</a>
+    <a href="#">Marketing &amp; coupons</a>
+  </nav>
+
+  <div style="min-width:0">
+    <header class="top">
+      <div><div class="muted" style="font-size:12px">Products / New</div><h1 style="margin:0;font-size:18px;font-weight:800">Add new product</h1></div>
+      <div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn" type="button">Save draft</button>
+        <button class="btn" type="button">Preview</button>
+        <button class="btn btn-p" type="button">Submit for review</button>
+      </div>
+    </header>
+
+    <nav class="steps" aria-label="Progress">
+      <span class="step done">1 · Basics ✓</span><span class="step done">2 · Photos ✓</span><span class="step now">3 · Price &amp; stock</span><span class="step">4 · Delivery</span><span class="step">5 · SEO &amp; preview</span>
+    </nav>
+
+    <main class="main">
+      <form class="card" onsubmit="return false">
+        <label style="display:grid;gap:6px"><b>Product title *</b><input class="in" value="Handloom cotton saree with Dhakai jamdani border"><span class="muted" style="font-size:12px">58 / 120 characters</span></label>
+        <div class="two">
+          <label style="display:grid;gap:6px"><b>Category *</b><select class="in" style="background:#fff"><option>Fashion › Women › Sarees</option></select></label>
+          <label style="display:grid;gap:6px"><b>Condition *</b><select class="in" style="background:#fff"><option>New</option><option>Used</option></select></label>
+        </div>
+        <label style="display:grid;gap:6px"><b>Description *</b><textarea class="ta">Pure cotton handloom saree from Dhaka weavers, 5.5 m with blouse piece…</textarea></label>
+        <div style="display:grid;gap:6px"><b>Variants</b>
+          <div class="tbl">
+            <div class="tr" style="background:#F7F9F8;font-weight:600"><span>Colour</span><span>SKU</span><span>Stock</span><span>Price ৳</span></div>
+            <div class="tr" style="border-top:1px solid #EEF1F0"><span>Indigo</span><span>NS-IND-01</span><span>14</span><span>2,450</span></div>
+            <div class="tr" style="border-top:1px solid #EEF1F0;color:#B3261E"><span>Maroon</span><span>NS-MAR-01</span><span>0 ⚠</span><span>2,450</span></div>
+          </div>
+        </div>
+      </form>
+
+      <aside style="display:grid;gap:14px;min-width:0">
+        <section class="card">
+          <b>Photos (drag to reorder)</b>
+          <div class="thumbs"><div style="border:2px solid #0F5F57"></div><div></div><div></div></div>
+          <div class="drop">Drop images here · JPG, PNG or WEBP · max 5 MB · min 800 px</div>
+        </section>
+        <section class="card">
+          <b>Pre-submit checks</b>
+          <div style="color:#2E7D32">✓ Title and category set</div>
+          <div style="color:#2E7D32">✓ 3 photos uploaded</div>
+          <div style="color:#B26A00">⚠ Maroon variant has 0 stock (it will be hidden)</div>
+          <div class="muted">Status after submit: <span style="background:#FFF3E0;color:#B26A00;padding:2px 8px;border-radius:999px">Pending review</span></div>
+        </section>
+        <section role="alert" style="background:#FDECEA;border:1px solid #F5C2BD;border-radius:14px;padding:14px;color:#B3261E">Example error: "Price must be greater than 0." Shown under the field with a clear fix.</section>
+      </aside>
+    </main>
+  </div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1400}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

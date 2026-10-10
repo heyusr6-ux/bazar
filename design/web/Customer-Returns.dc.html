@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Customer - Return & Dispute</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F6F7F4}
+*{box-sizing:border-box}
+.app{font-family:'Plus Jakarta Sans','Hind Siliguri',system-ui,sans-serif;color:#1A1F1E;font-size:14px;line-height:1.5;min-height:100vh;background:#F6F7F4}
+.hdr{background:#fff;border-bottom:1px solid #E3E7E4;padding:12px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{font-size:20px;font-weight:800;color:#0F5F57}.logo span{color:#E8833A}
+.wrap{max-width:900px;margin:0 auto;padding:16px;display:grid;gap:14px}
+.card{background:#fff;border:1px solid #E3E7E4;border-radius:14px;padding:18px;display:grid;gap:12px;min-width:0}
+.muted{color:#4A524F}
+.in{min-height:44px;border:1px solid #D5DBD8;border-radius:10px;padding:0 12px;font:inherit;width:100%;background:#fff}
+.ta{border:1px solid #D5DBD8;border-radius:10px;padding:10px 12px;font:inherit;width:100%;min-height:100px;background:#fff}
+.lbl{display:grid;gap:6px;font-weight:600}
+.line{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:12px;align-items:center}
+.img{width:56px;height:56px;background:#E9EFEC;border-radius:10px}
+.reasons{display:grid;gap:8px}
+.reasons label{display:flex;gap:10px;align-items:center;border:1px solid #D5DBD8;border-radius:10px;padding:10px 12px;min-height:44px;cursor:pointer}
+.reasons label:has(input:checked){border:2px solid #0F5F57;background:#F7FBFA}
+.btn{min-height:44px;padding:0 16px;border-radius:10px;font:inherit;font-weight:700;border:1px solid #0F5F57;background:#0F5F57;color:#fff;cursor:pointer}
+.btn-line{background:#fff;color:#0F5F57}
+.note{background:#FFF8EE;border:1px solid #F3D9B5;border-radius:10px;padding:10px 12px;color:#4A524F;font-size:13px}
+.steps{display:grid;gap:6px;border-left:2px solid #0F5F57;padding-left:12px}
+.actions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+@media (max-width:560px){.wrap{padding:12px}.line{grid-template-columns:48px minmax(0,1fr)}.line .btn-line{grid-column:2;justify-self:start}.img{width:48px;height:48px}}
+</style>
+</helmet>
+<div class="app">
+  <header class="hdr">
+    <div class="logo">Bazaar<span>BD</span></div>
+    <nav class="muted" aria-label="Breadcrumb" style="font-size:13px">Orders › BZ-260405-0612 › Return</nav>
+  </header>
+  <main class="wrap">
+    <section class="card" aria-labelledby="item-h">
+      <h1 id="item-h" style="margin:0;font-size:18px">Request a return</h1>
+      <div class="line">
+        <div class="img"></div>
+        <div><b>Block print cotton kurti, M</b><div class="muted">Delivered 8 Oct · Qty 1 · ৳ 1,200</div></div>
+        <span style="color:#2E7D32;font-weight:700;font-size:12px">Eligible · 5 days left</span>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="why-h">
+      <h2 id="why-h" style="margin:0;font-size:15px">Reason</h2>
+      <fieldset class="reasons" style="border:0;padding:0;margin:0">
+        <legend class="muted" style="font-size:12px;padding:0 0 6px">Choose one reason</legend>
+        <label><input type="radio" name="r" checked> Wrong size</label>
+        <label><input type="radio" name="r"> Damaged or defective</label>
+        <label><input type="radio" name="r"> Not as described</label>
+        <label><input type="radio" name="r"> Changed my mind (only if seller accepts returns)</label>
+      </fieldset>
+      <label class="lbl">Details (optional)<textarea class="ta" placeholder="Tell the seller what happened"></textarea></label>
+      <label class="lbl">Photos (required for damaged items)<input class="in" type="file" accept="image/*" multiple></label>
+    </section>
+
+    <section class="card" aria-labelledby="how-h">
+      <h2 id="how-h" style="margin:0;font-size:15px">What happens next</h2>
+      <div class="steps">
+        <div><b>1. Seller reviews</b> <span class="muted">within 2 working days</span></div>
+        <div><b>2. Pickup or drop-off</b> <span class="muted">courier details after approval</span></div>
+        <div><b>3. Seller receives item</b> <span class="muted">refund starts after confirmation</span></div>
+        <div><b>4. Refund</b> <span class="muted">to original method once payment provider confirms</span></div>
+      </div>
+      <div class="note">If the seller rejects the request, you can open a dispute. Our team reviews it within 3 working days.</div>
+      <div class="actions"><button type="button" class="btn btn-line">Cancel</button><button type="button" class="btn">Submit request</button></div>
+    </section>
+
+    <section class="card" aria-labelledby="ex-h">
+      <h2 id="ex-h" style="margin:0;font-size:15px">Example: request rejected</h2>
+      <div role="status" style="background:#FFF3E0;border:1px solid #F3D9B5;border-radius:10px;padding:10px 12px;color:#B26A00">Seller rejected: item shows signs of use. You can open a dispute with photos.</div>
+      <div class="actions"><button type="button" class="btn btn-line">Open dispute</button></div>
+    </section>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic {
+renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
