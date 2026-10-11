@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from "react";
 
-const API = process.env.NEXT_PUBLIC_API_URL ?? "";
+const API = "";
 
 export default function NewProductPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
