@@ -4,6 +4,9 @@ import { randomBytes } from "node:crypto";
 import type pg from "pg";
 import { pool, withTx } from "./db.js";
 import {
+  SELLER_COOKIE, SELLER_SESSION_HOURS, sellerForEmail, startSellerSession, sellerFromSession, endSellerSession,
+} from "./sellerAuth.js";
+import {
   BUYER_COOKIE, BUYER_SESSION_DAYS, signInBuyer, buyerFromSession, deleteBuyerSession,
 } from "./buyerAuth.js";
 import {
@@ -387,6 +390,90 @@ app.post("/api/auth/logout", wrap(async (req, res) => {
   if (token) await deleteBuyerSession(token);
   res.setHeader("Set-Cookie", `${BUYER_COOKIE}=; HttpOnly; Secure; SameSite=None; Path=/; Max-Age=0`);
   res.json({ ok: true });
+}));
+
+// ---- seller (Google sign-in, own products) ----
+// A seller can sign in only if the Google email is on their seller row and the account is active.
+async function requireSeller(req: express.Request, res: express.Response, next: express.NextFunction) {
+  try {
+    const token = readCookie(req.headers.cookie, SELLER_COOKIE);
+    const seller = token ? await sellerFromSession(token) : null;
+    if (!seller) return res.status(401).json({ error: "Unauthorised" });
+    (req as express.Request & { seller?: unknown }).seller = seller;
+    next();
+  } catch (err) {
+    next(err);
+  }
+}
+
+const sellerOf = (req: express.Request) =>
+  (req as express.Request & { seller: { id: string; name: string; kyc: string } }).seller;
+
+app.post("/api/seller/auth/google", wrap(async (req, res) => {
+  const { credential } = req.body ?? {};
+  const g = typeof credential === "string" ? await verifyGoogleIdToken(credential) : null;
+  const seller = g ? await sellerForEmail(g.email) : null;
+  if (!seller) throw new HttpError(401, "Sign-in failed");
+  const token = await startSellerSession(seller.id);
+  res.setHeader(
+    "Set-Cookie",
+    `${SELLER_COOKIE}=${token}; HttpOnly; Secure; SameSite=None; Path=/; Max-Age=${SELLER_SESSION_HOURS * 3600}`,
+  );
+  res.json({ ok: true, name: seller.name });
+}));
+
+app.get("/api/seller/auth/me", requireSeller, (req, res) => {
+  const s = sellerOf(req);
+  res.json({ id: s.id, name: s.name, kyc: s.kyc });
+});
+
+app.post("/api/seller/auth/logout", wrap(async (req, res) => {
+  const token = readCookie(req.headers.cookie, SELLER_COOKIE);
+  if (token) await endSellerSession(token);
+  res.setHeader("Set-Cookie", `${SELLER_COOKIE}=; HttpOnly; Secure; SameSite=None; Path=/; Max-Age=0`);
+  res.json({ ok: true });
+}));
+
+app.get("/api/seller/products", requireSeller, wrap(async (req, res) => {
+  const s = sellerOf(req);
+  const { rows } = await pool.query<ProductRow>(
+    `SELECT slug, name, price_taka, stock, seller_id, status, category, description, old_price_taka, tone
+       FROM products WHERE seller_id = $1 AND status <> removed ORDER BY updated_at DESC`,
+    [s.id],
+  );
+  res.json(rows.map(toProduct));
+}));
+
+const CATEGORIES = ["Fashion", "Electronics", "Home", "Beauty", "Grocery"];
+
+// Seller adds a product. "draft" stays hidden. "review" goes to the admin queue.
+app.post("/api/seller/products", requireSeller, wrap(async (req, res) => {
+  const s = sellerOf(req);
+  if (s.kyc !== "approved") throw new HttpError(403, "KYC approval is needed before you can list products");
+  const { name, price, stock, category, description, mode } = req.body ?? {};
+  const cleanName = typeof name === "string" ? name.trim() : "";
+  if (cleanName.length < 5 || cleanName.length > 120) throw new HttpError(400, "Title must be 5 to 120 characters");
+  const cleanPrice = Number(price);
+  if (!Number.isInteger(cleanPrice) || cleanPrice <= 0 || cleanPrice > 1000000) {
+    throw new HttpError(400, "Price must be a whole number above 0");
+  }
+  const cleanStock = Number(stock ?? 0);
+  if (!Number.isInteger(cleanStock) || cleanStock < 0) throw new HttpError(400, "Stock must be 0 or more");
+  const cleanCategory = CATEGORIES.includes(category) ? category : "Fashion";
+  const cleanDesc = typeof description === "string" ? description.trim().slice(0, 2000) : "";
+  if (mode !== "draft" && mode !== "review") throw new HttpError(400, "Invalid mode");
+  if (mode === "review" && cleanStock === 0) throw new HttpError(400, "Stock is 0, so the product cannot be submitted");
+
+  const base = cleanName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "product";
+  const slug = `${base}-${randomBytes(3).toString("hex")}`;
+  const status = mode === "review" ? "pending" : "hidden";
+
+  await pool.query(
+    `INSERT INTO products (slug, seller_id, name, price_taka, stock, status, category, description)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+    [slug, s.id, cleanName, cleanPrice, cleanStock, status, cleanCategory, cleanDesc],
+  );
+  res.status(201).json({ slug, status });
 }));
 
 // ---- error handling ----
