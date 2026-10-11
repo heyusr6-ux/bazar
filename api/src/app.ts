@@ -45,6 +45,8 @@ type SellerRow = {
   name: string;
   kyc_status: string;
   account_status: string;
+  area?: string;
+  product_count?: number;
 };
 
 const toProduct = (r: ProductRow) => ({
@@ -67,6 +69,8 @@ const toSeller = (r: SellerRow) => ({
   name: r.name,
   kyc: r.kyc_status,
   status: r.account_status,
+  area: r.area ?? "",
+  productCount: r.product_count ?? 0,
 });
 
 function newOrderId() {
@@ -193,8 +197,10 @@ app.post("/api/orders", wrap(async (req, res) => {
       total += qty * p.price_taka;
       lines.push({ slug, qty, unitPrice: p.price_taka });
     }
-    if (total > COD_LIMIT) {
-      throw new HttpError(400, `Cash on delivery is limited to ৳ ${COD_LIMIT.toLocaleString("en-US")}`);
+    const lim = await c.query<{ value: number }>(`SELECT value FROM business_rules WHERE key = 'cod_limit_taka'`);
+    const codLimit = lim.rows[0]?.value ?? COD_LIMIT;
+    if (total > codLimit) {
+      throw new HttpError(400, `Cash on delivery is limited to ৳ ${codLimit.toLocaleString("en-US")}`);
     }
 
     const id = newOrderId();
@@ -269,7 +275,9 @@ app.post("/api/admin/auth/logout", wrap(async (req, res) => {
 // ---- admin ----
 app.get("/api/admin/sellers", requireAdmin, wrap(async (_req, res) => {
   const { rows } = await pool.query<SellerRow>(
-    `SELECT id, name, kyc_status, account_status FROM sellers ORDER BY id`,
+    `SELECT s.id, s.name, s.kyc_status, s.account_status, s.area,
+            (SELECT count(*)::int FROM products p WHERE p.seller_id = s.id AND p.status <> 'removed') AS product_count
+       FROM sellers s ORDER BY s.id`,
   );
   res.json(rows.map(toSeller));
 }));
@@ -359,6 +367,57 @@ app.patch("/api/admin/products/:slug", requireAdmin, wrap(async (req, res) => {
   });
 
   res.json(product);
+}));
+
+// ---- business rules (values stored in the database, every change audited) ----
+// Allowed ranges per rule. Anything outside is refused.
+const RULE_LIMITS: Record<string, [number, number]> = {
+  commission_percent: [0, 30],
+  max_seller_coupon_percent: [0, 50],
+  return_window_days: [0, 30],
+  cod_limit_taka: [1000, 100000],
+  second_approval_above_taka: [1000, 1000000],
+  kyc_sla_working_days: [1, 10],
+};
+
+app.get("/api/admin/rules", requireAdmin, wrap(async (_req, res) => {
+  const { rows } = await pool.query(
+    `SELECT key, value, label, note FROM business_rules ORDER BY key`,
+  );
+  res.json(rows);
+}));
+
+app.patch("/api/admin/rules/:key", requireAdmin, wrap(async (req, res) => {
+  const key = String(req.params.key);
+  const limits = RULE_LIMITS[key];
+  if (!limits) throw new HttpError(404, "Unknown rule");
+  const { value, reason } = req.body ?? {};
+  if (typeof reason !== "string" || reason.trim().length < 10) {
+    throw new HttpError(400, "Reason is required (10+ characters)");
+  }
+  const v = Number(value);
+  if (!Number.isInteger(v) || v < limits[0] || v > limits[1]) {
+    throw new HttpError(400, `Value must be a whole number from ${limits[0]} to ${limits[1]}`);
+  }
+  const result = await withTx(async (c) => {
+    const { rows } = await c.query<{ value: number; label: string }>(
+      `SELECT value, label FROM business_rules WHERE key = $1 FOR UPDATE`,
+      [key],
+    );
+    const cur = rows[0];
+    if (!cur) throw new HttpError(404, "Unknown rule");
+    await c.query(`UPDATE business_rules SET value = $2, updated_at = now() WHERE key = $1`, [key, v]);
+    await audit(c, {
+      actor: "admin",
+      action: "update_rule",
+      target: cur.label,
+      reason: reason.trim(),
+      before: String(cur.value),
+      after: String(v),
+    });
+    return { key, value: v, label: cur.label };
+  });
+  res.json(result);
 }));
 
 app.get("/api/admin/audit", requireAdmin, wrap(async (_req, res) => {
