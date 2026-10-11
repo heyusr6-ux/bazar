@@ -4,6 +4,9 @@ import { randomBytes } from "node:crypto";
 import type pg from "pg";
 import { pool, withTx } from "./db.js";
 import {
+  BUYER_COOKIE, BUYER_SESSION_DAYS, signInBuyer, buyerFromSession, deleteBuyerSession,
+} from "./buyerAuth.js";
+import {
   ADMIN_COOKIE, SESSION_HOURS, allowedAdminEmails, verifyGoogleIdToken, verifyTurnstile,
   isBlocked, recordFailure, clearFailures, createSession, sessionEmail, deleteSession, readCookie,
 } from "./adminAuth.js";
@@ -339,6 +342,34 @@ app.get("/api/admin/audit", requireAdmin, wrap(async (_req, res) => {
       after: r.after_value,
     })),
   );
+}));
+
+// ---- buyer sign-in (Google) ----
+app.post("/api/auth/google", wrap(async (req, res) => {
+  const { credential } = req.body ?? {};
+  const g = typeof credential === "string" ? await verifyGoogleIdToken(credential) : null;
+  if (!g) throw new HttpError(401, "Sign-in failed");
+  const name = typeof req.body?.name === "string" ? req.body.name.slice(0, 80) : "";
+  const { token } = await signInBuyer(g.email, name);
+  res.setHeader(
+    "Set-Cookie",
+    `${BUYER_COOKIE}=${token}; HttpOnly; Secure; SameSite=None; Path=/; Max-Age=${BUYER_SESSION_DAYS * 86400}`,
+  );
+  res.json({ ok: true, email: g.email });
+}));
+
+app.get("/api/auth/me", wrap(async (req, res) => {
+  const token = readCookie(req.headers.cookie, BUYER_COOKIE);
+  const me = token ? await buyerFromSession(token) : null;
+  if (!me) return res.status(401).json({ error: "Not signed in" });
+  res.json({ email: me.email, name: me.name });
+}));
+
+app.post("/api/auth/logout", wrap(async (req, res) => {
+  const token = readCookie(req.headers.cookie, BUYER_COOKIE);
+  if (token) await deleteBuyerSession(token);
+  res.setHeader("Set-Cookie", `${BUYER_COOKIE}=; HttpOnly; Secure; SameSite=None; Path=/; Max-Age=0`);
+  res.json({ ok: true });
 }));
 
 // ---- error handling ----
