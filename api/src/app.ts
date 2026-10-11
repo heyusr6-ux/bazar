@@ -29,6 +29,11 @@ type ProductRow = {
   stock: number;
   seller_id: string;
   status: string;
+  category?: string;
+  description?: string;
+  old_price_taka?: number | null;
+  tone?: string;
+  seller_name?: string;
 };
 
 type SellerRow = {
@@ -42,8 +47,13 @@ const toProduct = (r: ProductRow) => ({
   slug: r.slug,
   name: r.name,
   price: r.price_taka,
+  oldPrice: r.old_price_taka ?? undefined,
   stock: r.stock,
   sellerId: r.seller_id,
+  seller: r.seller_name ?? "",
+  category: r.category ?? "General",
+  description: r.description ?? "",
+  tone: r.tone ?? "#E9EEEC",
   status: r.status,
 });
 
@@ -107,16 +117,20 @@ app.get("/health", wrap(async (_req, res) => {
 // ---- public catalogue ----
 app.get("/api/products", wrap(async (_req, res) => {
   const { rows } = await pool.query<ProductRow>(
-    `SELECT slug, name, price_taka, stock, seller_id, status
-       FROM products WHERE status = 'live' ORDER BY name`,
+    `SELECT p.slug, p.name, p.price_taka, p.stock, p.seller_id, p.status,
+            p.category, p.description, p.old_price_taka, p.tone, s.name AS seller_name
+       FROM products p JOIN sellers s ON s.id = p.seller_id
+      WHERE p.status = 'live' ORDER BY p.name`,
   );
   res.json(rows.map(toProduct));
 }));
 
 app.get("/api/products/:slug", wrap(async (req, res) => {
   const { rows } = await pool.query<ProductRow>(
-    `SELECT slug, name, price_taka, stock, seller_id, status
-       FROM products WHERE slug = $1 AND status = 'live'`,
+    `SELECT p.slug, p.name, p.price_taka, p.stock, p.seller_id, p.status,
+            p.category, p.description, p.old_price_taka, p.tone, s.name AS seller_name
+       FROM products p JOIN sellers s ON s.id = p.seller_id
+      WHERE p.slug = $1 AND p.status = 'live'`,
     [req.params.slug],
   );
   if (!rows[0]) throw new HttpError(404, "Product not found");

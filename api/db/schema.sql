@@ -19,6 +19,10 @@ CREATE TABLE IF NOT EXISTS products (
   stock        INTEGER NOT NULL DEFAULT 0 CHECK (stock >= 0),
   status       TEXT NOT NULL DEFAULT 'pending'
                CHECK (status IN ('live','hidden','pending','rejected','removed')),
+  category     TEXT NOT NULL DEFAULT 'General',
+  description  TEXT NOT NULL DEFAULT '',
+  old_price_taka INTEGER,
+  tone         TEXT NOT NULL DEFAULT '#E9EEEC',
   updated_at   TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
