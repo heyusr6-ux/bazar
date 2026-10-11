@@ -282,3 +282,10 @@ h2 { font-size: 16px; margin: 0; }
   .side { justify-content: flex-start; }
   .side > * { flex: 0 0 auto; }
 }
+
+/* Phone: the top bar scrolls sideways and never pushes items off the left edge */
+@media (max-width: 860px) {
+  .header-inner { flex-wrap: wrap; gap: 8px; justify-content: space-between; }
+  .nav-links { flex-wrap: nowrap; overflow-x: auto; width: 100%; justify-content: flex-start; -webkit-overflow-scrolling: touch; }
+  .nav-links a { flex: 0 0 auto; white-space: nowrap; }
+}
