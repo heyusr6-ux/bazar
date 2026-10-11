@@ -4,8 +4,13 @@ import { formatTaka, Product } from "@/lib/data";
 export default function ProductCard({ product }: { product: Product }) {
   return (
     <Link href={`/products/${product.slug}`} className="card product-card" aria-label={product.name}>
-      <div className="product-thumb" style={{ background: product.tone }} aria-hidden="true">
-        {product.category}
+      <div className="product-thumb" style={{ background: product.tone, overflow: "hidden" }} aria-hidden="true">
+        {product.images?.[0] ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={product.images[0]} alt="" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+        ) : (
+          product.category
+        )}
       </div>
       <b style={{ fontSize: 14 }}>{product.name}</b>
       <div className="row" style={{ justifyContent: "flex-start", gap: 8, flexWrap: "wrap" }}>

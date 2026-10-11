@@ -13,6 +13,7 @@ export type Product = {
   stock: number;
   tone: string; // placeholder image colour
   description: string;
+  images?: string[]; // photo URLs from the API
 };
 
 export const products: Product[] = [

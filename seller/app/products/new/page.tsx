@@ -1,6 +1,21 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
+
+// Shrinks a photo on the phone to a JPEG at most 1000 px wide, so the upload stays small.
+async function toJpegDataUrl(file: File): Promise<string> {
+  const bitmap = await createImageBitmap(file);
+  const scale = Math.min(1, 1000 / Math.max(bitmap.width, bitmap.height));
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.round(bitmap.width * scale);
+  canvas.height = Math.round(bitmap.height * scale);
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("canvas unavailable");
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+  return canvas.toDataURL("image/jpeg", 0.8);
+}
 
 const API = "";
 
@@ -10,6 +25,7 @@ export default function NewProductPage() {
   const [serverError, setServerError] = useState("");
   const [busy, setBusy] = useState(false);
   const [photoNote, setPhotoNote] = useState("");
+  const photoFiles = useRef<File[]>([]);
 
   // Checks file type and size on the phone before anything is sent.
   function checkPhotos(files: FileList | null): string {
@@ -35,6 +51,7 @@ export default function NewProductPage() {
     if (title.length < 5) next.title = "Title must be at least 5 characters.";
     if (mode === "review" && (!price || price <= 0)) next.price = "Price must be greater than 0.";
     if (mode === "review" && stock === 0) next.stock = "Stock is 0, so the product will stay hidden.";
+    if (mode === "review" && photoFiles.current.length < 3) next.photos = "Submit করতে ৩ থেকে ৮টা ছবি দিন।";
     setErrors(next);
     setServerError("");
     setResult("");
@@ -42,12 +59,14 @@ export default function NewProductPage() {
 
     setBusy(true);
     try {
+      const photos = await Promise.all(photoFiles.current.map(toJpegDataUrl));
       const res = await fetch(`${API}/api/seller/products`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify({
           name: title,
+          photos,
           price,
           stock,
           category: String(f.get("category") ?? "Fashion"),
@@ -62,6 +81,8 @@ export default function NewProductPage() {
       }
       setResult(mode);
       e.currentTarget.reset();
+      photoFiles.current = [];
+      setPhotoNote("");
     } catch {
       setServerError("Cannot reach the server right now.");
     } finally {
@@ -120,9 +141,9 @@ export default function NewProductPage() {
 
         <div className="field full">
           <label htmlFor="photos">Photos (3 to 8, JPG/PNG/WEBP, max 5 MB each)</label>
-          <input id="photos" name="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={(e) => setPhotoNote(checkPhotos(e.currentTarget.files))} />
+          <input id="photos" name="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={(e) => { const files = e.currentTarget.files; setPhotoNote(checkPhotos(files)); photoFiles.current = files ? Array.from(files) : []; }} />
           {photoNote && <span className="error" role="alert">{photoNote}</span>}
-          <span className="muted" style={{ fontSize: 12 }}>ছবি সংরক্ষণের ব্যবস্থা এখনো চালু হয়নি। বাছাই করলে শুধু যাচাই হবে।</span>
+          {errors.photos && <span className="error">{errors.photos}</span>}
         </div>
 
         <div className="form-actions full">

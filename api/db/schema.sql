@@ -60,6 +60,16 @@ CREATE TABLE IF NOT EXISTS audit_log (
 CREATE OR REPLACE RULE audit_log_no_update AS ON UPDATE TO audit_log DO INSTEAD NOTHING;
 CREATE OR REPLACE RULE audit_log_no_delete AS ON DELETE TO audit_log DO INSTEAD NOTHING;
 
+-- Product photos (stored resized as JPEG/PNG/WEBP, max 1 MB each).
+CREATE TABLE IF NOT EXISTS product_images (
+  id           BIGSERIAL PRIMARY KEY,
+  product_slug TEXT NOT NULL REFERENCES products(slug) ON DELETE CASCADE,
+  position     INTEGER NOT NULL,
+  mime         TEXT NOT NULL,
+  data         BYTEA NOT NULL,
+  UNIQUE (product_slug, position)
+);
+
 -- Admin login sessions. Only a hash of the token is stored.
 CREATE TABLE IF NOT EXISTS admin_sessions (
   token_hash  TEXT PRIMARY KEY,

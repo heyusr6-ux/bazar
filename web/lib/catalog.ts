@@ -13,6 +13,7 @@ export type ApiProduct = {
   category: string;
   description: string;
   tone: string;
+  imageCount?: number;
 };
 
 // The API has no ratings or reviews yet, so those show as zero.
@@ -30,6 +31,7 @@ export function fromApi(p: ApiProduct): Product {
     stock: p.stock,
     tone: p.tone,
     description: p.description,
+    images: Array.from({ length: p.imageCount ?? 0 }, (_, i) => `${API}/api/products/${p.slug}/images/${i}`),
   };
 }
 
