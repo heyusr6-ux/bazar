@@ -1,0 +1,16 @@
+# Render Blueprint for the BazaarBD API (free tier: sleeps when idle).
+services:
+  - type: web
+    name: bazaarbd-api
+    runtime: node
+    rootDir: api
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: CORS_ORIGINS
+        value: https://bazar-8hmh.vercel.app,https://bazar-yxe6.vercel.app
+      - key: ADMIN_TOKEN
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false

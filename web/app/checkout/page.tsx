@@ -22,7 +22,11 @@ export default function CheckoutPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [placed, setPlaced] = useState<string | null>(null);
 
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
+  const [submitError, setSubmitError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const API = process.env.NEXT_PUBLIC_API_URL;
+
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const f = new FormData(e.currentTarget);
     const next: Record<string, string> = {};
@@ -34,9 +38,38 @@ export default function CheckoutPage() {
     if (address.length < 10) next.address = "Enter a full address with area and district.";
     if (total > COD_LIMIT) next.payment = `Cash on delivery is limited to ${formatTaka(COD_LIMIT)}.`;
     setErrors(next);
-    if (Object.keys(next).length === 0) {
-      setPlaced("BZ-" + Date.now().toString().slice(-8));
+    setSubmitError("");
+    if (Object.keys(next).length > 0) return;
+
+    // With the API configured, the order is saved on the server.
+    if (API) {
+      setSubmitting(true);
+      try {
+        const res = await fetch(`${API}/api/orders`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            phone,
+            address,
+            items: lines.map((l) => ({ slug: l.slug, qty: l.qty })),
+          }),
+        });
+        const body = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          setSubmitError(body.error ?? "Order could not be placed. Please try again.");
+          return;
+        }
+        setPlaced(body.id);
+      } catch {
+        setSubmitError("Cannot reach the server right now. Your order was not placed.");
+      } finally {
+        setSubmitting(false);
+      }
+      return;
     }
+
+    // No API configured: test-only local confirmation.
+    setPlaced("BZ-" + Date.now().toString().slice(-8));
   }
 
   if (placed) {
@@ -45,7 +78,9 @@ export default function CheckoutPage() {
         <span className="pill pill-ok">Order placed (test)</span>
         <h1 style={{ margin: 0, fontSize: 22 }}>Thank you. Your order number is {placed}</h1>
         <p className="muted" style={{ margin: 0 }}>
-          This is a test build. No order is saved and no seller is notified yet.
+          {API
+            ? "Your order is saved on the server. Pay the delivery person in cash."
+            : "This is a test build. No order is saved and no seller is notified yet."}
         </p>
         <Link href="/products" className="btn">Continue shopping</Link>
       </div>
@@ -113,7 +148,10 @@ export default function CheckoutPage() {
         <div className="row" style={{ fontWeight: 800, fontSize: 17, borderTop: "1px solid #eef1f0", paddingTop: 10 }}>
           <span>Total</span><span>{formatTaka(total)}</span>
         </div>
-        <button type="submit" className="btn btn-cta" style={{ minHeight: 50 }}>Place order (COD)</button>
+        {submitError && <span className="error" role="alert">{submitError}</span>}
+        <button type="submit" className="btn btn-cta" style={{ minHeight: 50 }} disabled={submitting}>
+          {submitting ? "Placing order…" : "Place order (COD)"}
+        </button>
         <span className="muted" style={{ fontSize: 12, textAlign: "center" }}>Test build: the order is not saved.</span>
       </aside>
     </form>
