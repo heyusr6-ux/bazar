@@ -273,6 +273,56 @@ app.patch("/api/admin/sellers/:id", requireAdmin, wrap(async (req, res) => {
   res.json(seller);
 }));
 
+// Admin product list (all statuses). Used to hide or remove listings.
+app.get("/api/admin/products", requireAdmin, wrap(async (_req, res) => {
+  const { rows } = await pool.query(
+    `SELECT p.slug, p.name, p.price_taka, p.stock, p.status, p.seller_id, s.name AS seller_name
+       FROM products p JOIN sellers s ON s.id = p.seller_id ORDER BY p.name`,
+  );
+  res.json(
+    rows.map((r) => ({
+      slug: r.slug,
+      name: r.name,
+      price: r.price_taka,
+      stock: r.stock,
+      status: r.status,
+      sellerId: r.seller_id,
+      sellerName: r.seller_name,
+    })),
+  );
+}));
+
+// Admin changes a listing: live, hidden or removed. Products are never deleted,
+// because past orders point to them. Every change needs a reason and an audit row.
+app.patch("/api/admin/products/:slug", requireAdmin, wrap(async (req, res) => {
+  const { status, reason } = req.body ?? {};
+  if (typeof reason !== "string" || reason.trim().length < 10) {
+    throw new HttpError(400, "Reason is required (10+ characters)");
+  }
+  if (!["live", "hidden", "removed"].includes(status)) throw new HttpError(400, "Invalid status");
+
+  const product = await withTx(async (c) => {
+    const { rows } = await c.query<ProductRow>(
+      `SELECT slug, name, price_taka, stock, seller_id, status FROM products WHERE slug = $1 FOR UPDATE`,
+      [req.params.slug],
+    );
+    const cur = rows[0];
+    if (!cur) throw new HttpError(404, "Product not found");
+    await c.query(`UPDATE products SET status = $2, updated_at = now() WHERE slug = $1`, [cur.slug, status]);
+    await audit(c, {
+      actor: "admin",
+      action: "update_product",
+      target: cur.name,
+      reason: reason.trim(),
+      before: cur.status,
+      after: status,
+    });
+    return toProduct({ ...cur, status });
+  });
+
+  res.json(product);
+}));
+
 app.get("/api/admin/audit", requireAdmin, wrap(async (_req, res) => {
   const { rows } = await pool.query(
     `SELECT at, actor, action, target, reason, before_value, after_value

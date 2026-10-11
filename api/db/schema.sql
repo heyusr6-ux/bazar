@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS products (
   price_taka   INTEGER NOT NULL CHECK (price_taka > 0),
   stock        INTEGER NOT NULL DEFAULT 0 CHECK (stock >= 0),
   status       TEXT NOT NULL DEFAULT 'pending'
-               CHECK (status IN ('live','hidden','pending','rejected')),
+               CHECK (status IN ('live','hidden','pending','rejected','removed')),
   updated_at   TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
