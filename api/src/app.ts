@@ -3,6 +3,10 @@ import cors from "cors";
 import { randomBytes } from "node:crypto";
 import type pg from "pg";
 import { pool, withTx } from "./db.js";
+import {
+  ADMIN_COOKIE, SESSION_HOURS, allowedAdminEmails, verifyGoogleIdToken, verifyTurnstile,
+  isBlocked, recordFailure, clearFailures, createSession, sessionEmail, deleteSession, readCookie,
+} from "./adminAuth.js";
 
 const COD_LIMIT = 25000;
 const PHONE_RE = /^01[3-9]\d{8}$/;
@@ -68,16 +72,21 @@ const app = express();
 const allowedOrigins = (process.env.CORS_ORIGINS ?? "http://localhost:3000")
   .split(",")
   .map((s) => s.trim());
-app.use(cors({ origin: allowedOrigins }));
+app.use(cors({ origin: allowedOrigins, credentials: true }));
 app.use(express.json({ limit: "100kb" }));
 
-// Placeholder admin check. Replace with real OTP + 2FA login before launch.
-function requireAdmin(req: express.Request, res: express.Response, next: express.NextFunction) {
-  const token = req.header("x-admin-token");
-  if (!token || token !== process.env.ADMIN_TOKEN) {
-    return res.status(401).json({ error: "Unauthorised" });
+// Admin routes need a valid session cookie AND an email still on the ADMIN_EMAILS list.
+async function requireAdmin(req: express.Request, res: express.Response, next: express.NextFunction) {
+  try {
+    const token = readCookie(req.headers.cookie, ADMIN_COOKIE);
+    const email = token ? await sessionEmail(token) : null;
+    if (!email || !allowedAdminEmails().includes(email)) {
+      return res.status(401).json({ error: "Unauthorised" });
+    }
+    next();
+  } catch (err) {
+    next(err);
   }
-  next();
 }
 
 // Express 4 does not catch promise rejections, so route handlers go through this.
@@ -169,6 +178,54 @@ app.post("/api/orders", wrap(async (req, res) => {
   });
 
   res.status(201).json({ id: order.id, total: order.total, status: "placed" });
+}));
+
+// ---- admin sign-in (Google + Turnstile) ----
+// Every failure returns the same message, so nobody can tell which email is allowed.
+app.post("/api/admin/auth/login", wrap(async (req, res) => {
+  const ip = req.ip ?? "unknown";
+  if (isBlocked(ip)) throw new HttpError(429, "Too many attempts. Try again later.");
+
+  const { credential, turnstileToken } = req.body ?? {};
+  const captchaOk = typeof turnstileToken === "string" && (await verifyTurnstile(turnstileToken, ip));
+  const g = typeof credential === "string" ? await verifyGoogleIdToken(credential) : null;
+  const allowed = !!g && allowedAdminEmails().includes(g.email);
+  const ok = captchaOk && !!g && allowed;
+
+  await withTx((c) =>
+    audit(c, {
+      actor: g?.email ?? "unknown",
+      action: "admin_login",
+      target: "admin panel",
+      reason: "Admin sign-in attempt via Google",
+      after: ok ? "success" : "failed",
+    }),
+  );
+
+  if (!captchaOk || !g || !allowed) {
+    recordFailure(ip);
+    throw new HttpError(401, "Login failed");
+  }
+  clearFailures(ip);
+
+  const token = await createSession(g.email);
+  res.setHeader(
+    "Set-Cookie",
+    `${ADMIN_COOKIE}=${token}; HttpOnly; Secure; SameSite=None; Path=/; Max-Age=${SESSION_HOURS * 3600}`,
+  );
+  res.json({ ok: true });
+}));
+
+app.get("/api/admin/auth/me", requireAdmin, wrap(async (req, res) => {
+  const token = readCookie(req.headers.cookie, ADMIN_COOKIE)!;
+  res.json({ email: await sessionEmail(token) });
+}));
+
+app.post("/api/admin/auth/logout", wrap(async (req, res) => {
+  const token = readCookie(req.headers.cookie, ADMIN_COOKIE);
+  if (token) await deleteSession(token);
+  res.setHeader("Set-Cookie", `${ADMIN_COOKIE}=; HttpOnly; Secure; SameSite=None; Path=/; Max-Age=0`);
+  res.json({ ok: true });
 }));
 
 // ---- admin ----
