@@ -5,6 +5,9 @@ import { useRouter } from "next/navigation";
 import { FormEvent, useSyncExternalStore } from "react";
 import { readCart, subscribeCart } from "@/lib/cart";
 
+// The seller dashboard is a separate site. Set NEXT_PUBLIC_SELLER_URL to override.
+const SELLER_URL = process.env.NEXT_PUBLIC_SELLER_URL || "https://bazar-yxe6.vercel.app";
+
 function cartCount(): number {
   return readCart().reduce((sum, i) => sum + i.qty, 0);
 }
@@ -33,7 +36,8 @@ export default function Header() {
           <button type="submit">Search</button>
         </form>
         <nav className="nav-links" aria-label="Main">
-          <Link href="/products">Shop</Link>
+          <Link href="/products" className="nav-btn">Buy</Link>
+          <a href={SELLER_URL} className="nav-btn nav-btn-sell">Sell</a>
           <Link href="/login">Login</Link>
           <Link href="/cart" aria-label={`Cart, ${count} items`}>Cart ({count})</Link>
         </nav>

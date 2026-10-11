@@ -204,3 +204,7 @@ img { max-width: 100%; display: block; }
   .footer-inner { grid-template-columns: 1fr; }
   .container { padding: 12px; }
 }
+
+/* Header Buy and Sell buttons */
+.nav-btn { display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--primary); color: var(--primary); font-weight: 700; }
+.nav-btn-sell { background: var(--cta); border-color: var(--cta); color: #fff; }
