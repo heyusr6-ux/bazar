@@ -129,14 +129,9 @@ export default function CheckoutPage() {
 
         <fieldset className="card stack" style={{ border: "1px solid #e3e7e4" }}>
           <legend style={{ fontWeight: 700, padding: "0 4px" }}>Payment</legend>
+          <span className="muted" style={{ fontSize: 13 }}>এখন শুধু ক্যাশ অন ডেলিভারি। পণ্য হাতে পেয়ে টাকা দিন।</span>
           <label className="row" style={{ justifyContent: "flex-start", gap: 10, minHeight: 44 }}>
             <input type="radio" name="pay" defaultChecked /> Cash on delivery
-          </label>
-          <label className="row" style={{ justifyContent: "flex-start", gap: 10, minHeight: 44 }}>
-            <input type="radio" name="pay" disabled /> bKash / Nagad <span className="pill pill-warn">Not connected</span>
-          </label>
-          <label className="row" style={{ justifyContent: "flex-start", gap: 10, minHeight: 44 }}>
-            <input type="radio" name="pay" disabled /> Card <span className="pill pill-warn">Not connected</span>
           </label>
           {errors.payment && <span className="error" role="alert">{errors.payment}</span>}
         </fieldset>

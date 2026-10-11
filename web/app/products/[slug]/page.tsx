@@ -61,7 +61,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
             </Link>
           </div>
 
-          <div className="notice">Cash on delivery is available in this test build. Online payment is not connected.</div>
+          <div className="notice">শুধু ক্যাশ অন ডেলিভারি। পণ্য হাতে পেয়ে টাকা দিন।</div>
 
           <div className="stack">
             <b>About this product</b>

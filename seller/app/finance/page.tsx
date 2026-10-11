@@ -41,15 +41,8 @@ export default function FinancePage() {
             <span id="amt-h" className="muted" style={{ fontSize: 12 }}>Maximum available: {formatTaka(AVAILABLE)}</span>
             {error && <span className="error" role="alert">{error}</span>}
           </div>
-          <div className="field">
-            <label htmlFor="method">Method</label>
-            <select id="method" defaultValue="bkash">
-              <option value="bkash">bKash ••••4471</option>
-              <option value="bank">Bank ••••2290</option>
-            </select>
-          </div>
-          <div className="notice">Fee {formatTaka(FEE)} per withdrawal. Processing 2–3 working days. Payout is not connected in this test build.</div>
-          <button type="submit" className="btn">Request withdrawal</button>
+          <div className="notice">টাকা তোলার ব্যবস্থা এখনো চালু হয়নি। Online payout যুক্ত হলে এখানে জানানো হবে।</div>
+          <button type="submit" className="btn" disabled>Request withdrawal</button>
           {done && <div role="status" className="notice">Request recorded as pending approval (test build, not sent).</div>}
         </form>
 
