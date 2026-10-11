@@ -1,18 +1,29 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+
+const API = "";
 
 const items = [
   { href: "/", label: "Overview" },
   { href: "/products", label: "Products" },
   { href: "/orders", label: "Orders" },
   { href: "/finance", label: "Finance" },
-  { href: "/login", label: "Sign in" },
 ];
 
 export default function SellerNav() {
   const pathname = usePathname();
+  const router = useRouter();
+
+  async function signOut() {
+    try {
+      await fetch(`${API}/api/seller/auth/logout`, { method: "POST", credentials: "include" });
+    } finally {
+      router.replace("/login");
+    }
+  }
+
   return (
     <nav className="side" aria-label="Seller navigation">
       <Link href="/" className="side-logo">
@@ -26,6 +37,7 @@ export default function SellerNav() {
           </Link>
         );
       })}
+      <button type="button" className="side-logout" onClick={signOut}>Sign out</button>
     </nav>
   );
 }

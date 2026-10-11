@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import SellerNav from "@/components/SellerNav";
+import SellerShell from "@/components/SellerShell";
 
 export const metadata: Metadata = {
   title: "Bazaar BD Seller",
-  description: "Seller dashboard. Test build with mock data.",
+  description: "Seller dashboard for Bazaar BD.",
   robots: { index: false, follow: false },
 };
 
@@ -17,10 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
-        <div className="shell">
-          <SellerNav />
-          <main className="shell-main">{children}</main>
-        </div>
+        <SellerShell>{children}</SellerShell>
       </body>
     </html>
   );

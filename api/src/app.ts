@@ -515,10 +515,43 @@ app.get("/api/seller/products", requireSeller, wrap(async (req, res) => {
   const s = sellerOf(req);
   const { rows } = await pool.query<ProductRow>(
     `SELECT slug, name, price_taka, stock, seller_id, status, category, description, old_price_taka, tone
-       FROM products WHERE seller_id = $1 AND status <> removed ORDER BY updated_at DESC`,
+       FROM products WHERE seller_id = $1 AND status <> 'removed' ORDER BY updated_at DESC`,
     [s.id],
   );
   res.json(rows.map(toProduct));
+}));
+
+// Seller sees only their own lines of each order. Buyer phone is never sent.
+app.get("/api/seller/orders", requireSeller, wrap(async (req, res) => {
+  const s = sellerOf(req);
+  const { rows } = await pool.query<{
+    id: string;
+    status: string;
+    address: string;
+    created_at: string;
+    amount: number;
+    lines: { name: string; qty: number; unitPrice: number }[];
+  }>(
+    `SELECT o.id, o.status, o.address, o.created_at,
+            SUM(oi.qty * oi.unit_price_taka)::int AS amount,
+            json_agg(json_build_object('name', p.name, 'qty', oi.qty, 'unitPrice', oi.unit_price_taka)) AS lines
+       FROM orders o
+       JOIN order_items oi ON oi.order_id = o.id
+       JOIN products p ON p.slug = oi.product_slug
+      WHERE p.seller_id = $1
+      GROUP BY o.id
+      ORDER BY o.created_at DESC
+      LIMIT 100`,
+    [s.id],
+  );
+  res.json(rows.map((r) => ({
+    id: r.id,
+    status: r.status,
+    address: r.address,
+    placedAt: r.created_at,
+    amount: r.amount,
+    lines: r.lines,
+  })));
 }));
 
 const CATEGORIES = ["Fashion", "Electronics", "Home", "Beauty", "Grocery"];

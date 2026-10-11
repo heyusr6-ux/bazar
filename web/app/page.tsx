@@ -1,8 +1,11 @@
 import Link from "next/link";
 import ProductCard from "@/components/ProductCard";
-import { categories, products } from "@/lib/data";
+import { categories } from "@/lib/data";
+import { loadProducts } from "@/lib/catalog";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const products = await loadProducts();
+
   return (
     <div className="stack" style={{ gap: 20 }}>
       <section
@@ -16,7 +19,6 @@ export default function HomePage() {
           gap: 6,
         }}
       >
-        <span style={{ fontSize: 13, opacity: 0.9 }}>Eid campaign · test build</span>
         <h1 style={{ margin: 0, fontSize: 28, lineHeight: 1.2 }}>Shop from verified sellers across Bangladesh</h1>
         <div>
           <Link href="/products" className="btn btn-cta" style={{ marginTop: 8 }}>
@@ -36,18 +38,22 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section aria-labelledby="trend-h" className="stack">
+      <section aria-labelledby="new-h" className="stack">
         <div className="row">
-          <h2 id="trend-h" style={{ margin: 0, fontSize: 18 }}>Trending now</h2>
+          <h2 id="new-h" style={{ margin: 0, fontSize: 18 }}>Latest products</h2>
           <Link href="/products" style={{ color: "#0f5f57", fontWeight: 700 }}>
             See all
           </Link>
         </div>
-        <div className="grid-products">
-          {products.slice(0, 4).map((p) => (
-            <ProductCard key={p.slug} product={p} />
-          ))}
-        </div>
+        {products.length === 0 ? (
+          <span className="muted">এখন কোনো পণ্য দেখানো যাচ্ছে না। একটু পরে আবার চেষ্টা করুন।</span>
+        ) : (
+          <div className="grid-products">
+            {products.slice(0, 4).map((p) => (
+              <ProductCard key={p.slug} product={p} />
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );

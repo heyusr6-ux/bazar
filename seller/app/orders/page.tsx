@@ -1,90 +1,95 @@
 "use client";
 
-import { useState } from "react";
-import { formatTaka, sellerOrders, SellerOrder } from "@/lib/data";
+import { useEffect, useState } from "react";
+import { formatTaka } from "@/lib/data";
 
-const tabs: SellerOrder["status"][] = ["New", "Processing", "Ready to ship", "Shipped", "Delivered", "Cancellation requested"];
+const API = "";
+
+type Line = { name: string; qty: number; unitPrice: number };
+type Order = {
+  id: string;
+  status: "placed" | "processing" | "shipped" | "delivered" | "cancelled";
+  address: string;
+  placedAt: string;
+  amount: number;
+  lines: Line[];
+};
+
+const LABEL: Record<Order["status"], string> = {
+  placed: "New",
+  processing: "Processing",
+  shipped: "Shipped",
+  delivered: "Delivered",
+  cancelled: "Cancelled",
+};
 
 export default function OrdersPage() {
-  const [tab, setTab] = useState<SellerOrder["status"]>("New");
-  const [selected, setSelected] = useState<string>("NS-260410-1182A");
-  const [message, setMessage] = useState("");
-  const list = sellerOrders.filter((o) => o.status === tab);
-  const order = sellerOrders.find((o) => o.id === selected);
+  const [orders, setOrders] = useState<Order[] | null>(null);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    let alive = true;
+    fetch(`${API}/api/seller/orders`, { credentials: "include" })
+      .then((r) => {
+        if (!r.ok) throw new Error("load failed");
+        return r.json();
+      })
+      .then((data: Order[]) => {
+        if (alive) setOrders(data);
+      })
+      .catch(() => {
+        if (alive) setError("অর্ডারের তালিকা আনা যায়নি। পাতা refresh করুন।");
+      });
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   return (
     <div className="stack" style={{ gap: 16 }}>
       <header className="page-head">
         <h1>Orders</h1>
-        <span className="muted" style={{ fontSize: 13 }}>You see only your own suborders</span>
+        <span className="muted" style={{ fontSize: 13 }}>শুধু আপনার পণ্যের অংশ দেখানো হচ্ছে</span>
       </header>
 
-      <div className="tabs" role="tablist" aria-label="Order status">
-        {tabs.map((t) => {
-          const count = sellerOrders.filter((o) => o.status === t).length;
-          return (
-            <button
-              key={t}
-              type="button"
-              role="tab"
-              aria-selected={tab === t}
-              className={tab === t ? "chip on" : "chip"}
-              onClick={() => setTab(t)}
-            >
-              {t} ({count})
-            </button>
-          );
-        })}
+      <div className="notice" role="note">
+        অর্ডারের স্ট্যাটাস বদলানো ও ক্রেতাকে জানানোর ব্যবস্থা এখনো চালু হয়নি।
       </div>
 
-      <div className="table-box">
-        <table>
-          <caption className="sr-only">Orders in {tab}</caption>
-          <thead><tr><th>Suborder</th><th>Items</th><th>Amount</th><th>Area</th><th>Payment</th><th>Open</th></tr></thead>
-          <tbody>
-            {list.length === 0 && (
-              <tr><td colSpan={6} className="muted">No orders in this status.</td></tr>
-            )}
-            {list.map((o) => (
-              <tr key={o.id}>
-                <td><b>{o.id}</b><div className="muted" style={{ fontSize: 12 }}>{o.placedAt}</div></td>
-                <td>{o.items}</td>
-                <td>{formatTaka(o.amount)}</td>
-                <td>{o.area}</td>
-                <td>{o.payment}</td>
-                <td><button type="button" className="btn btn-line btn-sm" onClick={() => { setSelected(o.id); setMessage(""); }}>View</button></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      {error && <span className="error" role="alert">{error}</span>}
+      {!orders && !error && <span className="muted">লোড হচ্ছে…</span>}
 
-      {order && (
-        <section className="card stack" aria-labelledby="ship-h">
-          <h2 id="ship-h">Update: {order.id}</h2>
-          <div className="form-grid">
-            <div className="field">
-              <label htmlFor="courier">Courier</label>
-              <select id="courier" defaultValue="Pathao">
-                <option>Pathao</option><option>Sundarban</option><option>Other</option>
-              </select>
-            </div>
-            <div className="field">
-              <label htmlFor="track">Tracking number</label>
-              <input id="track" placeholder="e.g. DH-44187" />
-            </div>
-          </div>
-          <p className="muted" style={{ fontSize: 13, margin: 0 }}>
-            Status moves only in order: Processing → Ready to ship → Shipped → Delivered. The buyer is notified on each change.
-          </p>
-          <div className="form-actions">
-            <button type="button" className="btn btn-line" onClick={() => setMessage("Cancelled. No change saved.")}>Cancel</button>
-            <button type="button" className="btn" onClick={() => setMessage("Saved (test build). Buyer notification is not connected.")}>
-              Save and notify buyer
-            </button>
-          </div>
-          {message && <div role="status" className="notice">{message}</div>}
-        </section>
+      {orders && orders.length === 0 && (
+        <div className="card"><span className="muted">এখনো কোনো অর্ডার নেই।</span></div>
+      )}
+
+      {orders && orders.length > 0 && (
+        <div className="table-box">
+          <table>
+            <caption className="sr-only">Your orders</caption>
+            <thead>
+              <tr><th>Order</th><th>Items</th><th>Amount</th><th>Delivery address</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              {orders.map((o) => (
+                <tr key={o.id}>
+                  <td>
+                    <b>{o.id}</b>
+                    <div className="muted" style={{ fontSize: 12 }}>{new Date(o.placedAt).toLocaleString("en-GB", { timeZone: "Asia/Dhaka" })}</div>
+                  </td>
+                  <td>
+                    {o.lines.map((l, i) => (
+                      <div key={i} style={{ fontSize: 14 }}>{l.name} × {l.qty}</div>
+                    ))}
+                  </td>
+                  <td>{formatTaka(o.amount)}</td>
+                  <td style={{ maxWidth: 260 }}>{o.address}</td>
+                  <td><span className="pill pill-info">{LABEL[o.status]}</span></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

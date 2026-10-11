@@ -1,14 +1,55 @@
-import Link from "next/link";
-import { formatTaka, sellerProducts, SellerProduct } from "@/lib/data";
+"use client";
 
-const statusClass: Record<SellerProduct["status"], string> = {
-  Live: "pill pill-ok",
-  "Pending review": "pill pill-warn",
-  Hidden: "pill pill-info",
-  Rejected: "pill pill-danger",
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { formatTaka } from "@/lib/data";
+
+const API = "";
+
+type ApiProduct = {
+  slug: string;
+  name: string;
+  price: number;
+  stock: number;
+  status: "live" | "hidden" | "pending" | "rejected";
+};
+
+const LABEL: Record<ApiProduct["status"], string> = {
+  live: "Live",
+  pending: "Pending review",
+  hidden: "Hidden",
+  rejected: "Rejected",
+};
+
+const CLASS: Record<ApiProduct["status"], string> = {
+  live: "pill pill-ok",
+  pending: "pill pill-warn",
+  hidden: "pill pill-info",
+  rejected: "pill pill-danger",
 };
 
 export default function ProductsPage() {
+  const [items, setItems] = useState<ApiProduct[] | null>(null);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    let alive = true;
+    fetch(`${API}/api/seller/products`, { credentials: "include" })
+      .then((r) => {
+        if (!r.ok) throw new Error("load failed");
+        return r.json();
+      })
+      .then((data: ApiProduct[]) => {
+        if (alive) setItems(data);
+      })
+      .catch(() => {
+        if (alive) setError("পণ্যের তালিকা আনা যায়নি। পাতা refresh করুন।");
+      });
+    return () => {
+      alive = false;
+    };
+  }, []);
+
   return (
     <div className="stack" style={{ gap: 16 }}>
       <header className="page-head">
@@ -16,28 +57,38 @@ export default function ProductsPage() {
         <Link href="/products/new" className="btn">Add product</Link>
       </header>
 
-      <div className="table-box">
-        <table>
-          <caption className="sr-only">Your products</caption>
-          <thead>
-            <tr><th>Product</th><th>Price</th><th>Stock</th><th>Sold</th><th>Status</th><th>Action</th></tr>
-          </thead>
-          <tbody>
-            {sellerProducts.map((p) => (
-              <tr key={p.id}>
-                <td><b>{p.name}</b></td>
-                <td>{formatTaka(p.price)}</td>
-                <td>{p.stock === 0 ? <span className="pill pill-danger">0 (hidden)</span> : p.stock}</td>
-                <td>{p.sold}</td>
-                <td><span className={statusClass[p.status]}>{p.status}</span></td>
-                <td><button type="button" className="btn btn-line btn-sm">Edit</button></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      {error && <span className="error" role="alert">{error}</span>}
+      {!items && !error && <span className="muted">লোড হচ্ছে…</span>}
+
+      {items && items.length === 0 && (
+        <div className="card stack">
+          <span className="muted">এখনো কোনো পণ্য নেই। প্রথম পণ্য যোগ করুন।</span>
+        </div>
+      )}
+
+      {items && items.length > 0 && (
+        <div className="table-box">
+          <table>
+            <caption className="sr-only">Your products</caption>
+            <thead>
+              <tr><th>Product</th><th>Price</th><th>Stock</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              {items.map((p) => (
+                <tr key={p.slug}>
+                  <td><b>{p.name}</b></td>
+                  <td>{formatTaka(p.price)}</td>
+                  <td>{p.stock === 0 ? <span className="pill pill-danger">0 (hidden)</span> : p.stock}</td>
+                  <td><span className={CLASS[p.status]}>{LABEL[p.status]}</span></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
       <p className="muted" style={{ fontSize: 13, margin: 0 }}>
-        Products with 0 stock are hidden from buyers. Rejected items show the admin reason in the edit screen.
+        স্টক ০ হলে পণ্য ক্রেতাদের কাছে দেখানো হয় না। Edit করার সুবিধা এখনো চালু হয়নি।
       </p>
     </div>
   );

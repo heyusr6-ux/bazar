@@ -27,7 +27,7 @@ export default function CheckoutPage() {
 
   const [submitError, setSubmitError] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const API = process.env.NEXT_PUBLIC_API_URL;
+  const API = process.env.NEXT_PUBLIC_API_URL || "https://bazar-api-sigma.vercel.app";
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -48,10 +48,8 @@ export default function CheckoutPage() {
     setSubmitError("");
     if (Object.keys(next).length > 0) return;
 
-    // With the API configured, the order is saved on the server.
-    if (API) {
-      setSubmitting(true);
-      try {
+    setSubmitting(true);
+    try {
         const res = await fetch(`${API}/api/orders`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -66,28 +64,21 @@ export default function CheckoutPage() {
           setSubmitError(body.error ?? "Order could not be placed. Please try again.");
           return;
         }
-        setPlaced(body.id);
-      } catch {
-        setSubmitError("Cannot reach the server right now. Your order was not placed.");
-      } finally {
-        setSubmitting(false);
-      }
-      return;
+      setPlaced(body.id);
+    } catch {
+      setSubmitError("Cannot reach the server right now. Your order was not placed.");
+    } finally {
+      setSubmitting(false);
     }
-
-    // No API configured: test-only local confirmation.
-    setPlaced("BZ-" + Date.now().toString().slice(-8));
   }
 
   if (placed) {
     return (
       <div className="card stack" style={{ justifyItems: "start", maxWidth: 640 }}>
-        <span className="pill pill-ok">Order placed (test)</span>
+        <span className="pill pill-ok">Order placed</span>
         <h1 style={{ margin: 0, fontSize: 22 }}>Thank you. Your order number is {placed}</h1>
         <p className="muted" style={{ margin: 0 }}>
-          {API
-            ? "Your order is saved on the server. Pay the delivery person in cash."
-            : "This is a test build. No order is saved and no seller is notified yet."}
+          Your order is saved. Pay the delivery person in cash.
         </p>
         <Link href="/products" className="btn">Continue shopping</Link>
       </div>
@@ -155,7 +146,6 @@ export default function CheckoutPage() {
         <button type="submit" className="btn btn-cta" style={{ minHeight: 50 }} disabled={submitting}>
           {submitting ? "Placing order…" : "Place order (COD)"}
         </button>
-        <span className="muted" style={{ fontSize: 12, textAlign: "center" }}>Test build: the order is not saved.</span>
       </aside>
     </form>
   );

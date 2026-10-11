@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Bazaar BD",
-  description: "Buy and sell across Bangladesh. Test build.",
+  description: "Buy and sell across Bangladesh.",
 };
 
 export const viewport: Viewport = {

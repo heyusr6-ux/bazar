@@ -1,4 +1,4 @@
-// Cart kept in the browser (localStorage) for the test build.
+// Cart kept in the browser (localStorage).
 // Every access is wrapped in try/catch because storage can be blocked or unavailable.
 
 export type CartItem = { slug: string; qty: number };

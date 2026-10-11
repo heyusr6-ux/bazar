@@ -1,7 +1,7 @@
-// Product data for the buyer site. Uses the API when NEXT_PUBLIC_API_URL is set.
+// Product data for the buyer site, always from the live API.
 import type { Product } from "./data";
 
-const API = process.env.NEXT_PUBLIC_API_URL ?? "";
+const API = process.env.NEXT_PUBLIC_API_URL || "https://bazar-api-sigma.vercel.app";
 
 export type ApiProduct = {
   slug: string;
@@ -36,7 +36,6 @@ export function fromApi(p: ApiProduct): Product {
 }
 
 export async function loadProducts(): Promise<Product[]> {
-  if (!API) return (await import("./data")).products;
   try {
     const res = await fetch(`${API}/api/products`, { cache: "no-store" });
     if (!res.ok) return [];
@@ -48,7 +47,6 @@ export async function loadProducts(): Promise<Product[]> {
 }
 
 export async function loadProduct(slug: string): Promise<Product | null> {
-  if (!API) return (await import("./data")).getProduct(slug) ?? null;
   try {
     const res = await fetch(`${API}/api/products/${encodeURIComponent(slug)}`, { cache: "no-store" });
     if (!res.ok) return null;
