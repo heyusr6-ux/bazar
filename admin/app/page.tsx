@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { formatTaka, payouts, sellers } from "@/lib/data";
+import { formatTaka, payouts, rules, sellers } from "@/lib/data";
 
 export default function AdminOverview() {
   const kycPending = sellers.filter((s) => s.kyc === "Pending").length;
@@ -14,7 +14,7 @@ export default function AdminOverview() {
         <div className="card"><span className="muted">Seller KYC waiting</span><b className="kpi warn">{kycPending}</b></div>
         <div className="card"><span className="muted">Payouts waiting approval</span><b className="kpi warn">{waiting}</b></div>
         <div className="card"><span className="muted">Suspended sellers</span><b className="kpi">{suspended}</b></div>
-        <div className="card"><span className="muted">Commission rate</span><b className="kpi">8%</b></div>
+        <div className="card"><span className="muted">Commission rate</span><b className="kpi">{rules.commission}%</b></div>
       </section>
 
       <section className="card stack">

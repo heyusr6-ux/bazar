@@ -18,6 +18,7 @@ export default function PayoutsPage() {
   return (
     <div className="stack" style={{ gap: 16 }}>
       <header className="page-head"><h1>Payout approval</h1></header>
+      <div className="notice" role="note">Payout ব্যবস্থা এখনো চালু হয়নি। এই পাতার কোনো বাটন টাকা পাঠায় না বা database-এ কিছু সংরক্ষণ করে না।</div>
 
       <div className="table-box">
         <table>
@@ -48,8 +49,8 @@ export default function PayoutsPage() {
           Check: {selected.check}. {needsSecond ? `Above ${formatTaka(rules.secondApprovalAbove)}, so a second admin must approve.` : "Single admin approval is enough."}
         </div>
         <div className="form-actions">
-          <button type="button" className="btn btn-danger" onClick={() => setState("Held", "Payout held. Reason goes to the audit log.")}>Hold</button>
-          <button type="button" className="btn" disabled={selected.state === "Blocked"} onClick={() => setState("Waiting", "Approved (test build). Payment is not sent: payout provider is not connected.")}>
+          <button type="button" className="btn btn-danger" disabled onClick={() => setState("Held", "Payout held. Reason goes to the audit log.")}>Hold</button>
+          <button type="button" className="btn" disabled onClick={() => setState("Waiting", "Approved (test build). Payment is not sent: payout provider is not connected.")}>
             {needsSecond ? "Request second approval" : "Approve payout"}
           </button>
         </div>
