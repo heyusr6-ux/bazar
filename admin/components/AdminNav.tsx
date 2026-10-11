@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 const items = [
   { href: "/", label: "Overview" },
   { href: "/sellers", label: "Sellers and KYC" },
+  { href: "/products", label: "Products" },
   { href: "/payouts", label: "Payouts" },
   { href: "/rules", label: "Business rules" },
   { href: "/audit", label: "Audit log" },
