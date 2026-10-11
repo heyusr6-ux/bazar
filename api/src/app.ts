@@ -361,7 +361,10 @@ app.post("/api/auth/google", wrap(async (req, res) => {
 app.get("/api/auth/me", wrap(async (req, res) => {
   const token = readCookie(req.headers.cookie, BUYER_COOKIE);
   const me = token ? await buyerFromSession(token) : null;
-  if (!me) return res.status(401).json({ error: "Not signed in" });
+  if (!me) {
+    res.status(401).json({ error: "Not signed in" });
+    return;
+  }
   res.json({ email: me.email, name: me.name });
 }));
 
