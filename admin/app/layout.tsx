@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import AdminNav from "@/components/AdminNav";
-import AuthGate from "@/components/AuthGate";
+import AdminShell from "@/components/AdminShell";
 
 export const metadata: Metadata = {
   title: "Bazaar BD Admin",
@@ -18,12 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
-        <AuthGate>
-          <div className="shell">
-            <AdminNav />
-            <main className="shell-main">{children}</main>
-          </div>
-        </AuthGate>
+        <AdminShell>{children}</AdminShell>
       </body>
     </html>
   );

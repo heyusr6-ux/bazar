@@ -298,3 +298,7 @@ body { background: var(--bg); }
 
 /* Admin sign-out button in the side menu */
 .side-logout { margin-top: 16px; min-height: 44px; background: transparent; border: 1px solid #2c4a45; color: #d7e3df; border-radius: 10px; padding: 0 12px; cursor: pointer; font-weight: 600; }
+
+/* Admin login page: centred, no side menu */
+.login-main { min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 16px; box-sizing: border-box; }
+.login-main > * { width: 100%; max-width: 440px; }
