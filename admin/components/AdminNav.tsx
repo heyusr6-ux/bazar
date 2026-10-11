@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+
+const API = process.env.NEXT_PUBLIC_API_URL ?? "";
 
 const items = [
   { href: "/", label: "Overview" },
@@ -14,6 +16,17 @@ const items = [
 
 export default function AdminNav() {
   const pathname = usePathname();
+  const router = useRouter();
+  if (pathname === "/login") return null;
+
+  async function signOut() {
+    try {
+      await fetch(`${API}/api/admin/auth/logout`, { method: "POST", credentials: "include" });
+    } finally {
+      router.replace("/login");
+    }
+  }
+
   return (
     <nav className="side" aria-label="Admin navigation">
       <Link href="/" className="side-logo">
@@ -27,6 +40,7 @@ export default function AdminNav() {
           </Link>
         );
       })}
+      <button type="button" className="side-logout" onClick={signOut}>Sign out</button>
     </nav>
   );
 }

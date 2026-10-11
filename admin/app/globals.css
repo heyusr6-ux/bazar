@@ -295,3 +295,6 @@ body { background: var(--bg); }
 @media (max-width: 860px) {
   .side { background: var(--admin-side); }
 }
+
+/* Admin sign-out button in the side menu */
+.side-logout { margin-top: 16px; min-height: 44px; background: transparent; border: 1px solid #2c4a45; color: #d7e3df; border-radius: 10px; padding: 0 12px; cursor: pointer; font-weight: 600; }
