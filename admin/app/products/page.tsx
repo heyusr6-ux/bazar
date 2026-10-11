@@ -30,6 +30,7 @@ export default function ProductsPage() {
   const [note, setNote] = useState("");
   const [busySlug, setBusySlug] = useState<string | null>(null);
   const [target, setTarget] = useState<Product | null>(null);
+  const [approving, setApproving] = useState(false);
 
   useEffect(() => {
     let alive = true;
@@ -114,8 +115,13 @@ export default function ProductsPage() {
                   <td>{p.stock}</td>
                   <td>{STATUS_LABEL[p.status]}</td>
                   <td>
+                    {p.status === "pending" && (
+                      <button type="button" className="btn btn-sm" disabled={busySlug !== null} onClick={() => { setTarget({ ...p, status: "pending" }); setApproving(true); setError(""); setNote(""); }}>
+                        Approve
+                      </button>
+                    )}
                     {p.status !== "removed" && (
-                      <button type="button" className="btn btn-danger btn-sm" onClick={() => { setTarget(p); setError(""); setNote(""); }}>
+                      <button type="button" className="btn btn-danger btn-sm" onClick={() => { setTarget(p); setApproving(false); setError(""); setNote(""); }}>
                         Remove
                       </button>
                     )}
@@ -130,9 +136,11 @@ export default function ProductsPage() {
 
       {target && (
         <section className="card stack" aria-labelledby="rm-h">
-          <h2 id="rm-h">Remove: {target.name}</h2>
+          <h2 id="rm-h">{approving ? "Approve" : "Remove"}: {target.name}</h2>
           <p className="muted" style={{ margin: 0, fontSize: 13 }}>
-            Product মুছে ফেলা হবে না। এটা buyer-দের কাছে দেখাবে না, আর পুরোনো order-এর তথ্য থাকবে।
+            {approving
+              ? "Approve করলে এই product buyer-দের কাছে দেখাবে। কারণ লিখুন, যেমন: ছবি ও দাম ঠিক আছে।"
+              : "Product মুছে ফেলা হবে না। এটা buyer-দের কাছে দেখাবে না, আর পুরোনো order-এর তথ্য থাকবে।"}
           </p>
           <div className="field">
             <label htmlFor="rm-reason">কারণ (কমপক্ষে ১০ অক্ষর)</label>
@@ -143,9 +151,15 @@ export default function ProductsPage() {
             <button type="button" className="btn btn-line" disabled={busySlug !== null} onClick={() => { setTarget(null); setReason(""); }}>
               বাতিল
             </button>
-            <button type="button" className="btn btn-danger" disabled={busySlug !== null} onClick={() => change(target, "removed")}>
-              Remove product
-            </button>
+            {approving ? (
+              <button type="button" className="btn" disabled={busySlug !== null} onClick={() => change(target, "live")}>
+                Approve and go live
+              </button>
+            ) : (
+              <button type="button" className="btn btn-danger" disabled={busySlug !== null} onClick={() => change(target, "removed")}>
+                Remove product
+              </button>
+            )}
           </div>
         </section>
       )}
