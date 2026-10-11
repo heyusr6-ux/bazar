@@ -40,10 +40,10 @@ export default function CheckoutPage() {
     const name = String(f.get("name") ?? "").trim();
     const phone = String(f.get("phone") ?? "").replace(/\s/g, "");
     const address = String(f.get("address") ?? "").trim();
-    if (!name) next.name = "Enter your full name.";
-    if (!/^01[3-9]\d{8}$/.test(phone)) next.phone = "Enter a valid Bangladeshi mobile number (01XXXXXXXXX).";
-    if (address.length < 10) next.address = "Enter a full address with area and district.";
-    if (total > COD_LIMIT) next.payment = `Cash on delivery is limited to ${formatTaka(COD_LIMIT)}.`;
+    if (!name) next.name = "আপনার পুরো নাম লিখুন।";
+    if (!/^01[3-9]\d{8}$/.test(phone)) next.phone = "সঠিক মোবাইল নম্বর লিখুন (১১ সংখ্যা, যেমন 01712345678)।";
+    if (address.length < 10) next.address = "পূর্ণ ঠিকানা লিখুন: বাড়ি নম্বর, রাস্তা, এলাকা ও জেলা।";
+    if (total > COD_LIMIT) next.payment = `ক্যাশ অন ডেলিভারি সর্বোচ্চ ${formatTaka(COD_LIMIT)} পর্যন্ত।`;
     setErrors(next);
     setSubmitError("");
     if (Object.keys(next).length > 0) return;
@@ -109,20 +109,21 @@ export default function CheckoutPage() {
         <h1 style={{ margin: 0, fontSize: 22 }}>Checkout</h1>
 
         <fieldset className="card stack" style={{ border: "1px solid #e3e7e4" }}>
-          <legend style={{ fontWeight: 700, padding: "0 4px" }}>Delivery address</legend>
+          <legend style={{ fontWeight: 700, padding: "0 4px" }}>ডেলিভারির ঠিকানা</legend>
           <div className="field">
-            <label htmlFor="name">Full name</label>
+            <label htmlFor="name">পুরো নাম</label>
             <input id="name" name="name" autoComplete="name" aria-invalid={!!errors.name} aria-describedby={errors.name ? "name-e" : undefined} />
             {errors.name && <span id="name-e" className="error">{errors.name}</span>}
           </div>
           <div className="field">
-            <label htmlFor="phone">Mobile number</label>
-            <input id="phone" name="phone" inputMode="tel" autoComplete="tel" placeholder="01XXXXXXXXX" aria-invalid={!!errors.phone} aria-describedby={errors.phone ? "phone-e" : undefined} />
+            <label htmlFor="phone">মোবাইল নম্বর</label>
+            <input id="phone" name="phone" inputMode="tel" autoComplete="tel" placeholder="01XXXXXXXXX" aria-describedby={errors.phone ? "phone-e" : "phone-h"} aria-invalid={!!errors.phone} aria-describedby={errors.phone ? "phone-e" : undefined} />
+            <span id="phone-h" className="muted" style={{ fontSize: 12 }}>Courier এই নম্বরে ফোন করবে, তাই সঠিক নম্বর দিন।</span>
             {errors.phone && <span id="phone-e" className="error">{errors.phone}</span>}
           </div>
           <div className="field">
-            <label htmlFor="address">Address</label>
-            <textarea id="address" name="address" autoComplete="street-address" placeholder="House, road, area, district" aria-invalid={!!errors.address} aria-describedby={errors.address ? "address-e" : undefined} />
+            <label htmlFor="address">পূর্ণ ঠিকানা</label>
+            <textarea id="address" name="address" autoComplete="street-address" placeholder="যেমন: বাড়ি ১২, রোড ৫, মিরপুর-১০, ঢাকা" aria-invalid={!!errors.address} aria-describedby={errors.address ? "address-e" : undefined} />
             {errors.address && <span id="address-e" className="error">{errors.address}</span>}
           </div>
         </fieldset>
