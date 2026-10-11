@@ -289,8 +289,7 @@ body { background: var(--bg); }
 .side-logo small { color: #9fb5af; }
 .side-logo span { color: #e8833a; }
 .shell-main { background: var(--bg); }
-.btn { background: #1f5f57; border-color: #1f5f57; }
-.btn-line { color: #1f5f57; }
+.btn:not(.btn-line):not(.btn-danger) { background: #1f5f57; border-color: #1f5f57; }
 .link-strong { color: #1f5f57; }
 .chip.on { background: var(--admin-side); border-color: var(--admin-side); }
 @media (max-width: 860px) {
