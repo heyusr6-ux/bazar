@@ -37,6 +37,7 @@ type ProductRow = {
   old_price_taka?: number | null;
   tone?: string;
   seller_name?: string;
+  image_count?: number;
 };
 
 type SellerRow = {
@@ -57,6 +58,7 @@ const toProduct = (r: ProductRow) => ({
   category: r.category ?? "General",
   description: r.description ?? "",
   tone: r.tone ?? "#E9EEEC",
+  imageCount: r.image_count ?? 0,
   status: r.status,
 });
 
@@ -89,7 +91,7 @@ const allowedOrigins = (process.env.CORS_ORIGINS ?? "http://localhost:3000")
   .split(",")
   .map((s) => s.trim());
 app.use(cors({ origin: allowedOrigins, credentials: true }));
-app.use(express.json({ limit: "100kb" }));
+app.use(express.json({ limit: "4mb" }));
 
 // Admin routes need a valid session cookie AND an email still on the ADMIN_EMAILS list.
 async function requireAdmin(req: express.Request, res: express.Response, next: express.NextFunction) {
@@ -121,7 +123,8 @@ app.get("/health", wrap(async (_req, res) => {
 app.get("/api/products", wrap(async (_req, res) => {
   const { rows } = await pool.query<ProductRow>(
     `SELECT p.slug, p.name, p.price_taka, p.stock, p.seller_id, p.status,
-            p.category, p.description, p.old_price_taka, p.tone, s.name AS seller_name
+            p.category, p.description, p.old_price_taka, p.tone, s.name AS seller_name,
+            (SELECT count(*)::int FROM product_images i WHERE i.product_slug = p.slug) AS image_count
        FROM products p JOIN sellers s ON s.id = p.seller_id
       WHERE p.status = 'live' ORDER BY p.name`,
   );
@@ -131,13 +134,28 @@ app.get("/api/products", wrap(async (_req, res) => {
 app.get("/api/products/:slug", wrap(async (req, res) => {
   const { rows } = await pool.query<ProductRow>(
     `SELECT p.slug, p.name, p.price_taka, p.stock, p.seller_id, p.status,
-            p.category, p.description, p.old_price_taka, p.tone, s.name AS seller_name
+            p.category, p.description, p.old_price_taka, p.tone, s.name AS seller_name,
+            (SELECT count(*)::int FROM product_images i WHERE i.product_slug = p.slug) AS image_count
        FROM products p JOIN sellers s ON s.id = p.seller_id
       WHERE p.slug = $1 AND p.status = 'live'`,
     [req.params.slug],
   );
   if (!rows[0]) throw new HttpError(404, "Product not found");
   res.json(toProduct(rows[0]));
+}));
+
+// ---- product photos (stored in the database, served with long cache) ----
+app.get("/api/products/:slug/images/:pos", wrap(async (req, res) => {
+  const { rows } = await pool.query<{ mime: string; data: Buffer }>(
+    `SELECT i.mime, i.data FROM product_images i JOIN products p ON p.slug = i.product_slug
+      WHERE i.product_slug = $1 AND i.position = $2 AND p.status = 'live'`,
+    [req.params.slug, Number(req.params.pos)],
+  );
+  const img = rows[0];
+  if (!img) throw new HttpError(404, "Image not found");
+  res.setHeader("Content-Type", img.mime);
+  res.setHeader("Cache-Control", "public, max-age=86400");
+  res.send(img.data);
 }));
 
 // ---- orders (COD only for now) ----
@@ -447,10 +465,18 @@ app.get("/api/seller/products", requireSeller, wrap(async (req, res) => {
 const CATEGORIES = ["Fashion", "Electronics", "Home", "Beauty", "Grocery"];
 
 // Seller adds a product. "draft" stays hidden. "review" goes to the admin queue.
+function parsePhoto(p: unknown): { mime: string; data: Buffer } {
+  const m = typeof p === "string" ? /^data:(image\/(?:jpeg|png|webp));base64,([A-Za-z0-9+/=]+)$/.exec(p) : null;
+  if (!m) throw new HttpError(400, "Photos must be JPG, PNG or WEBP");
+  const data = Buffer.from(m[2], "base64");
+  if (data.length > 1024 * 1024) throw new HttpError(400, "Each photo must be under 1 MB");
+  return { mime: m[1], data };
+}
+
 app.post("/api/seller/products", requireSeller, wrap(async (req, res) => {
   const s = sellerOf(req);
   if (s.kyc !== "approved") throw new HttpError(403, "KYC approval is needed before you can list products");
-  const { name, price, stock, category, description, mode } = req.body ?? {};
+  const { name, price, stock, category, description, mode, photos } = req.body ?? {};
   const cleanName = typeof name === "string" ? name.trim() : "";
   if (cleanName.length < 5 || cleanName.length > 120) throw new HttpError(400, "Title must be 5 to 120 characters");
   const cleanPrice = Number(price);
@@ -463,16 +489,28 @@ app.post("/api/seller/products", requireSeller, wrap(async (req, res) => {
   const cleanDesc = typeof description === "string" ? description.trim().slice(0, 2000) : "";
   if (mode !== "draft" && mode !== "review") throw new HttpError(400, "Invalid mode");
   if (mode === "review" && cleanStock === 0) throw new HttpError(400, "Stock is 0, so the product cannot be submitted");
+  const list: unknown[] = Array.isArray(photos) ? photos : [];
+  if (list.length > 8) throw new HttpError(400, "Up to 8 photos");
+  if (mode === "review" && list.length < 3) throw new HttpError(400, "Add 3 to 8 photos to submit for review");
+  const parsed = list.map(parsePhoto);
 
   const base = cleanName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "product";
   const slug = `${base}-${randomBytes(3).toString("hex")}`;
   const status = mode === "review" ? "pending" : "hidden";
 
-  await pool.query(
-    `INSERT INTO products (slug, seller_id, name, price_taka, stock, status, category, description)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
-    [slug, s.id, cleanName, cleanPrice, cleanStock, status, cleanCategory, cleanDesc],
-  );
+  await withTx(async (c) => {
+    await c.query(
+      `INSERT INTO products (slug, seller_id, name, price_taka, stock, status, category, description)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+      [slug, s.id, cleanName, cleanPrice, cleanStock, status, cleanCategory, cleanDesc],
+    );
+    for (let i = 0; i < parsed.length; i++) {
+      await c.query(
+        `INSERT INTO product_images (product_slug, position, mime, data) VALUES ($1, $2, $3, $4)`,
+        [slug, i, parsed[i].mime, parsed[i].data],
+      );
+    }
+  });
   res.status(201).json({ slug, status });
 }));
 
