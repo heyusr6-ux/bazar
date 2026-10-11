@@ -1,3 +1,5 @@
+"use client";
+
 export default function SellerLoginPage() {
   return (
     <div className="card stack" style={{ maxWidth: 440, margin: "24px auto" }}>
