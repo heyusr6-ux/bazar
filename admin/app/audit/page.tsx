@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 // Read-only log from the API. Entries cannot be edited or deleted.
-const API = process.env.NEXT_PUBLIC_API_URL ?? "";
+const API = "";
 
 type Entry = {
   at: string;

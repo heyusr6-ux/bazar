@@ -3,7 +3,7 @@
 import { ReactNode, useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
-const API = process.env.NEXT_PUBLIC_API_URL ?? "";
+const API = "";
 
 // Blocks every admin page until the API confirms an admin session.
 // If the check fails or the API is not configured, the user goes to /login.

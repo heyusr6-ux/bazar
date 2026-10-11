@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 // Products from the API. Admin can hide or remove a listing. Removed items are kept for order history.
-const API = process.env.NEXT_PUBLIC_API_URL ?? "";
+const API = "";
 
 type Product = {
   slug: string;

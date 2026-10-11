@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
-const API = process.env.NEXT_PUBLIC_API_URL ?? "";
+const API = "";
 
 const items = [
   { href: "/", label: "Overview" },

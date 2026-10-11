@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 // Live data from the API. Every change needs a reason, and the API writes it to the audit log.
-const API = process.env.NEXT_PUBLIC_API_URL ?? "";
+const API = "";
 
 type Seller = {
   id: string;
