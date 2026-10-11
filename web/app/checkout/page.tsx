@@ -31,6 +31,10 @@ export default function CheckoutPage() {
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (catalog === null) {
+      setSubmitError("Products are still loading. Please try again in a moment.");
+      return;
+    }
     const f = new FormData(e.currentTarget);
     const next: Record<string, string> = {};
     const name = String(f.get("name") ?? "").trim();
