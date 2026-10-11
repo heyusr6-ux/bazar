@@ -9,6 +9,19 @@ export default function NewProductPage() {
   const [result, setResult] = useState<"" | "draft" | "review">("");
   const [serverError, setServerError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [photoNote, setPhotoNote] = useState("");
+
+  // Checks file type and size on the phone before anything is sent.
+  function checkPhotos(files: FileList | null): string {
+    if (!files || files.length === 0) return "";
+    if (files.length > 8) return "সর্বোচ্চ ৮টা ছবি দিতে পারবেন।";
+    const allowed = ["image/jpeg", "image/png", "image/webp"];
+    for (const f of Array.from(files)) {
+      if (!allowed.includes(f.type)) return "শুধু JPG, PNG বা WEBP ছবি দিন।";
+      if (f.size > 5 * 1024 * 1024) return "প্রতিটা ছবি ৫ MB-এর কম হতে হবে।";
+    }
+    return "";
+  }
 
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -103,6 +116,13 @@ export default function NewProductPage() {
         <div className="field full">
           <label htmlFor="description">Description</label>
           <textarea id="description" name="description" maxLength={2000} />
+        </div>
+
+        <div className="field full">
+          <label htmlFor="photos">Photos (3 to 8, JPG/PNG/WEBP, max 5 MB each)</label>
+          <input id="photos" name="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple onChange={(e) => setPhotoNote(checkPhotos(e.currentTarget.files))} />
+          {photoNote && <span className="error" role="alert">{photoNote}</span>}
+          <span className="muted" style={{ fontSize: 12 }}>ছবি সংরক্ষণের ব্যবস্থা এখনো চালু হয়নি। বাছাই করলে শুধু যাচাই হবে।</span>
         </div>
 
         <div className="form-actions full">
