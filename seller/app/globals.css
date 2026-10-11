@@ -276,3 +276,9 @@ h2 { font-size: 16px; margin: 0; }
   .grid-kpi { grid-template-columns: 1fr; }
   .bar-val { display: none; }
 }
+
+/* Phone: menu starts from the left and scrolls sideways instead of cutting off */
+@media (max-width: 860px) {
+  .side { justify-content: flex-start; }
+  .side > * { flex: 0 0 auto; }
+}
