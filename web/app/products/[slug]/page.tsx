@@ -28,7 +28,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
 
         <div className="stack">
           <h1 style={{ margin: 0, fontSize: 22 }}>{product.name}</h1>
-          <span className="muted">★ {product.rating} · {product.reviews} reviews</span>
+          {product.reviews > 0 && <span className="muted">★ {product.rating} · {product.reviews} reviews</span>}
           <div className="row" style={{ justifyContent: "flex-start", gap: 10, flexWrap: "wrap" }}>
             <span className="price" style={{ fontSize: 24 }}>{formatTaka(product.price)}</span>
             {product.oldPrice && <span className="price-old">{formatTaka(product.oldPrice)}</span>}
