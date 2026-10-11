@@ -41,6 +41,7 @@ export default function NewProductPage() {
 
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    const form = e.currentTarget; // keep a reference: currentTarget is cleared after await
     const pressed = (e.nativeEvent as SubmitEvent).submitter as HTMLElement | null;
     const mode: "draft" | "review" = pressed?.dataset.kind === "draft" ? "draft" : "review";
     const f = new FormData(e.currentTarget);
@@ -80,7 +81,7 @@ export default function NewProductPage() {
         return;
       }
       setResult(mode);
-      e.currentTarget.reset();
+      form.reset();
       photoFiles.current = [];
       setPhotoNote("");
     } catch {
