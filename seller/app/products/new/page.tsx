@@ -2,27 +2,58 @@
 
 import { FormEvent, useState } from "react";
 
+const API = process.env.NEXT_PUBLIC_API_URL ?? "";
+
 export default function NewProductPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [saved, setSaved] = useState<"" | "draft" | "review">("");
+  const [result, setResult] = useState<"" | "draft" | "review">("");
+  const [serverError, setServerError] = useState("");
+  const [busy, setBusy] = useState(false);
 
-  // Read which button was pressed, so "Save draft" skips the review checks.
-  function submit() {
-    return (e: FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      const pressed = (e.nativeEvent as SubmitEvent).submitter as HTMLElement | null;
-      const kind: "draft" | "review" = pressed?.dataset.kind === "draft" ? "draft" : "review";
-      const f = new FormData(e.currentTarget);
-      const next: Record<string, string> = {};
-      const title = String(f.get("title") ?? "").trim();
-      const price = Number(f.get("price"));
-      const stock = Number(f.get("stock"));
-      if (title.length < 5) next.title = "Title must be at least 5 characters.";
-      if (kind === "review" && (!price || price <= 0)) next.price = "Price must be greater than 0.";
-      if (kind === "review" && stock === 0) next.stock = "Stock is 0, so the product will stay hidden.";
-      setErrors(next);
-      if (Object.keys(next).length === 0 || kind === "draft") setSaved(kind);
-    };
+  async function submit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const pressed = (e.nativeEvent as SubmitEvent).submitter as HTMLElement | null;
+    const mode: "draft" | "review" = pressed?.dataset.kind === "draft" ? "draft" : "review";
+    const f = new FormData(e.currentTarget);
+    const title = String(f.get("title") ?? "").trim();
+    const price = Number(f.get("price"));
+    const stock = Number(f.get("stock") ?? 0);
+    const next: Record<string, string> = {};
+    if (title.length < 5) next.title = "Title must be at least 5 characters.";
+    if (mode === "review" && (!price || price <= 0)) next.price = "Price must be greater than 0.";
+    if (mode === "review" && stock === 0) next.stock = "Stock is 0, so the product will stay hidden.";
+    setErrors(next);
+    setServerError("");
+    setResult("");
+    if (Object.keys(next).length > 0) return;
+
+    setBusy(true);
+    try {
+      const res = await fetch(`${API}/api/seller/products`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          name: title,
+          price,
+          stock,
+          category: String(f.get("category") ?? "Fashion"),
+          description: String(f.get("description") ?? ""),
+          mode,
+        }),
+      });
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setServerError(body.error ?? "Could not save. Try again.");
+        return;
+      }
+      setResult(mode);
+      e.currentTarget.reset();
+    } catch {
+      setServerError("Cannot reach the server right now.");
+    } finally {
+      setBusy(false);
+    }
   }
 
   return (
@@ -34,17 +65,20 @@ export default function NewProductPage() {
         </div>
       </header>
 
-      {saved && (
+      {result && (
         <div role="status" className="notice">
-          {saved === "draft" ? "Draft saved (test build, not stored)." : "Submitted for review (test build, not stored)."}
+          {result === "draft"
+            ? "Draft saved. Only you can see it."
+            : "Submitted for review. The platform admin will check it before it goes live."}
         </div>
       )}
+      {serverError && <div role="alert" className="error">{serverError}</div>}
 
-      <form className="card stack form-grid" onSubmit={submit()} noValidate>
+      <form className="card stack form-grid" onSubmit={submit} noValidate>
         <div className="field full">
           <label htmlFor="title">Product title</label>
-          <input id="title" name="title" maxLength={120} aria-invalid={!!errors.title} aria-describedby={errors.title ? "title-e" : undefined} />
-          {errors.title && <span id="title-e" className="error">{errors.title}</span>}
+          <input id="title" name="title" maxLength={120} aria-invalid={!!errors.title} />
+          {errors.title && <span className="error">{errors.title}</span>}
         </div>
 
         <div className="field">
@@ -55,43 +89,27 @@ export default function NewProductPage() {
         </div>
 
         <div className="field">
-          <label htmlFor="condition">Condition</label>
-          <select id="condition" name="condition" defaultValue="New">
-            <option>New</option><option>Used</option>
-          </select>
-        </div>
-
-        <div className="field">
           <label htmlFor="price">Price (৳)</label>
-          <input id="price" name="price" inputMode="numeric" aria-invalid={!!errors.price} aria-describedby={errors.price ? "price-e" : undefined} />
-          {errors.price && <span id="price-e" className="error">{errors.price}</span>}
+          <input id="price" name="price" inputMode="numeric" aria-invalid={!!errors.price} />
+          {errors.price && <span className="error">{errors.price}</span>}
         </div>
 
         <div className="field">
           <label htmlFor="stock">Stock</label>
-          <input id="stock" name="stock" inputMode="numeric" aria-invalid={!!errors.stock} aria-describedby={errors.stock ? "stock-e" : undefined} />
-          {errors.stock && <span id="stock-e" className="warn-text">{errors.stock}</span>}
+          <input id="stock" name="stock" inputMode="numeric" aria-invalid={!!errors.stock} />
+          {errors.stock && <span className="warn-text">{errors.stock}</span>}
         </div>
 
         <div className="field full">
-          <label htmlFor="desc">Description</label>
-          <textarea id="desc" name="description" placeholder="Material, size, care, what is in the box" />
-        </div>
-
-        <div className="field full">
-          <label htmlFor="photos">Photos (3 to 8, JPG/PNG/WEBP, max 5 MB each, min 800 px)</label>
-          <input id="photos" name="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple />
+          <label htmlFor="description">Description</label>
+          <textarea id="description" name="description" maxLength={2000} />
         </div>
 
         <div className="form-actions full">
-          <button type="submit" className="btn btn-line" data-kind="draft" formNoValidate>Save draft</button>
-          <button type="submit" className="btn" data-kind="review">Submit for review</button>
+          <button type="submit" className="btn btn-line" data-kind="draft" formNoValidate disabled={busy}>Save draft</button>
+          <button type="submit" className="btn" data-kind="review" disabled={busy}>Submit for review</button>
         </div>
       </form>
-
-      <p className="muted" style={{ fontSize: 13, margin: 0 }}>
-        Submitted products are checked by the platform admin before they go live. Test build: nothing is saved.
-      </p>
     </div>
   );
 }
