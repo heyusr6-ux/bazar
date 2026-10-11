@@ -13,7 +13,7 @@ export default function ProductCard({ product }: { product: Product }) {
         {product.oldPrice && <span className="price-old">{formatTaka(product.oldPrice)}</span>}
       </div>
       <span className="muted" style={{ fontSize: 12 }}>
-        ★ {product.rating} ({product.reviews}) · {product.seller}
+        {product.reviews > 0 ? `★ ${product.rating} (${product.reviews}) · ` : ""}{product.seller}
       </span>
       {product.stock <= 5 && <span className="pill pill-warn" style={{ justifySelf: "start" }}>Low stock</span>}
     </Link>

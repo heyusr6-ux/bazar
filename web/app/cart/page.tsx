@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useSyncExternalStore } from "react";
-import { formatTaka, getProduct } from "@/lib/data";
+import { formatTaka } from "@/lib/data";
+import { useCatalog } from "@/lib/useCatalog";
 import { readCart, removeFromCart, setQty, subscribeCart, CartItem } from "@/lib/cart";
 
 
@@ -13,8 +14,10 @@ function getSnapshot(): string {
 export default function CartPage() {
   const raw = useSyncExternalStore(subscribeCart, getSnapshot, () => "[]");
   const items: CartItem[] = JSON.parse(raw);
+  const catalog = useCatalog();
+  const bySlug = new Map((catalog ?? []).map((p) => [p.slug, p]));
   const lines = items
-    .map((i) => ({ ...i, product: getProduct(i.slug) }))
+    .map((i) => ({ ...i, product: bySlug.get(i.slug) }))
     .filter((l) => l.product);
 
   const subtotal = lines.reduce((sum, l) => sum + (l.product!.price * l.qty), 0);

@@ -1,9 +1,11 @@
 import ProductCard from "@/components/ProductCard";
-import { categories, products } from "@/lib/data";
+import { loadProducts } from "@/lib/catalog";
 
 type SearchParams = { q?: string; category?: string; sort?: string };
 
-export default function ProductsPage({ searchParams }: { searchParams: SearchParams }) {
+export default async function ProductsPage({ searchParams }: { searchParams: SearchParams }) {
+  const products = await loadProducts();
+  const categories = [...new Set(products.map((p) => p.category))];
   const q = (searchParams.q ?? "").trim().toLowerCase();
   const category = searchParams.category ?? "";
   const sort = searchParams.sort ?? "";

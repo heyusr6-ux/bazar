@@ -2,15 +2,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import AddToCartButton from "@/components/AddToCartButton";
 import ProductCard from "@/components/ProductCard";
-import { formatTaka, getProduct, products } from "@/lib/data";
+import { formatTaka } from "@/lib/data";
+import { loadProduct, loadProducts } from "@/lib/catalog";
 
-export function generateStaticParams() {
-  return products.map((p) => ({ slug: p.slug }));
-}
-
-export default function ProductPage({ params }: { params: { slug: string } }) {
-  const product = getProduct(params.slug);
+export default async function ProductPage({ params }: { params: { slug: string } }) {
+  const product = await loadProduct(params.slug);
   if (!product) notFound();
+  const products = await loadProducts();
 
   const related = products.filter((p) => p.category === product.category && p.slug !== product.slug).slice(0, 4);
   const outOfStock = product.stock === 0;

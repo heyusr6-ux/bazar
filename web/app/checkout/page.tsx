@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { FormEvent, useState, useSyncExternalStore } from "react";
-import { formatTaka, getProduct } from "@/lib/data";
+import { formatTaka } from "@/lib/data";
+import { useCatalog } from "@/lib/useCatalog";
 import { readCart, subscribeCart, CartItem } from "@/lib/cart";
 
 const COD_LIMIT = 25000;
@@ -14,7 +15,9 @@ function getSnapshot(): string {
 export default function CheckoutPage() {
   const raw = useSyncExternalStore(subscribeCart, getSnapshot, () => "[]");
   const items: CartItem[] = JSON.parse(raw);
-  const lines = items.map((i) => ({ ...i, product: getProduct(i.slug) })).filter((l) => l.product);
+  const catalog = useCatalog();
+  const bySlug = new Map((catalog ?? []).map((p) => [p.slug, p]));
+  const lines = items.map((i) => ({ ...i, product: bySlug.get(i.slug) })).filter((l) => l.product);
   const subtotal = lines.reduce((sum, l) => sum + l.product!.price * l.qty, 0);
   const deliveryFee = subtotal >= 2000 ? 0 : 60;
   const total = subtotal + deliveryFee;
