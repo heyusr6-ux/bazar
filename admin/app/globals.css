@@ -276,3 +276,23 @@ h2 { font-size: 16px; margin: 0; }
   .grid-kpi { grid-template-columns: 1fr; }
   .bar-val { display: none; }
 }
+
+/* ---- admin theme (matches Admin Panel design: dark sidebar) ---- */
+:root { --bg: #f3f5f4; --primary: #1f5f57; --admin-side: #132321; --admin-side-on: #1f3a36; }
+body { background: var(--bg); }
+.shell { grid-template-columns: 236px minmax(0, 1fr); }
+.side { background: var(--admin-side); border-right: 0; color: #d7e3df; }
+.side a { color: #d7e3df; }
+.side a:hover { background: var(--admin-side-on); color: #fff; }
+.side a.on { background: var(--admin-side-on); color: #fff; font-weight: 700; box-shadow: inset 3px 0 0 #e8833a; }
+.side-logo { color: #fff; }
+.side-logo small { color: #9fb5af; }
+.side-logo span { color: #e8833a; }
+.shell-main { background: var(--bg); }
+.btn { background: #1f5f57; border-color: #1f5f57; }
+.btn-line { color: #1f5f57; }
+.link-strong { color: #1f5f57; }
+.chip.on { background: var(--admin-side); border-color: var(--admin-side); }
+@media (max-width: 860px) {
+  .side { background: var(--admin-side); }
+}
