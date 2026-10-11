@@ -10,6 +10,8 @@ type Seller = {
   name: string;
   kyc: "pending" | "approved" | "sent_back" | "rejected";
   status: "active" | "suspended";
+  area: string;
+  productCount: number;
 };
 
 const KYC_LABEL: Record<Seller["kyc"], string> = {
@@ -72,7 +74,7 @@ export default function SellersPage() {
         setError(data.error ?? "কাজটি হয়নি। আবার চেষ্টা করুন।");
         return;
       }
-      setItems((list) => list.map((s) => (s.id === selected.id ? data : s)));
+      setItems((list) => list.map((s) => (s.id === selected.id ? { ...s, ...data } : s)));
       setNote(`${label} সম্পন্ন হয়েছে। Audit log-এ লেখা হয়েছে।`);
       setReason("");
     } catch {
@@ -98,6 +100,8 @@ export default function SellersPage() {
             <thead>
               <tr>
                 <th>Seller</th>
+                <th>Area</th>
+                <th>Products</th>
                 <th>KYC</th>
                 <th>Status</th>
                 <th>Open</th>
@@ -109,6 +113,8 @@ export default function SellersPage() {
                   <td>
                     <b>{s.name}</b>
                   </td>
+                  <td>{s.area || "—"}</td>
+                  <td>{s.productCount}</td>
                   <td>
                     <span className={s.kyc === "approved" ? "pill pill-ok" : "pill pill-warn"}>
                       {KYC_LABEL[s.kyc]}
