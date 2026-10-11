@@ -6,9 +6,12 @@ export default function NewProductPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [saved, setSaved] = useState<"" | "draft" | "review">("");
 
-  function submit(kind: "draft" | "review") {
+  // Read which button was pressed, so "Save draft" skips the review checks.
+  function submit() {
     return (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
+      const pressed = (e.nativeEvent as SubmitEvent).submitter as HTMLElement | null;
+      const kind: "draft" | "review" = pressed?.dataset.kind === "draft" ? "draft" : "review";
       const f = new FormData(e.currentTarget);
       const next: Record<string, string> = {};
       const title = String(f.get("title") ?? "").trim();
@@ -37,7 +40,7 @@ export default function NewProductPage() {
         </div>
       )}
 
-      <form className="card stack form-grid" onSubmit={submit("review")} noValidate>
+      <form className="card stack form-grid" onSubmit={submit()} noValidate>
         <div className="field full">
           <label htmlFor="title">Product title</label>
           <input id="title" name="title" maxLength={120} aria-invalid={!!errors.title} aria-describedby={errors.title ? "title-e" : undefined} />
@@ -81,8 +84,8 @@ export default function NewProductPage() {
         </div>
 
         <div className="form-actions full">
-          <button type="submit" className="btn btn-line" onClick={() => setErrors({})} formNoValidate>Save draft</button>
-          <button type="submit" className="btn">Submit for review</button>
+          <button type="submit" className="btn btn-line" data-kind="draft" formNoValidate>Save draft</button>
+          <button type="submit" className="btn" data-kind="review">Submit for review</button>
         </div>
       </form>
 
