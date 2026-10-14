@@ -76,6 +76,11 @@ export default function NewProductPage() {
         }),
       });
       const body = await res.json().catch(() => ({}));
+      if (res.status === 401) {
+        // Session missing or expired: the seller must sign in again.
+        window.location.href = "/login";
+        return;
+      }
       if (!res.ok) {
         setServerError(body.error ?? "Could not save. Try again.");
         return;
